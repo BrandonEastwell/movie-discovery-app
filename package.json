@@ -4,15 +4,12 @@
   "private": true,
   "description": "",
   "main": "index.tsx",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+  "engines": {
+    "node": "6.11.1"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/BrandonEastwell/CE301-Project-Stream.git"
   },
   "dependencies": {
     "react": "^18.2.0",
