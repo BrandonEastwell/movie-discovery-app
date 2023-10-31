@@ -19,10 +19,12 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - staging
   - deploy
 
 variables:
-  HEROKU_APP_NAME: ce301-platform
+  HEROKU_APP_NAME_DEV: ce301-dev
+  HEROKU_APP_NAME_LIVE: ce301-live
   HEROKU_PRODUCTION_KEY: 5f6c778c-7033-4481-a55a-3e20f7a86535
 
 build:       # This job runs in the build stage, which runs first.
@@ -45,10 +47,16 @@ lint-test-job:   # This job also runs in the test stage.
     - sleep 10
     - echo "No lint issues found."
 
+heroku_staging:
+  stage: staging
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_DEV --api-key=$HEROKU_PRODUCTION_KEY
+
 heroku_deploy:
   stage: production
   only:
     - master
   script:
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_LIVE --api-key=$HEROKU_PRODUCTION_KEY

@@ -2,11 +2,17 @@
   "name": "23-24_CE301_eastwell_brandon_p",
   "version": "0.1.0",
   "private": true,
+  "description": "",
+  "main": "index.tsx",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
   },
   "dependencies": {
     "react": "^18.2.0",
