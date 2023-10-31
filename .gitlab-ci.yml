@@ -20,7 +20,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - test
   - staging
-  - deploy
+  - production
 
 variables:
   HEROKU_APP_NAME_DEV: ce301-dev
@@ -52,11 +52,3 @@ heroku_staging:
   script:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_DEV --api-key=$HEROKU_PRODUCTION_KEY
-
-heroku_deploy:
-  stage: production
-  only:
-    - master
-  script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME_LIVE --api-key=$HEROKU_PRODUCTION_KEY
