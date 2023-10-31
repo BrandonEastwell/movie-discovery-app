@@ -21,11 +21,15 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+variables:
+  HEROKU_APP_NAME: ce301-platform
+  HEROKU_PRODUCTION_KEY: 5f6c778c-7033-4481-a55a-3e20f7a86535
+
+build:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+    - npm install
+    - npm run build
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -41,9 +45,10 @@ lint-test-job:   # This job also runs in the test stage.
     - sleep 10
     - echo "No lint issues found."
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
+heroku_deploy:
+  stage: production
+  only:
+    - master
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
