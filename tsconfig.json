@@ -1,17 +1,21 @@
 {
+  /*"compileOnSave": true,*/
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "src",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    //"noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
+    "outDir": "./dist",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -22,9 +26,10 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": [
-    "app/node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["app/node_modules", "dist"],
+  "ts-node": {
+    "files": true
+  }
+
 }

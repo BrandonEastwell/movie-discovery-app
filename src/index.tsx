@@ -1,9 +1,10 @@
-import React, { useState} from "react";
-
-function Index() {
-    const [name, setName] = useState("hello");
+import React from "react";
+import Login from "./login.js";
+function index() {
     return (
-        <div className={"max-w-2xl mx-auto"}></div>
+        <div>
+            <Login />
+        </div>
     );
 }
-export {Index};
+export default index;
