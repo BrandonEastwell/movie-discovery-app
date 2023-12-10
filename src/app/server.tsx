@@ -9,7 +9,7 @@ const dirname = path.dirname(filename); //same as __dirname but can be used in e
 //middleware
 app.use(express.static(path.join(dirname + "../../frontend")));
 app.get("/", (req: Request, res: Response) => {
-    res.sendFile(path.join(dirname + "../../frontend", "index.html"));
+    res.sendFile(path.join(dirname + "../../frontend", "page.html"));
 });
 
 let port= process.env.PORT;

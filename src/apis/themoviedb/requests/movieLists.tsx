@@ -15,3 +15,9 @@ export async function getUpcoming({ query }:any) {
 export async function getTheatres({ query }:any) {
     return fetchTMDB(`movie/now_playing`, "GET")
 }
+export async function getTrendingDayMovie({ query }:any) {
+    return fetchTMDB(`trending/movie/day?language=en-US`, "GET")
+}
+export async function getTrendingWeekMovie() {
+    return fetchTMDB(`trending/movie/week?language=en-US`, "GET")
+}

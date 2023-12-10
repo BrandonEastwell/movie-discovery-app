@@ -1,20 +1,51 @@
-import type { Config } from 'tailwindcss'
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "src/**/*.{js,ts,jsx,tsx}",
+    "src/app/**/*.{js,ts,jsx,tsx}",
+    "src/app/**/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        gray: {
+          "100": "#fefdfd",
+          "200": "#121212",
+          "300": "rgba(254, 253, 253, 0.4)",
+          "400": "rgba(254, 253, 253, 0.51)",
+        },
+        silver: "#b1bebb",
+        mediumslateblue: "#8566e0",
+        gainsboro: "#d9d9d9",
+        black: "#000",
+      },
+      gridTemplateColumns: {
+        'layout': 'minmax(2rem, 25rem) 1fr',
+        'footer': '200px minmax(900px, 1fr) 100px',
+      },
+      gridTemplateRows: {
+        'layout': 'minmax(2rem, 7rem) 1fr minmax(2rem, 7rem)',
+        'footer': '200px minmax(900px, 1fr) 100px',
+      },
+      spacing: {},
+      fontFamily: {
+        montserrat: "Montserrat",
+      },
+      borderRadius: {
+        "8xs": "5px",
       },
     },
+    fontSize: {
+      sm: "14px",
+      base: "16px",
+      xl: "20px",
+      "5xl": "24px",
+      "17xl": "36px",
+      "13xl": "32px",
+      inherit: "inherit",
+    },
   },
-  plugins: [],
-}
-export default config
+  corePlugins: {
+    preflight: false,
+  },
+};

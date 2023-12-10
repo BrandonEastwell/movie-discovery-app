@@ -2,8 +2,12 @@
   /*"compileOnSave": true,*/
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "rootDir": "src",
     "skipLibCheck": true,
@@ -15,21 +19,33 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
+    "forceConsistentCasingInFileNames": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "./src/*/*/*/*"
+      ]
+    },
+    "noEmit": true
   },
-  "include": ["src"],
-  "exclude": ["app/node_modules", "dist"],
+  "include": [
+    "src",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "**/*.ts", "**/*.tsx",
+    ".next/types/**/*.ts",
+  ],
+  "exclude": [
+    "app/node_modules",
+    "dist"
+  ],
   "ts-node": {
     "files": true
   }
-
 }
