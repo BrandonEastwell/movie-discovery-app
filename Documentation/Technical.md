@@ -13,43 +13,33 @@ If you would like to get a quick feel, try spinning up a local server with node 
 1. [Introduction](#introduction)
     - 1.1 [Overview](#overview)
     - 1.2 [Features](#features)
-
 2. [Technical Stack](#technical-stack)
     - 2.1 [Next.js](#nextjs)
     - 2.2 [React](#react)
     - 2.3 [TypeScript](#typescript)
-
-3. [Project Structure](#project-structure)
-
-4. [Installation](#installation)
-
-5. [Configuration](#configuration)
-    - 5.1 [Environment Variables](#environment-variables)
-    - 5.2 [API Key](#api-key)
-
-6. [Dependencies](#dependencies)
-
-7. [Development](#development)
-    - 7.1 [Running the Development Server](#running-the-development-server)
-    - 7.2 [Code Guidelines](#code-guidelines)
-
-8. [Testing](#testing)
-    - 8.1 [Unit Tests](#unit-tests)
-
-9. [Deployment](#deployment)
-    - 9.1 [Build](#build)
-    - 9.2 [Deploying to Production](#deploying-to-production)
-
-10. [API Documentation](#api-documentation)
-    - 10.1 [Movie Data API](#movie-data-api)
-
-11. [Appendices](#appendices)
-
-12. [Troubleshooting](#troubleshooting)
-
-13. [Contributing](#contributing)
-
-14. [License](#license)
+3. [Design Decisions](#design-decisions)
+   - 3.1 [App Router vs Page Router](#app-router-vs-page-router)
+   - 3.2 [JavaScript Fetch API vs Axios](#js-fetch-api-vs-axios)
+4. [Project Structure](#project-structure)
+5. [Installation](#installation)
+6. [Configuration](#configuration)
+    - 6.1 [Environment Variables](#environment-variables)
+    - 6.2 [API Key](#api-key)
+7. [Dependencies](#dependencies)
+8. [Development](#development)
+    - 8.1 [Running the Development Server](#running-the-development-server)
+    - 8.2 [Code Guidelines](#code-guidelines)
+9. [Testing](#testing)
+    - 9.1 [Unit Tests](#unit-tests)
+10. [Deployment](#deployment)
+    - 10.1 [Build](#build)
+    - 10.2 [Deploying to Production](#deploying-to-production)
+11. [API Documentation](#api-documentation)
+    - 11.1 [Movie Data API](#movie-data-api)
+12. [Appendices](#appendices)
+13. [Troubleshooting](#troubleshooting)
+14. [Contributing](#contributing)
+15. [License](#license)
 
 ## 1. Introduction
 

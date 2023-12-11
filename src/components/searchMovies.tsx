@@ -15,6 +15,7 @@ interface MovieListProps {
 }
 
 const SearchMovies: React.FC<MovieListProps> = ({ movies }) => {
+    console.log(movies)
     if (!movies || movies.length === 0) {
         return <p>No movies found.</p>;
     }

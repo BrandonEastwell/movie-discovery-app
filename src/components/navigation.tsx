@@ -1,5 +1,11 @@
 import React from "react";
 import "../app/styles/globals.css"
+import Link from 'next/link'
+import Image from 'next/image'
+import netflix from '../images/netflix.svg'
+import disney from '../images/disney.svg'
+import primevideo from '../images/primevideo.svg'
+
 
 function Navigation() {
         return (
@@ -14,32 +20,34 @@ function Navigation() {
                             <span className="material-symbols-outlined relative w-8 h-8">local_fire_department</span>
                         </div>
                         <div className="w-44 flex flex-col items-start justify-start gap-[25px]">
-                            <div className="self-stretch relative font-semibold">Home</div>
-                            <div className="self-stretch relative leading-[20px] font-semibold [background:linear-gradient(180deg,_#8a72d0,_#5f43b2)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-                                Suggest Me
-                            </div>
-                            <div className="self-stretch relative font-semibold">
-                                Discovery Queue
-                            </div>
-                            <div className="self-stretch relative font-semibold">{`Movies & TV`}</div>
-                            <div className="self-stretch relative font-semibold">Trending</div>
+                            <Link href="../" className="self-stretch relative font-semibold">Home</Link>
+                            <Link  href="" className="self-stretch relative leading-[20px] font-semibold [background:linear-gradient(180deg,_#8a72d0,_#5f43b2)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">Suggest Me</Link >
+                            <Link  href="" className="self-stretch relative font-semibold">Discovery Queue</Link >
+                            <Link  href="../" className="self-stretch relative font-semibold">Movies & TV</Link >
+                            <Link  href="../" className="self-stretch relative font-semibold">Trending</Link >
                         </div>
                     </div>
                     <div className="flex flex-col items-start justify-center py-[15px] pr-0 pl-6 gap-[20px]">
-                        <img
+                        <Image
                             className="relative w-[82px] h-[25.2px]"
                             alt="primevideo"
-                            src="../images/primevideo.svg"
+                            src={primevideo}
+                            placeholder="blur"
+                            blurDataURL="data:..."
                         />
-                        <img
+                        <Image
                             className="relative w-[75px] h-[40.6px]"
                             alt="disney"
-                            src="../images/disney.svg"
+                            src={disney}
+                            placeholder="blur"
+                            blurDataURL="data:..."
                         />
-                        <img
+                        <Image
                             className="relative w-[68px] h-[19px] overflow-hidden shrink-0"
                             alt="netflix"
-                            src="../images/netflix.svg"
+                            src={netflix}
+                            placeholder="blur"
+                            blurDataURL="data:..."
                         />
                     </div>
                     <div className="w-[159px] flex flex-col items-start justify-start py-0 pr-0 pl-[25px] box-border gap-[25px] text-sm">

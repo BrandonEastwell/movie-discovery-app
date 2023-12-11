@@ -5,25 +5,11 @@ import {getMediaBySearch, getTrendingWeekMovie} from "../apis/themoviedb/request
 import SearchMovies from '../components/searchMovies';
 import TrendingMovies from '../components/trendingMovies';
 
-export async function Page({
-                               searchParams,
-                           }: {
-    searchParams?: {
-        query?: string;
-    };
-}) {
+export async function Page({ searchParams, }: { searchParams?: { query?: string; }; }) {
     const query = searchParams?.query || '';
 
-    let moviesResult = null
-    const trending = await getTrending()
-
-    try {
-        moviesResult = await getMediaBySearch(query);
-    } catch (error) {
-        // Handle error
-        console.error('Error searching movies:', error);
-    }
-    if (query ) {
+    if (query) {
+        const moviesResult = await getMediaBySearch(query.replaceAll(' ', '%20'));
         return (
             <div>
                 <div className="header-wrapper fixed">
@@ -43,6 +29,7 @@ export async function Page({
             </div>
         )
     } else {
+        const trending = await getTrending()
         return (
             <div>
                 <div className="header-wrapper fixed">

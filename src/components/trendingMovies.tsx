@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"
+import Link from 'next/link'
 
 interface Movie {
     id: number;
@@ -22,6 +23,7 @@ const TrendingMovies: React.FC<MovieListProps> = ({ movies }) => {
             <div className="w-full flex flex-row items-start justify-start gap-[20px]">
                 {movies.map((movie) => (
                     <div key={movie.id}>
+                        <Link href={`/product/${movie.id}`}>
                         {movie.poster_path && (
                             <div className="relative bg-gainsboro w-80 h-44">
                                 <img className="w-full h-full dark:shadow-gray-800 object-contain"
@@ -30,6 +32,7 @@ const TrendingMovies: React.FC<MovieListProps> = ({ movies }) => {
                                 />
                             </div>
                         )}
+                        </Link>
                     </div>
                 ))}
                 <div className="relative bg-gainsboro w-80 h-[170px]" />

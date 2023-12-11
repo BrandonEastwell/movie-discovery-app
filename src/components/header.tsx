@@ -6,7 +6,7 @@ interface HeaderProps {
     onSearch: (searchTerm: string) => void;
 }
 const Header: React.FC = () => {
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()
     const pathname = usePathname();
     const { replace } = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
