@@ -1,20 +1,46 @@
 import {getMovieDetails} from "../../../apis/themoviedb/requests/movieDetails";
 import React from "react";
+import Header from "../../../components/header";
+import Navigation from "../../../components/navigation";
+import SearchMovies from "../../../components/searchMovies";
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 export default async function Page({ params }: { params: { id: number } }) {
     interface Movie {
         id: number;
         title: string;
         poster_path: string;
+        release_date: string;
+        runtime: number;
+        genres: [id: number, name: string];
+
+
     }
     const movieData = await getMovie(params.id)
     const movie: Movie = movieData as Movie
 
     return (
-        <img className="w-full h-full dark:shadow-gray-800 object-contain"
-             src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
-             alt={`${movie.title} Poster`}
-        />
+        <div>
+            <div className="header-wrapper fixed">
+                <Header />
+            </div>
+            <div className="nav-wrapper fixed">
+                <div className="nav-spacer h-[64px] w-[255px]"></div>
+                <Navigation/>
+            </div>
+            <div className="grid grid-cols-layout grid-rows-layout">
+                <div className="content-wrapper col-start-2 row-start-2">
+                    <div className="content flex flex-col flex-wrap">
+                        <img className="w-80 h-44 dark:shadow-gray-800 object-contain"
+                             src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
+                             alt={`${movie.title} Poster`}
+                        />
+                        <div>Release Date: {movie.release_date}</div>
+                        <div>Runtime: {movie.runtime} Minutes</div>
+                        <div>Provider: Netflix</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 

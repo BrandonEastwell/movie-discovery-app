@@ -1,6 +1,6 @@
 // components/MovieList.tsx
 import React from 'react';
-import {getMediaBySearch} from "../apis/themoviedb/requests/movieLists";
+import Link from 'next/link'
 
 interface Movie {
     id: number;
@@ -25,12 +25,14 @@ const SearchMovies: React.FC<MovieListProps> = ({ movies }) => {
             {movies.map((movie) => (
                 <li key={movie.id}>
                     <h3>{movie.title}</h3>
+                    <Link href={`/product/${movie.id}`}>
                     {movie.poster_path && (
                         <img
                             src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
                             alt={`${movie.title} Poster`}
                         />
                     )}
+                    </Link>
                 </li>
             ))}
         </ul>

@@ -20,11 +20,11 @@ function Navigation() {
                             <span className="material-symbols-outlined relative w-8 h-8">local_fire_department</span>
                         </div>
                         <div className="w-44 flex flex-col items-start justify-start gap-[25px]">
-                            <Link href="../" className="self-stretch relative font-semibold">Home</Link>
-                            <Link  href="" className="self-stretch relative leading-[20px] font-semibold [background:linear-gradient(180deg,_#8a72d0,_#5f43b2)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">Suggest Me</Link >
-                            <Link  href="" className="self-stretch relative font-semibold">Discovery Queue</Link >
-                            <Link  href="../" className="self-stretch relative font-semibold">Movies & TV</Link >
-                            <Link  href="../" className="self-stretch relative font-semibold">Trending</Link >
+                            <Link href="../" className="self-stretch relative font-semibold no-underline">Home</Link>
+                            <Link  href="" className="self-stretch relative leading-[20px] font-semibold [background:linear-gradient(180deg,_#8a72d0,_#5f43b2)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] no-underline">Suggest Me</Link >
+                            <Link  href="" className="self-stretch relative font-semibold no-underline">Discovery Queue</Link >
+                            <Link  href="../" className="self-stretch relative font-semibold no-underline">Movies & TV</Link >
+                            <Link  href="../" className="self-stretch relative font-semibold no-underline">Trending</Link >
                         </div>
                     </div>
                     <div className="flex flex-col items-start justify-center py-[15px] pr-0 pl-6 gap-[20px]">
