@@ -1,5 +1,5 @@
 // components/MovieList.tsx
-import React from 'react';
+import React, {Suspense} from 'react';
 import Link from 'next/link'
 
 interface Movie {
@@ -23,17 +23,19 @@ const SearchMovies: React.FC<MovieListProps> = ({ movies }) => {
     return (
         <ul>
             {movies.map((movie) => (
-                <li key={movie.id}>
-                    <h3>{movie.title}</h3>
-                    <Link href={`/product/${movie.id}`}>
-                    {movie.poster_path && (
-                        <img
-                            src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
-                            alt={`${movie.title} Poster`}
-                        />
-                    )}
-                    </Link>
-                </li>
+                <Suspense key={movie.id} fallback={<p>loading..</p>}>
+                    <li key={movie.id}>
+                        <h3>{movie.title}</h3>
+                        <Link href={`/product/${movie.id}`}>
+                        {movie.poster_path && (
+                            <img
+                                src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
+                                alt={`${movie.title} Poster`}
+                            />
+                        )}
+                        </Link>
+                    </li>
+                </Suspense>
             ))}
         </ul>
     );

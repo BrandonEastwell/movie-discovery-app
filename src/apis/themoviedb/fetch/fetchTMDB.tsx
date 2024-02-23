@@ -1,5 +1,5 @@
 import requestError from 'apis/requestError';
-import config from './config_themoviedb';
+const  {REACT_APP_API_KEY,REACT_APP_API_VERSION,REACT_APP_API_URL} = process.env
 
 const options = {
     method: 'GET',
@@ -7,8 +7,9 @@ const options = {
         accept: 'application/json',
     }
 };
+
 const FetchTMDB = async function (endpoint:string, method: 'GET' | 'POST' | 'PUT' | 'DELETE') {
-    const response = await fetch(`${config.API_URL}/${config.API_VERSION}/${endpoint}api_key=${config.API_KEY}`, {
+    const response = await fetch(`${REACT_APP_API_URL}/${REACT_APP_API_VERSION}/${endpoint}api_key=${REACT_APP_API_KEY}`, {
         method,
         headers: {
             'Content-Type': 'application/json',

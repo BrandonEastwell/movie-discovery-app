@@ -1,62 +1,71 @@
 'use client'
 import React, { useState } from 'react';
-import "../app/styles/globals.css"
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-interface HeaderProps {
-    onSearch: (searchTerm: string) => void;
-}
-const Header: React.FC = () => {
-    const searchParams = useSearchParams()
-    const pathname = usePathname();
-    const { replace } = useRouter();
-    const [searchTerm, setSearchTerm] = useState('');
+import {useSearchParams, useRouter, usePathname} from 'next/navigation';
+import Link from "next/link";
 
-    const handleSearch = () => {
-        console.log(`Searching... ${searchTerm}`);
+const Header: React.FC = () => {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+    const [searchTerm, setSearchTerm] = useState({
+        q: "",
+        page: "",
+        sort: ""
+    });
+
+    const handleSearch = (e: any) => {
+        const { value } = e.target;
+        const updatedQuery= { ...searchTerm, q: value};
+        setSearchTerm(updatedQuery);
         const params = new URLSearchParams(searchParams);
-        if (searchTerm) {
-            params.set('query', searchTerm);
-        } else {
-            params.delete('query');
-        }
-        replace(`${pathname}?${params.toString()}`);
+        Object.keys(updatedQuery).forEach((key : any) => {
+            const keyValue = updatedQuery[key as keyof typeof updatedQuery];
+            if (keyValue) {
+                params.set(key, keyValue);
+            } else {
+                params.delete(key);
+            }
+        });
+        console.log(params.toString)
+        params.set('page', '1');
+        router.push(`/find?${params.toString()}`, {});
     };
 
         return (
-                <div className="fixed w-screen h-16 flex flex-row items-center justify-start py-0 pr-0 pl-6 box-border gap-[15vw] text-left text-17xl text-mediumslateblue font-montserrat">
+                <div className="fixed w-full h-16 grid grid-cols-3 grid-rows-1 items-center justify-start py-0 pr-6 pl-6 box-border gap-5 text-left text-17xl text-mediumslateblue font-montserrat">
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
-                    <div className="shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] flex flex-row items-center justify-start gap-[15px]">
-                        <span className="material-symbols-outlined relative w-8 h-8">menu</span>
+                    <div className="w-full flex flex-row col-start-1 col-span-1 items-center justify-self-start">
+                        <span className="material-symbols-outlined relative w-9 h-9">menu</span>
                         <b className="relative tracking-[0.31em] [text-shadow:0px_0px_22.4px_#8566e0]">
                             SIVTER
                         </b>
                     </div>
-                    <div className="flex flex-col items-start justify-start py-[7px] px-0 gap-[15px] text-5xl text-gray-300">
-                        <div className="w-[663px] flex flex-row items-center justify-start gap-[80px]">
+                    <div className="w-full flex flex-col col-start-2 col-span-1 items-start justify-self-center py-[7px] px-0 gap-3 text-5xl text-gray-300">
+                        <div className="flex flex-row items-center justify-center gap-5">
                             <input
                                 id="search"
-                                className="[border:none] w-[500px] font-montserrat text-5xl bg-[transparent] relative text-gray-300 text-left"
+                                className="border-none focus:outline-none font-montserrat text-base bg-[transparent] relative text-gray-300 text-left"
                                 placeholder="Search for name, genre or category..."
                                 type="text"
-                                defaultValue={searchParams.get('query')?.toString()}
-                                onChange={(e) => setSearchTerm(e.target.value)}
+                                value={searchTerm.q}
+                                onChange={handleSearch}
                             />
-                            <button className="cursor-pointer [border:none] p-0 bg-[transparent] relative text-xl font-bold font-montserrat text-pearl-white text-left inline-block [text-shadow:0px_0px_10.6px_rgba(255,_255,_255,_0.25)]" onClick={handleSearch}>
+                            <button className="justify-end cursor-pointer [border:none] p-0 bg-[transparent] relative text-xl font-bold font-montserrat text-pearl-white text-left inline-block [text-shadow:0px_0px_10.6px_rgba(255,_255,_255,_0.25)]" onClick={handleSearch}>
                                 EXPLORE
                             </button>
                         </div>
                     </div>
-                    <div className="flex flex-row items-center justify-start gap-[20px] text-xl text-pearl-white">
+                    <div className="flex flex-row col-start-3 col-span-1 items-center justify-self-end gap-5 text-xl text-pearl-white">
                         <button className="cursor-pointer [border:none] p-0 bg-[transparent] relative w-8 h-8">
                             <span className="material-symbols-outlined relative w-8 h-8">favorite</span>
                         </button>
-                        <button className="cursor-pointer [border:none] p-0 bg-[transparent] relative w-[42px] h-[42px]">
+                        <button className="cursor-pointer [border:none] p-0 bg-[transparent] relative w-8 h-8">
                             <span className="material-symbols-outlined relative w-8 h-8">playlist_play</span>
                         </button>
-                        <div className="h-[58px] flex flex-row items-center justify-start gap-[12px]">
-                            <button className="cursor-pointer [border:none] p-0 bg-[transparent] relative text-xl font-montserrat text-pearl-white text-left inline-block">
+                        <div className="flex flex-row items-center justify-center gap-3">
+                            <Link className="cursor-pointer no-underline border:none p-0 bg-[transparent] relative text-xl font-montserrat text-pearl-white text-left inline-block" href={"../login"}>
                                 LOGIN
-                            </button>
+                            </Link>
                             <span className="material-symbols-outlined">account_circle</span>
                         </div>
                     </div>

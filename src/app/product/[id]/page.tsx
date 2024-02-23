@@ -19,25 +19,16 @@ export default async function Page({ params }: { params: { id: number } }) {
     const movie: Movie = movieData as Movie
 
     return (
-        <div>
-            <div className="header-wrapper fixed">
-                <Header />
-            </div>
-            <div className="nav-wrapper fixed">
-                <div className="nav-spacer h-[64px] w-[255px]"></div>
-                <Navigation/>
-            </div>
-            <div className="grid grid-cols-layout grid-rows-layout">
-                <div className="content-wrapper col-start-2 row-start-2">
-                    <div className="content flex flex-col flex-wrap">
-                        <img className="w-80 h-44 dark:shadow-gray-800 object-contain"
-                             src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
-                             alt={`${movie.title} Poster`}
-                        />
-                        <div>Release Date: {movie.release_date}</div>
-                        <div>Runtime: {movie.runtime} Minutes</div>
-                        <div>Provider: Netflix</div>
-                    </div>
+        <div className="grid grid-cols-layout grid-rows-layout">
+            <div className="content-wrapper col-start-2 row-start-2">
+                <div className="content flex flex-col flex-wrap">
+                    <img className="w-80 h-44 dark:shadow-gray-800 object-contain"
+                         src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
+                         alt={`${movie.title} Poster`}
+                    />
+                    <div>Release Date: {movie.release_date}</div>
+                    <div>Runtime: {movie.runtime} Minutes</div>
+                    <div>Provider: Netflix</div>
                 </div>
             </div>
         </div>

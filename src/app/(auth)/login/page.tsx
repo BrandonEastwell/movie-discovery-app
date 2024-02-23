@@ -1,7 +1,10 @@
 "use client";
-import React, {useState} from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from "next/link";
 
 const LoginPage: React.FC = () => {
+    const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,43 +15,61 @@ const LoginPage: React.FC = () => {
         setPassword(e.target.value);
     };
 
-    const handleLogin = () => {
-        // You can add your authentication logic here
-        if (username === 'yourUsername' && password === 'yourPassword') {
-            alert('Login successful');
-        } else {
-            alert('Login failed');
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault()
+        try {
+            const response = await fetch('/apis/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username, password}),
+            });
+            if (response.ok) {
+                // Redirect to dashboard or another protected route
+                router.push('/dashboard');
+            } else {
+                const errorData = await response.json();
+                console.error('Login failed:', errorData);
+            }
+        } catch (error : any) {
+            console.error('Login failed:', error.response?.data);
         }
     };
 
     return (
-        <div>
-            <h1>Login Page</h1>
-            <form>
-                <div>
-                    <label htmlFor="username">Username:</label>
+        <div className="fixed w-[30vw] h-[40vh] bg-midnight bg-opacity-50 justify-center top-1/3 left-1/2 mr-[-20vh] ml-[-15vw]">
+            <form className="content-wrapper">
+                <h1>signup</h1>
+                <label htmlFor="username">Username:</label>
+                <div className="input-box">
                     <input
-                        type="text"
+                        type="username"
                         id="username"
-                        value={username}
                         onChange={handleUsernameChange}
+                        required
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <label htmlFor="password">Password:</label>
+                <div className="input-box">
                     <input
                         type="password"
                         id="password"
-                        value={password}
                         onChange={handlePasswordChange}
+                        required
                     />
                 </div>
-                <button type="button" onClick={handleLogin}>
-                    Login
-                </button>
+                <div className="remember-forgot-box">
+                    <label>
+                        <input type={"checkbox"}/>
+                        remember me
+                    </label>
+                    <Link href={"./signup"}>forgot password</Link>
+                </div>
+                <button className="signup-btn" type="submit" onClick={handleLogin}>create account</button>
             </form>
         </div>
-    );
+    )
 };
 
 export default LoginPage;

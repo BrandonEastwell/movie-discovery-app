@@ -13,11 +13,11 @@ function Navigation() {
                 <div className="top-[0px] left-[0px] w-64 flex flex-col items-start justify-start pt-4 px-0 pb-0 box-border gap-[24px]">
                     <div className="self-stretch flex flex-row items-center justify-start pt-4 pb-0 pr-0 pl-6 gap-[10px]">
                         <div className="flex flex-col items-start justify-start gap-[24px]">
-                            <span className="material-symbols-outlined relative w-8 h-8">home</span>
-                            <span className="material-symbols-outlined relative w-8 h-8">psychology</span>
-                            <span className="material-symbols-outlined relative w-8 h-8">layers</span>
-                            <span className="material-symbols-outlined relative w-8 h-8">play_arrow</span>
-                            <span className="material-symbols-outlined relative w-8 h-8">local_fire_department</span>
+                            <span className="material-symbols-outlined relative w-9 h-9">home</span>
+                            <span className="material-symbols-outlined relative w-9 h-9">psychology</span>
+                            <span className="material-symbols-outlined relative w-9 h-9">layers</span>
+                            <span className="material-symbols-outlined relative w-9 h-9">play_arrow</span>
+                            <span className="material-symbols-outlined relative w-9 h-9">local_fire_department</span>
                         </div>
                         <div className="w-44 flex flex-col items-start justify-start gap-[25px]">
                             <Link href="../" className="self-stretch relative font-semibold no-underline">Home</Link>

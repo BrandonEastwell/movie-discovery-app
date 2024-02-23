@@ -6,13 +6,11 @@
   "type": "module",
   "main": "dist/index.js",
   "engines": {
-    "node": "6.11.x"
+    "node": "v20.11.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:local": "next dev",
-    "dev:live": "nodemon --watch dist dist/app/server/server.js",
-    "dev:watch": "nodemon --watch dist dist/app/server/server.js && tsc --watch",
+    "next:dev": "nodemon",
     "next:build": "next build",
     "next:start": "next start"
   },
@@ -21,26 +19,29 @@
     "url": "git+https://github.com/BrandonEastwell/CE301-Project-Stream.git"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.0.1",
-    "express": "^4.18.2",
-    "next": "^13.5.6",
-    "node-fetch": "^2.7.0",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "next": "^14.1.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.20",
-    "@types/node": "^20",
+    "@prisma/client": "^5.9.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "13.5.6",
-    "nodemon": "^3.0.1",
+    "eslint-config-next": "14.1.0",
+    "nodemon": "^3.0.3",
     "postcss": "^8",
+    "prisma": "^5.9.1",
     "tailwindcss": "^3.3.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "bugs": {
     "url": "https://github.com/BrandonEastwell/CE301-Project-Stream/issues"

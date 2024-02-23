@@ -16,6 +16,7 @@ module.exports = {
           "300": "rgba(254, 253, 253, 0.4)",
           "400": "rgba(254, 253, 253, 0.51)",
         },
+        midnight: "#121212",
         silver: "#b1bebb",
         mediumslateblue: "#8566e0",
         gainsboro: "#d9d9d9",
