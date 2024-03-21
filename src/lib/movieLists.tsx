@@ -1,6 +1,5 @@
-import fetchTMDB from "../fetch/fetchTMDB";
-
-export async function getMediaBySearch( query:string) {
+import fetchTMDB from "../app/api/themoviedb/fetchTMDB";
+export async function getMediaBySearch( query:string ) {
     return await fetchTMDB(`search/multi?query=${query}&include_adult=false&language=en-US&page=1`, "GET")
 }
 export async function getPopular({ query }:any) {

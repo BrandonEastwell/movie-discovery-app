@@ -50,7 +50,7 @@ Sivter is an online platform that allows users to explore the latest trending mo
 ### 1.2 Features
 
 - **Trending Content:** Stay up-to-date with the latest trends in movies and TV shows.
-- **Search Functionality:** Search for movies by title, making it easy to find information about specific films.
+- **SearchBar Functionality:** SearchBar for movies by title, making it easy to find information about specific films.
 - **Detailed Movie Information:** Access comprehensive details about each movie, including cast, crew, release date, genre, and more.
 - **Watch Information:** Discover where users can watch a particular movie, whether it's available on popular streaming platforms or in theaters.
 

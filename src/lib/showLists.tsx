@@ -1,4 +1,4 @@
-import fetchTMDB from "../fetch/fetchTMDB";
+import fetchTMDB from "../app/api/themoviedb/fetchTMDB";
 
 export async function getTrendingDayTV({ query }:any) {
     return fetchTMDB(`trending/tv/day?language=en-US`, "GET")

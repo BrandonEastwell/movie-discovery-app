@@ -1,8 +1,9 @@
 "use client";
 import React, {useState} from 'react';
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
-const SignupPage: React.FC = () => {
+const SignupForm: React.FC = () => {
     const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -40,38 +41,43 @@ const SignupPage: React.FC = () => {
     };
 
     return (
-        <div className="grid grid-cols-layout grid-rows-layout">
-            <form className="content-wrapper col-start-2 row-start-2" onSubmit={handleSignup}>
-                <h1>signup</h1>
-                <label htmlFor="username">Username:</label>
-                <div className="input-box">
+        <div className="flex flex-col justify-center max-w-[500px] max-h-[500px] w-[25vw] h-[50vh] opacity-50 bg-black font-michroma text-base text-pearl-white rounded">
+            <form className="form-container flex flex-col w-full h-full" onSubmit={handleSignup}>
+                <h1 className="text-[2.5rem]">create account</h1>
+                <div className="input-box bg-gray-200 rounded">
                     <input
+                        className="text-spun-pearl"
                         type="text"
                         id="username"
+                        placeholder="username"
                         value={username}
                         onChange={handleUsernameChange}
                         required
                     />
                 </div>
-                <label htmlFor="password">Password:</label>
-                <div className="input-box">
+                <div className="input-box bg-gray-200 rounded">
                     <input type="text"
+                           className="text-spun-pearl"
                            id="password"
+                           placeholder="password"
                            value={password}
                            onChange={handlePasswordChange}
                            required
                     />
                 </div>
+                <button className="signup-btn bg-Purple rounded" type="submit">create account</button>
                 <div className="remember-forgot-box">
-                    <label>
-                        <input type={"checkbox"} />
-                        remember me
-                    </label>
+                    <p>Already have an account? <button>Login here.</button></p>
                 </div>
-                <button className="signup-btn" type="submit">create account</button>
+                <div className="requirements-container">
+                    <p>requirements</p>
+                    <p>password length of 8</p>
+                    <p>1 special character</p>
+                    <p>1 uppercase character</p>
+                </div>
             </form>
         </div>
     )
 };
 
-export default SignupPage;
+export default SignupForm;

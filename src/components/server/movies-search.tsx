@@ -14,15 +14,14 @@ interface MovieListProps {
     movies: Movie[] | null;
 }
 
-const SearchMovies: React.FC<MovieListProps> = ({ movies }) => {
+const MoviesSearch: React.FC<MovieListProps> = ({ movies }) => {
     console.log(movies)
     if (!movies || movies.length === 0) {
         return <p>No movies found.</p>;
     }
 
     return (
-        <ul>
-            {movies.map((movie) => (
+            movies.map((movie) => (
                 <Suspense key={movie.id} fallback={<p>loading..</p>}>
                     <li key={movie.id}>
                         <h3>{movie.title}</h3>
@@ -36,9 +35,8 @@ const SearchMovies: React.FC<MovieListProps> = ({ movies }) => {
                         </Link>
                     </li>
                 </Suspense>
-            ))}
-        </ul>
+            ))
     );
 };
 
-export default SearchMovies;
+export default MoviesSearch;

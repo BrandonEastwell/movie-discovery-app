@@ -1,5 +1,7 @@
-import Header from "../components/header";
-import Navigation from "../components/navigation";
+import HeaderBar from "../components/server/header-bar";
+import UserNavigation from "../components/server/user-navigation";
+import SearchBar from "../components/client/search-bar";
+import Footer from "../components/server/footer";
 
 export const metadata = {
   title: 'Layout Template',
@@ -12,17 +14,29 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html className="bg-midnight" lang="en" >
-        <body className="bg-midnight">
-          <div className="header-wrapper fixed">
-            <Header />
-          </div>
-          <div className="nav-wrapper fixed">
-            <div className="nav-spacer h-[64px] w-[255px]"></div>
-            <Navigation/>
-          </div>
-          {children}
+      <html className="bg-midnight" lang="en">
+      <head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+          <link rel="preconnect" href="https://fonts.googleapis.com"/>
+          <link rel="preconnect" href="https://fonts.gstatic.com"/>
+          <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+                rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet"/>
+          <link
+              href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+              rel="stylesheet"/>
+      </head>
+      <body className="bg-midnight overflow-hidden flex flex-col">
+      <HeaderBar/>
+      <SearchBar/>
+      <div className="main-container relative flex flex-row">
+                <UserNavigation/>
+                <div className="content-container overflow-y-auto flex flex-row">
+                    {children}
+                </div>
+            </div>
         </body>
-    </html>
+      </html>
   )
 }

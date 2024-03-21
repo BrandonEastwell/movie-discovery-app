@@ -1,9 +1,9 @@
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from "next/link";
 
-const LoginPage: React.FC = () => {
+const LoginForm: React.FC = () => {
     const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -18,22 +18,23 @@ const LoginPage: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const response = await fetch('/apis/auth', {
+            const response = await fetch('api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({username, password}),
+                body: JSON.stringify({username:username, password:password}),
             });
             if (response.ok) {
                 // Redirect to dashboard or another protected route
+                console.log("LoginForm successful")
                 router.push('/dashboard');
             } else {
                 const errorData = await response.json();
-                console.error('Login failed:', errorData);
+                console.error('LoginForm failed:', errorData);
             }
         } catch (error : any) {
-            console.error('Login failed:', error.response?.data);
+            console.error('LoginForm failed:', error.response?.data);
         }
     };
 
@@ -46,6 +47,7 @@ const LoginPage: React.FC = () => {
                     <input
                         type="username"
                         id="username"
+                        value={username}
                         onChange={handleUsernameChange}
                         required
                     />
@@ -55,6 +57,7 @@ const LoginPage: React.FC = () => {
                     <input
                         type="password"
                         id="password"
+                        value={password}
                         onChange={handlePasswordChange}
                         required
                     />
@@ -65,11 +68,12 @@ const LoginPage: React.FC = () => {
                         remember me
                     </label>
                     <Link href={"./signup"}>forgot password</Link>
+                    <Link href={"./signup"}>create account</Link>
                 </div>
-                <button className="signup-btn" type="submit" onClick={handleLogin}>create account</button>
+                <button className="signup-btn" type="submit" onClick={handleLogin}>Login</button>
             </form>
         </div>
     )
 };
 
-export default LoginPage;
+export default LoginForm;

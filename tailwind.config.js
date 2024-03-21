@@ -21,6 +21,7 @@ module.exports = {
         mediumslateblue: "#8566e0",
         gainsboro: "#d9d9d9",
         black: "#000",
+        Purple: '#5F43B2',
       },
       gridTemplateColumns: {
         'layout': '16rem  1fr',
@@ -32,7 +33,11 @@ module.exports = {
       },
       spacing: {},
       fontFamily: {
-        montserrat: "Montserrat",
+        montserrat: ["Montserrat", 'sans-serif'],
+        vt323: "VT323",
+        poppins: "Poppins",
+        robotomono: ["Roboto-Mono", 'sans-serif'],
+        michroma: "Michroma",
       },
       borderRadius: {
         "8xs": "5px",

@@ -1,19 +1,17 @@
-import {getMediaBySearch} from "../../apis/themoviedb/requests/movieLists";
-import SearchMovies from "../../components/searchMovies";
+import MoviesSearch from "../../components/server/movies-search";
+import {getMediaBySearch} from "../../util/movieLists";
 export async function Page({ searchParams, }: { searchParams?: { q?: string; }; }) {
     const query = searchParams?.q || '';
 
     const moviesResult = await getMediaBySearch(query.replaceAll(' ', '%20'));
         return (
-            <section>
-                <div className="grid grid-cols-layout grid-rows-layout">
-                    <div className="content-wrapper col-start-2 row-start-2">
-                        <div className="content flex flex-row flex-wrap">
-                            <SearchMovies movies={moviesResult.results}/>
-                        </div>
+            <div className="content-container grid grid-cols-layout grid-rows-layout">
+                <div className="col-start-2 row-start-2">
+                    <div className=" flex flex-row flex-wrap">
+                        <MoviesSearch movies={moviesResult.results}/>
                     </div>
                 </div>
-            </section>
+            </div>
         )
 }
 

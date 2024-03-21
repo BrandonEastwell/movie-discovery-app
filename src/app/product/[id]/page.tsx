@@ -1,8 +1,5 @@
-import {getMovieDetails} from "../../../apis/themoviedb/requests/movieDetails";
 import React from "react";
-import Header from "../../../components/header";
-import Navigation from "../../../components/navigation";
-import SearchMovies from "../../../components/searchMovies";
+import {getMovieDetails} from "../../../util/movieDetails";
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 export default async function Page({ params }: { params: { id: number } }) {
     interface Movie {

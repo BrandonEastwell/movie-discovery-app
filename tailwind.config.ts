@@ -23,7 +23,11 @@ module.exports = {
       },
       spacing: {},
       fontFamily: {
-        montserrat: "Montserrat",
+        montserrat: ["Montserrat", 'sans-serif'],
+        vt323: "VT323",
+        poppins: "Poppins",
+        robotomono: ["Roboto-Mono", 'sans-serif'],
+        michroma: "Michroma"
       },
       borderRadius: {
         "8xs": "5px",
