@@ -1,10 +1,8 @@
 import {cookies} from "next/headers";
 import HeaderMenu from "../client/header-menu";
 import {verify} from "jsonwebtoken";
-import {useState} from "react";
-
 const HeaderBar: React.FC = () => {
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    let loggedIn: boolean = false;
     const token = cookies().get('token')?.value
     let username: string | null = null;
 
@@ -12,12 +10,12 @@ const HeaderBar: React.FC = () => {
         try {
             const decodedToken = verify(token, `${process.env.JWT_EXPIRES_IN}`) as {username: string} ;
             username = decodedToken.username;
-            setLoggedIn(true);
+            loggedIn = true;
+            console.log(token)
         } catch (error) {
             console.error('Error decoding JWT token:', error)
         }
     }
-    console.log(token)
         return (
                 <div className="w-full flex flex-row items-center justify-between pt-0 px-[1.375rem] box-border font-vt323">
                     <div className="flex flex-col items-start px-0 pb-0 justify-center">

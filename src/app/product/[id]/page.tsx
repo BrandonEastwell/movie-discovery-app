@@ -1,6 +1,7 @@
 import React from "react";
-import {getMovieDetails} from "../../../util/movieDetails";
-const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+import {getMovieDetails} from "../../../lib/movieDetails";
+import Image from 'next/image'
+
 export default async function Page({ params }: { params: { id: number } }) {
     interface Movie {
         id: number;
@@ -19,9 +20,11 @@ export default async function Page({ params }: { params: { id: number } }) {
         <div className="grid grid-cols-layout grid-rows-layout">
             <div className="content-wrapper col-start-2 row-start-2">
                 <div className="content flex flex-col flex-wrap">
-                    <img className="w-80 h-44 dark:shadow-gray-800 object-contain"
-                         src={`${TMDB_IMAGE_BASE_URL}${movie.poster_path}`}
+                    <Image className="dark:shadow-gray-800 object-contain"
+                         src={`${movie.poster_path}`}
                          alt={`${movie.title} Poster`}
+                           width={80}
+                           height={80}
                     />
                     <div>Release Date: {movie.release_date}</div>
                     <div>Runtime: {movie.runtime} Minutes</div>

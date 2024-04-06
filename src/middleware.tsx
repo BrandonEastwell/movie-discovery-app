@@ -1,17 +1,23 @@
-import type { NextRequest } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
+import jwt, {verify} from "jsonwebtoken";
 
-export function middleware(request: NextRequest) {
-    const currentUser = request.cookies.get('currentUser')?.value
-
-    if (currentUser && !request.nextUrl.pathname.startsWith('/dashboard')) {
-        return Response.redirect(new URL('/dashboard', request.url))
-    }
-
-    if (!currentUser && !request.nextUrl.pathname.startsWith('/login')) {
-        return Response.redirect(new URL('/login', request.url))
-    }
-}
-
-export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+export function middleware(req: NextRequest) {
+    const { cookies } = req;
+    const {origin } = req.nextUrl;
+    const jwt = cookies.get("auth-token")?.value
+    const protectedPaths = ['/dashboard']
+    protectedPaths.forEach((path) => {
+        if (req.url.includes(path)) {
+            if (!jwt) {
+                return NextResponse.redirect(new URL(`${origin}/login`))
+            }
+            try {
+                const decoded = verify(jwt, `${process.env.JWT_SECRET}`);
+            } catch (e) {
+                console.log(e)
+                return NextResponse.redirect(new URL(`${origin}/login`))
+            }
+        }
+    })
+    return NextResponse.next()
 }

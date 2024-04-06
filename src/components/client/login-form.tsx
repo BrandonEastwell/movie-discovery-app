@@ -28,6 +28,9 @@ const LoginForm: React.FC = () => {
             if (response.ok) {
                 // Redirect to dashboard or another protected route
                 console.log("LoginForm successful")
+                const body = await response.json()
+                sessionStorage.setItem('userid', body.userid)
+                sessionStorage.setItem('username', body.username)
                 router.push('/dashboard');
             } else {
                 const errorData = await response.json();
