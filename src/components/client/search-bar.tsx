@@ -1,10 +1,12 @@
 'use client'
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSearchParams, useRouter, usePathname} from 'next/navigation';
+import LoadingAnimation from "./loading-bar";
+import {router} from "next/client";
 
 const SearchBar: React.FC = () => {
     const searchParams = useSearchParams();
-    const router = useRouter();
+    const route = useRouter();
     const pathname = usePathname();
     const [searchTerm, setSearchTerm] = useState({
         q: "",
@@ -27,11 +29,13 @@ const SearchBar: React.FC = () => {
         });
         console.log(params.toString)
         params.set('page', '1');
-        router.push(`/find?${params.toString()}`, {});
+        useEffect(() => {
+            router.push(`/find?${params.toString()}`, {});
+        })
     };
 
     return (
-        <div className="w-full flex flex-row items-center justify-center py-[7px] px-0 gap-4 text-5xl text-gray-300">
+        <div className="fixed w-full flex flex-row items-center justify-center py-[7px] px-0 gap-4 text-5xl text-gray-300">
             <div className="flex flex-row items-start justify-between gap-5">
                 <input
                     id="search"

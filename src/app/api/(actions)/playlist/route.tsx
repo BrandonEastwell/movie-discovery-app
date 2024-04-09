@@ -4,47 +4,44 @@ import { PrismaClient } from '@prisma/client';
 import {cookies} from "next/headers";
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function createUserPlaylist(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }
     try {
         const body = await req.json();
-        const movieid = body.movieid;
+        const name : string = body.name;
+        const desc : string = body.desc;
+
         const token = cookies().get('token')?.value
         if (token) {
             //add or remove movie id to favourite database process
             const userid = authSession(token);
             if (userid != null) {
-                const existingFavorite = await prisma.favouritemovies.findFirst({
+                const existingPlaylist = await prisma.userplaylist.findFirst({
                     where: {
                         userid: userid,
-                        movieid: movieid,
+                        playlist_name: name,
                     },
                 });
-                // remove the movie from user's favourites
-                if (existingFavorite) {
-                    await prisma.favouritemovies.delete({
-                        where: {
-                            favouriteid: existingFavorite.favouriteid,
-                        },
-                    })
-                    return NextResponse.json({ message: "favourite removed" }, {status: 200});
+                if (existingPlaylist) {
+                    return NextResponse.json({ message: "playlist already exists" }, {status: 500});
                 } else {
-                    // Add the movie to user's favorites
-                    await prisma.favouritemovies.create({
-                        data: {
-                            userid: userid,
-                            movieid: movieid,
-                        },
-                    });
-                    return NextResponse.json({ message: "favourite added" }, {status: 200});
+                    if (name != null) {
+                        await prisma.userplaylist.create({
+                            data: {
+                                userid: userid,
+                                playlist_name: name,
+                                playlist_desc: desc
+                            },
+                        });
+                        return NextResponse.json({ message: "playlist created" }, {status: 200});
+                    } else {
+                        return NextResponse.json({ message: "playlist name not provided" }, {status: 500});
+                    }
                 }
-            } else {
-                return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
             }
         }
-        return res;
     } catch (error) {
         console.error('Error authenticating user:', error);
         return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
@@ -53,32 +50,46 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
-    if (req.method !== 'GET') {
+export async function addMovieToPlaylist(req: NextRequest, res: NextResponse) {
+    if (req.method !== 'addMovieToPlaylist') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }
     try {
         const body = await req.json();
+        const playlistid = body.playlistid;
         const movieid = body.movieid;
-        const token = cookies().get('token')?.value
-        if (token) {
-            const userid = authSession(token);
-            if (userid != null) {
-                const existingFavorite = await prisma.favouritemovies.findFirst({
+        //add or remove movie id to favourite database process
+        if (playlistid != null) {
+            const existingMovie = await prisma.playlistmovies.findFirst({
+                where: {
+                    playlistid: playlistid,
+                    movieid: movieid,
+                },
+            });
+            if (existingMovie) {
+                await prisma.playlistmovies.delete({
                     where: {
-                        userid: userid,
+                        id: existingMovie.id
+                    }
+                })
+                return NextResponse.json({ message: "movie removed from playlist" }, {status: 200});
+            } else {
+                const movies = await prisma.playlistmovies.findMany({
+                    where: {
+                        playlistid: playlistid
+                    }
+                })
+                let position = movies.length
+                await prisma.playlistmovies.create({
+                    data: {
+                        playlistid: playlistid,
+                        position: position++,
                         movieid: movieid,
-                    },
-                });
-
-                if (existingFavorite) {
-                    return NextResponse.json({result: true}, {status: 200})
-                } else {
-                    return NextResponse.json({result: false}, {status: 200})
-                }
+                    }
+                })
+                return NextResponse.json({ message: "movie added to playlist" }, {status: 200});
             }
         }
-        return NextResponse.json({result: false}, {status: 200})
     } catch (error) {
         console.error('Error authenticating user:', error);
         return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});

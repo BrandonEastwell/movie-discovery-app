@@ -1,10 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
 import jwt, {verify} from "jsonwebtoken";
+import {cookies} from "next/headers";
 
 export function middleware(req: NextRequest) {
-    const { cookies } = req;
     const {origin } = req.nextUrl;
-    const jwt = cookies.get("auth-token")?.value
+    const jwt = cookies().get('token')?.value
     const protectedPaths = ['/dashboard']
     protectedPaths.forEach((path) => {
         if (req.url.includes(path)) {

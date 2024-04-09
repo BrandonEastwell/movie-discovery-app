@@ -1,10 +1,8 @@
-"use client";
-import React, {useState} from 'react';
-import { useRouter } from 'next/navigation';
-import Link from "next/link";
+'use client'
+import React, {useEffect, useState} from 'react';
+import {router} from "next/client";
 
 const SignupForm: React.FC = () => {
-    const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +28,9 @@ const SignupForm: React.FC = () => {
             if (response.ok) {
                 // Redirect to dashboard or another protected route
                 console.log("SignupForm successful")
-                router.push('/dashboard');
+                useEffect(() => {
+                    router.push('/dashboard');
+                })
             } else {
                 const errorData = await response.json();
                 console.error('SignupForm failed:', errorData);

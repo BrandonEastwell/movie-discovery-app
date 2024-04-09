@@ -24,12 +24,10 @@ module.exports = {
         Purple: '#5F43B2',
       },
       gridTemplateColumns: {
-        'layout': '16rem  1fr',
-        'footer': '200px minmax(900px, 1fr) 100px',
+        'layout': 'minmax(2rem, 15rem) 1fr',
       },
       gridTemplateRows: {
-        'layout': '4rem 1fr',
-        'footer': '200px minmax(900px, 1fr) 100px',
+        'layout': 'minmax(2rem, 7rem) minmax(2rem, 2.5rem) 1fr',
       },
       spacing: {},
       fontFamily: {

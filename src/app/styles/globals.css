@@ -30,3 +30,43 @@ body {
 ::after {
   border-width: 0;
 }
+
+.progress-bar3 {
+  background-image: linear-gradient(to right, #ffffff, #8a2be2);
+  transition: 0.4s linear;
+  transition-property: width, background-color;
+}
+
+.progress-infinite .progress-bar3 {
+  background-image: linear-gradient(to right, #ffffff, #8a2be2);
+  animation: colorAnimation 1s infinite;
+}
+
+@keyframes colorAnimation {
+  0% {
+    background-image: linear-gradient(to right, #ffffff, #8a2be2);
+  }
+  25% {
+    background-image: linear-gradient(to right, #8a2be2, #ffffff);
+  }
+  50% {
+    background-image: linear-gradient(to right, #ffffff, #8a2be2);
+  }
+  75% {
+    background-image: linear-gradient(to right, #8a2be2, #ffffff);
+  }
+  100% {
+    background-image: linear-gradient(to right, #ffffff, #8a2be2);
+  }
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

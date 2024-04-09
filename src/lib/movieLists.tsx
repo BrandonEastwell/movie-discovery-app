@@ -20,3 +20,6 @@ export async function getTrendingDayMovie({ query }:any) {
 export async function getTrendingWeekMovie() {
     return await fetchTMDB(`trending/movie/week?language=en-US`, "GET")
 }
+export async function getMoviesByDiscovery( genreParams:string ) {
+    return await fetchTMDB(`discover/movie/movie?${genreParams}`, "GET")
+}

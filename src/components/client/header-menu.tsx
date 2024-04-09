@@ -25,10 +25,11 @@ const HeaderMenu: React.FC<UserListProps> = ({username, loggedIn}) => {
         };
     }, [ref]);
 
-
     const accountHandler = () => {
         if (loggedIn) {
-            router.push(`/account`, {});
+            useEffect(() => {
+                router.push(`/account`, {});
+            })
         } else {
             setIsVisible(true);
         }

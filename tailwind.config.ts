@@ -15,11 +15,9 @@ module.exports = {
     },
       gridTemplateColumns: {
         'layout': 'minmax(2rem, 25rem) 1fr',
-        'footer': '200px minmax(900px, 1fr) 100px',
       },
       gridTemplateRows: {
-        'layout': 'minmax(2rem, 7rem) 1fr minmax(2rem, 7rem)',
-        'footer': '200px minmax(900px, 1fr) 100px',
+        'layout': 'minmax(2rem, 7rem) minmax(2rem, 7rem) 1fr',
       },
       spacing: {},
       fontFamily: {

@@ -1,10 +1,9 @@
-"use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+'use client'
+import React, {useEffect, useState} from 'react';
 import Link from "next/link";
+import {router} from "next/client";
 
 const LoginForm: React.FC = () => {
-    const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,9 +28,11 @@ const LoginForm: React.FC = () => {
                 // Redirect to dashboard or another protected route
                 console.log("LoginForm successful")
                 const body = await response.json()
-                sessionStorage.setItem('userid', body.userid)
-                sessionStorage.setItem('username', body.username)
-                router.push('/dashboard');
+                //sessionStorage.setItem('userid', body.userid)
+                //sessionStorage.setItem('username', body.username)
+                useEffect(() => {
+                    router.push('/dashboard');
+                })
             } else {
                 const errorData = await response.json();
                 console.error('LoginForm failed:', errorData);

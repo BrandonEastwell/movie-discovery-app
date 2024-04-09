@@ -1,5 +1,5 @@
 import MoviesSearch from "../../components/server/movies-search";
-import {getMediaBySearch} from "../../util/movieLists";
+import {getMediaBySearch} from "../../lib/movieLists";
 export async function Page({ searchParams, }: { searchParams?: { q?: string; }; }) {
     const query = searchParams?.q || '';
 

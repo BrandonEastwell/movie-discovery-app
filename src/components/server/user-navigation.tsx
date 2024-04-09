@@ -8,7 +8,7 @@ import primevideo from '../../images/primevideo.svg'
 
 function UserNavigation() {
         return (
-                <div className="fixed flex flex-col items-start justify-start overflow-hidden w-52 max-w-[200px] h-screen text-left text-xl text-gray-100 font-robotomono">
+                <div className="fixed flex flex-col items-start justify-start overflow-hidden w-52 max-w-[200px] text-left text-xl text-gray-100 font-robotomono">
                     <div className="self-stretch flex flex-col items-start justify-start pt-4 pb-0 pr-0 pl-6 gap-[10px]">
                         <div className="flex flex-row items-start justify-center gap-[1.5rem]">
                             <span className="material-symbols-outlined w-4 h-4 max-w-[14px] max-h-[14px]">home</span>

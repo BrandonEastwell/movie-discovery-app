@@ -10,18 +10,28 @@ export async function Page() {
         return await trendingMovies
     }
     return (
-        <div className="content-container grid grid-cols-layout grid-rows-layout">
-            <div className="content-wrapper col-start-2 row-start-2">
-                <div className="trending flex flex-row flex-nowrap overflow-hidden">
-                    <div className="top-[0px] left-[0px] flex flex-col items-start justify-start text-left text-4rem text-pearl-white">
-                        <b className="flex items-center w-full h-[5rem] font-vt323">
-                            TRENDING FILM
-                        </b>
-                        <MoviesTrending movies={trending.results}/>
-                    </div>
-                </div>
+        <div className="wrapper w-full h-full flex flex-col items-start justify-start flex-nowrap overflow-hidden">
+            <b className="flex items-center h-[5rem] font-vt323">
+                TRENDING FILM
+            </b>
+            <div
+                className="w-full h-full top-[0px] left-[0px] flex flex-row flex-auto items-start justify-start gap-[1rem] overflow-x-scroll .scrollbar-hide">
+                <MoviesTrending movies={trending.results}/>
+            </div>
+            <div
+                className="w-full h-full top-[0px] left-[0px] flex flex-row flex-auto items-start justify-start gap-[1rem] overflow-x-scroll .scrollbar-hide">
+                <MoviesTrending movies={trending.results}/>
+            </div>
+            <div
+                className="w-full h-full top-[0px] left-[0px] flex flex-row flex-auto items-start justify-start gap-[1rem] overflow-x-scroll .scrollbar-hide">
+                <MoviesTrending movies={trending.results}/>
+            </div>
+            <div
+                className="w-full h-full top-[0px] left-[0px] flex flex-row flex-auto items-start justify-start gap-[1rem] overflow-x-scroll .scrollbar-hide">
+                <MoviesTrending movies={trending.results}/>
             </div>
         </div>
     )
 }
+
 export default Page
