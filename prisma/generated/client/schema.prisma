@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  userid            Int               @id @default(autoincrement())
+  username          String            @unique @db.VarChar(50)
+  encryptedpassword String            @db.VarChar(60)
+  createdat         DateTime?         @default(now()) @db.Timestamp(6)
+  discoveryqueue    discoveryqueue[]
+  favouritemovies   favouritemovies[]
+  likedmovies       likedmovies[]
+  playlist          userplaylist[]
+  userpreferences   userpreferences?
+  watchhistory      watchhistory[]
+}
+
+model discoveryqueue {
+  queueid    Int       @id @default(autoincrement())
+  userid     Int
+  movieid    Int
+  ranking    Int
+  updatedate DateTime? @db.Date
+  accounts   accounts  @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([userid, movieid])
+}
+
+model favouritemovies {
+  favouriteid Int       @id @default(autoincrement())
+  userid      Int?
+  movieid     Int
+  accounts    accounts? @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([userid, movieid])
+}
+
+model likedmovies {
+  likeid   Int      @id @default(autoincrement())
+  userid   Int
+  movieid  Int
+  accounts accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([userid, movieid])
+}
+
+// Define the UserPlaylist model
+model userplaylist {
+  playlistid   Int       @id @default(autoincrement())
+  userid       Int
+  playlist_name String   @db.VarChar(255)
+  playlist_desc String?  @db.VarChar(255)
+  playlistMovies playlistmovies[]
+  // Define foreign key relationship with the Accounts model
+  accounts     accounts  @relation(fields: [userid], references: [userid])
+  // Ensure uniqueness of the combination of userid and playlistid
+  @@unique([userid, playlistid])
+}
+
+// Define the PlaylistMovies model
+model playlistmovies {
+  id           Int       @id @default(autoincrement())
+  playlistid   Int
+  movieid      Int
+  position     Int
+  // Define foreign key relationship with the UserPlaylist model
+  userplaylist userplaylist @relation(fields: [playlistid], references: [playlistid])
+  // Ensure uniqueness of the combination of playlistid and movieid
+  @@unique([playlistid, movieid])
+  // Ensure uniqueness of the position within each playlist
+  @@unique([playlistid, position])
+}
+
+model userpreferences {
+  userid         Int      @id
+  preferredgenre String?  @db.VarChar(50)
+  accounts       accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model watchhistory {
+  watchid   Int       @id @default(autoincrement())
+  userid    Int?
+  movieid   Int
+  watchedat DateTime? @default(now()) @db.Timestamp(6)
+  accounts  accounts? @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([userid, movieid])
+}
