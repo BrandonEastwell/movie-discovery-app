@@ -1,12 +1,10 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import {useSearchParams, useRouter, usePathname} from 'next/navigation';
-import LoadingAnimation from "./loading-bar";
-import {router} from "next/client";
 
 const SearchBar: React.FC = () => {
     const searchParams = useSearchParams();
-    const route = useRouter();
+    const router = useRouter()
     const pathname = usePathname();
     const [searchTerm, setSearchTerm] = useState({
         q: "",
@@ -40,7 +38,7 @@ const SearchBar: React.FC = () => {
                 <input
                     id="search"
                     className="justify-start border-none focus:outline-none font-robotomono w-[20rem] text-base bg-[transparent] text-gray-300 text-left"
-                    placeholder="SearchBar for name, genre or category..."
+                    placeholder="Search for name, genre or category..."
                     type="text"
                     value={searchTerm.q}
                     onChange={handleSearch}

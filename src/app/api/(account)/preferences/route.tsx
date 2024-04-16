@@ -1,7 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
 import { PrismaClient } from '@prisma/client';
-import {cookies} from "next/headers";
-import {authSession} from "../../../../lib/auth-session";
 import {getMovieDetails} from "../../../../lib/movieDetails";
 import {getMoviesByDiscovery} from "../../../../lib/movieLists";
 
@@ -71,7 +69,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
         await prisma.$disconnect();
     }
 }
+
 export async function GET(req: NextRequest, res: NextResponse) {
+    let username = '';
+    let userid: number | null = null;
     const genreNameToIdMapping: Record<string, number> = {
         "Action": 28,
         "Adventure": 12,
@@ -95,26 +96,44 @@ export async function GET(req: NextRequest, res: NextResponse) {
         // Add more genres as needed
     };
     try {
-        const token = cookies().get('token')?.value
-        if (token) {
-            const userid = authSession(token);
-            if (userid != null) {
-                const genres = await prisma.userpreferences.findUnique({
-                    where: {userid: userid},
-                    select: {preferredgenre: true},
+        const authenticate = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/auth-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // You can include any additional data needed for authentication in the body
+                    body: JSON.stringify({}),
                 });
-                if (genres == null) {
-                    return NextResponse.json({result: false}, {status: 200})
-                } else {
-                    const preferredGenres = genres.preferredgenre ? genres.preferredgenre.split(',') : [];
-                    const genreIds = preferredGenres.map((genreName) => {
-                        // Assuming you have a mapping of genre names to genre IDs
-                        return genreNameToIdMapping[genreName];
-                    });
-                    const genreIdsString = genreIds.join(',');
-                    let discovery = await getMoviesByDiscovery(genreIdsString);
-                    return NextResponse.json({result: true, data: discovery.results}, {status: 200})
+                const data = await response.json();
+                if (response.ok) {
+                    // If authentication is successful
+                    userid = data.userid
+                    username = data.username
                 }
+            } catch (error) {
+                // Handle any network or other errors
+                console.error('Error:', error);
+            }
+        };
+        authenticate();
+        if (userid != null) {
+            const genres = await prisma.userpreferences.findUnique({
+                where: {userid: userid},
+                select: {preferredgenre: true},
+            });
+            if (genres == null) {
+                return NextResponse.json({result: false}, {status: 200})
+            } else {
+                const preferredGenres = genres.preferredgenre ? genres.preferredgenre.split(',') : [];
+                const genreIds = preferredGenres.map((genreName) => {
+                    // Assuming you have a mapping of genre names to genre IDs
+                    return genreNameToIdMapping[genreName];
+                });
+                const genreIdsString = genreIds.join(',');
+                let discovery = await getMoviesByDiscovery(genreIdsString);
+                return NextResponse.json({result: true, data: discovery.results}, {status: 200})
             }
         }
         return NextResponse.json({result: false}, {status: 200})
@@ -125,14 +144,35 @@ export async function GET(req: NextRequest, res: NextResponse) {
         await prisma.$disconnect();
     }
 }
-export async function generatePreferences(req: NextRequest, res: NextResponse) {
-    try {
-        const token = cookies().get('token')?.value
-        if (token) {
-            const userid = authSession(token);
-            if (userid != null) {
 
+export async function generatePreferences(req: NextRequest, res: NextResponse) {
+    let username = '';
+    let userid: number | null = null;
+    try {
+        const authenticate = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/auth-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({}),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // If authentication is successful
+                    userid = data.userid
+                    username = data.username
+                }
+            } catch (error) {
+                // Handle any network or other errors
+                console.error('Error:', error);
             }
+        };
+        authenticate();
+        if (userid != null) {
+
         }
         return NextResponse.json({result: false}, {status: 200})
     } catch (error) {

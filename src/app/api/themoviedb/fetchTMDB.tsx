@@ -2,6 +2,7 @@ import requestError from './requestError';
 const  {REACT_APP_API_KEY,REACT_APP_API_VERSION,REACT_APP_API_URL} = process.env;
 
 const FetchTMDB = async function (endpoint:string, method: 'GET' | 'POST' | 'PUT' | 'DELETE') {
+    console.log(`${REACT_APP_API_URL}/${REACT_APP_API_VERSION}/${endpoint}api_key=${REACT_APP_API_KEY}`)
     const response = await fetch(`${REACT_APP_API_URL}/${REACT_APP_API_VERSION}/${endpoint}api_key=${REACT_APP_API_KEY}`, {
         method,
         headers: {

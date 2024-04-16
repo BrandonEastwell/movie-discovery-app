@@ -1,8 +1,9 @@
-// apis/register.tsx
+// api/login/route.tsx
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
+import {cookies} from "next/headers";
 
 const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -18,8 +19,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const body = await req.json();
     const password = body.password;
     const username = body.username;
-    console.log(password);
-    console.log(username);
 
     try {
         if (typeof password !== 'string' || password.trim().length === 0) {
@@ -68,9 +67,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
            expiresIn: `${process.env.JWT_EXPIRES_IN}`
         });
 
-        // Set token as a cookie or send it in the response body
-        res = NextResponse.json({ message: 'Successful login', userid: user.userid, username: user.username }, {status: 201});
-        res.cookies.set('auth-token', jwtToken, {httpOnly: true, maxAge: 3600, secure: false}); //secure set to true in production
+        if (cookies().has("token")) {
+            cookies().delete("token");
+        }
+
+        // Set token as a cookie using the response headers
+        const cookieHeaderValue = `token=${jwtToken}; HttpOnly; Max-Age=21600; Path=/; SameSite=Lax Domain=localhost`;
+        res = NextResponse.json({ message: 'Successful login', userid: user.userid, username: user.username }, {
+            status: 201,
+            headers: {
+                'Set-Cookie': cookieHeaderValue
+            }
+        });
+        console.log('LOGIN API Response Headers:', res.headers);
         return res;
     } catch (error) {
         console.error('Error authenticating user:', error);

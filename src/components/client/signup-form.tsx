@@ -1,10 +1,14 @@
 'use client'
-import React, {useEffect, useState} from 'react';
-import {router} from "next/client";
+import React, {useEffect, useRef, useState} from 'react';
+import {useRouter} from "next/navigation";
 
 const SignupForm: React.FC = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [message, setMessage] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const router = useRouter()
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
     };
@@ -13,41 +17,57 @@ const SignupForm: React.FC = () => {
         setPassword(e.target.value);
     };
 
-    const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(password);
-        console.log(username);
+    const handleSignup = async (e: React.FormEvent) => {
+        e.preventDefault()
         try {
-            const response = await fetch('api/register', {
+            const response = await fetch('http://localhost:3000/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username:username, password:password }),
+                body: JSON.stringify({username:username, password:password}),
             });
+            const data = await response.json()
             if (response.ok) {
                 // Redirect to dashboard or another protected route
-                console.log("SignupForm successful")
-                useEffect(() => {
-                    router.push('/dashboard');
-                })
+                setMessage(data.message);
+                setError(null);
+                router.push(`/account/${data.userid}`);
             } else {
-                const errorData = await response.json();
-                console.error('SignupForm failed:', errorData);
+                setMessage(null);
+                setError(data.error);
+                console.error('Signup failed:', data.error);
             }
         } catch (error : any) {
-            console.error('LoginForm failed:', error.response?.data);
+            console.error('Signup failed:', error.response?.data);
         }
     };
 
+    const formRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleOutSideClick = (event: MouseEvent) => {
+            // Check if the clicked element is not part of the login form
+            if (formRef.current && !formRef.current.contains(event.target as Node)) {
+                setIsVisible(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutSideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutSideClick);
+        };
+    }, []);
+
     return (
-        <div className="flex flex-col justify-center max-w-[500px] max-h-[500px] w-[25vw] h-[50vh] opacity-50 bg-black font-michroma text-base text-pearl-white rounded">
-            <form className="form-container flex flex-col w-full h-full" onSubmit={handleSignup}>
-                <h1 className="text-[2.5rem]">create account</h1>
-                <div className="input-box bg-gray-200 rounded">
+        <div ref={formRef} className="${isVisible ? visible : invisible} fixed w-[500px] h-[500px] bg-black bg-opacity-75 justify-center top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded">
+            <form className="content-wrapper w-[75%] flex flex-col m-auto text-center gap-4">
+                <h1 className="w-full font-michroma text-[3rem] text-pearl-white font-light">Create Account</h1>
+                <div className="input-box w-full rounded bg-[#121212] py-3">
                     <input
-                        className="text-spun-pearl"
-                        type="text"
+                        className="w-full font-michroma text-[1rem] text-silver bg-transparent pl-3"
+                        type="username"
                         id="username"
                         placeholder="username"
                         value={username}
@@ -55,25 +75,29 @@ const SignupForm: React.FC = () => {
                         required
                     />
                 </div>
-                <div className="input-box bg-gray-200 rounded">
-                    <input type="text"
-                           className="text-spun-pearl"
-                           id="password"
-                           placeholder="password"
-                           value={password}
-                           onChange={handlePasswordChange}
-                           required
+                <div className="input-box w-full rounded bg-[#121212] py-3">
+                    <input
+                        className="w-full font-michroma text-[1rem] text-silver bg-transparent pl-3"
+                        type="password"
+                        id="password"
+                        placeholder="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required
                     />
                 </div>
-                <button className="signup-btn bg-Purple rounded" type="submit">create account</button>
-                <div className="remember-forgot-box">
-                    <p>Already have an account? <button>Login here.</button></p>
-                </div>
-                <div className="requirements-container">
-                    <p>requirements</p>
-                    <p>password length of 8</p>
-                    <p>1 special character</p>
-                    <p>1 uppercase character</p>
+                <button className="signup-btn w-full font-michroma bg-Purple text-pearl-white text-center rounded p-3"
+                        type="submit" onClick={handleSignup}>Create Account
+                </button>
+                <div className="remember-forgot-box w-full flex flex-col">
+                    <p className="font-michroma text-silver text-[1rem] m-1 whitespace-normal">
+                        Password requirements:
+                        - 1 Special Character
+                        - 8 Character Length
+                        - 1 Uppercase
+                    </p>
+                    {message && <p className="font-michroma text-Purple text-[1rem] m-1">{message}</p>}
+                    {error && <p className="font-michroma text-red-800 text-[1rem] m-1">{error}</p>}
                 </div>
             </form>
         </div>

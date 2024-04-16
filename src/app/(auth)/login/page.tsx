@@ -1,12 +1,14 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from "next/navigation";
+import Link from "next/link";
 
-const SignupPage: React.FC = () => {
+const LoginPage: React.FC = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const formRef = useRef<HTMLDivElement>(null);
     const router = useRouter()
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
@@ -19,7 +21,7 @@ const SignupPage: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const response = await fetch('api/signup', {
+            const response = await fetch('api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,17 +37,17 @@ const SignupPage: React.FC = () => {
             } else {
                 setMessage(null);
                 setError(data.error);
-                console.error('Signup failed:', data.error);
+                console.error('Login failed:', data.error);
             }
         } catch (error : any) {
-            console.error('Signup failed:', error.response?.data);
+            console.error('Login failed:', error.response?.data);
         }
     };
 
     return (
-        <div className="fixed w-[500px] h-[500px] bg-black bg-opacity-75 justify-center top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded">
+        <div ref={formRef}  className="fixed w-[500px] h-[500px] bg-black bg-opacity-75 justify-center top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded">
             <form className="content-wrapper w-[75%] flex flex-col m-auto text-center gap-4">
-                <h1 className="w-full font-michroma text-[3rem] text-pearl-white font-light">Create account</h1>
+                <h1 className="w-full font-michroma text-[3rem] text-pearl-white font-light">Sign In</h1>
                 <div className="input-box w-full rounded bg-[#121212] py-3">
                     <input
                         className="w-full font-michroma text-[1rem] text-silver bg-transparent pl-3"
@@ -68,16 +70,10 @@ const SignupPage: React.FC = () => {
                         required
                     />
                 </div>
-                <button className="signup-btn w-full font-michroma bg-Purple text-pearl-white text-center rounded p-3"
-                        type="submit" onClick={handleLogin}>Sign In
-                </button>
+                <button className="signup-btn w-full font-michroma bg-Purple text-pearl-white text-center rounded p-3" type="submit" onClick={handleLogin}>Sign In</button>
                 <div className="remember-forgot-box w-full flex flex-col">
-                    <p className="font-michroma text-silver text-[1rem] m-1">
-                        Password requirements:
-                        - 1 Special Character
-                        - 8 Character Length
-                        - 1 Uppercase
-                    </p>
+                    <p className="font-michroma text-silver text-[1rem] m-1">New here? <Link href={"./signup"} className="font-michroma text-pearl-white text-[1rem] no-underline">Create an account.</Link></p>
+                    <p className="font-michroma text-silver text-[1rem] m-1">Forgot password? <Link href={""} className="font-michroma text-pearl-white text-[1rem] no-underline">Reset password.</Link></p>
                     {message && <p className="font-michroma text-Purple text-[1rem] m-1">{message}</p>}
                     {error && <p className="font-michroma text-red-800 text-[1rem] m-1">{error}</p>}
                 </div>
@@ -86,4 +82,4 @@ const SignupPage: React.FC = () => {
     )
 };
 
-export default SignupPage;
+export default LoginPage;

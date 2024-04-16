@@ -1,7 +1,8 @@
-'use server';
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import {cookies} from "next/headers";
+import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -63,7 +64,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
         });
 
-        return NextResponse.json({ message: 'User registered successfully', user: newUser }, {status: 201});
+        // Generate JWT token
+        const jwtToken = jwt.sign({ userid: newUser.userid, username: newUser.username }, `${process.env.JWT_SECRET}`, {
+            expiresIn: `${process.env.JWT_EXPIRES_IN}`
+        });
+        if (cookies().has('token')) {
+            return NextResponse.json({ message: 'User already signed in'}, {status: 201});
+        }
+        cookies().set('token', jwtToken, {httpOnly: true, maxAge: 21600, secure: false, path: '/', sameSite: 'lax'}); //secure set to true in production
+        return NextResponse.json({ message: 'User registered successfully', userid: newUser.userid, username: newUser.username }, {status: 201});
     } catch (error) {
         console.error('Error registering user:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, {status: 500});

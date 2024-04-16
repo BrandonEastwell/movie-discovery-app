@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "custom-gradient": "linear-gradient(179.86deg, #121212 5.21%, #141217 31.71%)",
+      },
       colors: {
         "pearl-white": "#fefdfd",
         "spun-pearl": "#b1bebb",
@@ -34,7 +37,7 @@ module.exports = {
         montserrat: ["Montserrat", 'sans-serif'],
         vt323: "VT323",
         poppins: "Poppins",
-        robotomono: ["Roboto-Mono", 'sans-serif'],
+        robotomono: ["Roboto Mono", 'monospace'],
         michroma: "Michroma",
       },
       borderRadius: {
