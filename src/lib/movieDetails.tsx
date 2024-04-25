@@ -1,6 +1,17 @@
 import fetchTMDB from "../app/api/themoviedb/fetchTMDB";
 
 export async function getMovieDetails(id:number) {
-    console.log(id)
     return fetchTMDB(`movie/${id}`, "GET")
+}
+
+export async function getMovieCredits(id:number) {
+    return fetchTMDB(`movie/${id}/credits?language=en-US`, "GET")
+}
+
+export async function getMovieWatchProviders(id:number) {
+    return fetchTMDB(`movie/${id}/watch/providers`, "GET")
+}
+
+export async function getMovieVideos(id:number) {
+    return fetchTMDB(`movie/${id}/videos?language=en-US`, "GET")
 }

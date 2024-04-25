@@ -1,8 +1,8 @@
 'use client'
-import "../../styles/globals.css"
 import React, {useEffect, useState} from "react";
 import WatchlistBtn from "../../../../components/client/create-watchlist-btn";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 interface PlaylistProps {
     playlistid: number;
@@ -10,9 +10,9 @@ interface PlaylistProps {
     playlist_desc: string | null;
 }
 
-export async function Page() {
+export function Page() {
     const [playlists, setPlaylists] = useState<PlaylistProps[]>([]);
-
+    const router = useRouter()
     useEffect(() => {
         const getPlaylists = async () => {
             try {
@@ -41,22 +41,31 @@ export async function Page() {
         getPlaylists()
     }, []);
 
+    const handleNavigate = (e: any) => {
+        const values = e.currentTarget.value
+        const [playlist_name, playlistid] = values.split(','); // Split combined value
+        router.push(`watchlists/${playlist_name}?id=${playlistid}`)
+
+    }
 
     return (
-        <div className="wrapper w-full h-full flex flex-col gap-10 items-start justify-start flex-nowrap">
+        <div className="wrapper w-full h-full flex flex-col gap-2 items-start justify-start flex-nowrap">
             <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                 Your watchlists
             </b>
             <WatchlistBtn></WatchlistBtn>
-            <div className="flex flex-row flex-wrap "> {
+            <div className="flex flex-row flex-wrap mt-10 gap-10"> {
                 playlists.map((playlist, index) => (
-                <div key={playlist.playlistid} className="flex flex-col gap-1 max-h-[300px] max-w-[250px] align-middle">
-                    <Link href={`/${playlist.playlist_name}?id=${playlist.playlistid.toString()}`} className="max-h-[250px] max-w-[250px]">
-                        <div className="w-[250px] h-[250px] bg-black"></div>
-                        <p className="w-full text-left font-michroma text-pearl-white text-[1rem] p-2">{playlist.playlist_name}</p>
-                        <p className="w-full text-left font-michroma text-silver opacity-75 text-[0.8rem] p-2 overflow-hidden">{playlist.playlist_desc}</p>
-                    </Link>
-                </div>))}
+                    <div key={playlist.playlistid} className="max-h-[300px] max-w-[250px] p-4 rounded bg-[#212121]">
+                        <div className="flex flex-col justify-start gap-1 max-h-[300px] max-w-[250px] align-middle">
+                            <button onClick={handleNavigate} value={`${playlist.playlist_name},${playlist.playlistid}`} className="cursor-pointer no-underline bg-transparent p-0 m-0">
+                                <div className="w-[225px] h-[225px] bg-black"></div>
+                                <p className="w-full text-left font-vt323 text-pearl-white text-[1.5rem] m-0 pt-1 whitespace-nowrap">{playlist.playlist_name}</p>
+                                <p className="w-full text-left font-vt323 text-silver opacity-75 text-[0.8rem] m-0 overflow-hidden whitespace-nowrap">{playlist.playlist_desc}</p>
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     )

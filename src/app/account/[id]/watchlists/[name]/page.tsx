@@ -1,5 +1,4 @@
 'use client'
-import "../../styles/globals.css"
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname, useSearchParams} from "next/navigation";
@@ -16,7 +15,7 @@ interface Movie {
     backdrop_path: string;
 }
 
-export async function Page() {
+export function Page() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [playlists, setPlaylists] = useState<PlaylistProps[]>([]);
     const searchParams = useSearchParams()
@@ -65,14 +64,13 @@ export async function Page() {
     return (
         <div className="wrapper w-full h-full flex flex-col gap-10 items-start justify-start flex-nowrap">
             <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
-                Your watchlists
+                {playlistName}
             </b>
-            <div className="flex flex-col flex-wrap gap-1">
-                <p className="w-full text-left font-michroma text-pearl-white text-[1rem] p-2">{playlistName}</p> {
+            <div className="flex flex-col flex-wrap gap-5"> {
                 movies.map((movie, index) => (
-                    <Link key={movie.id} href={`http://localhost:3000/title/${movie.id}`}>
-                        <div className="flex flex-row max-h-[50px] max-w-full w-auto align-middle gap-1">
-                            <p className="w-auto text-left font-michroma text-silver opacity-75 text-[0.8rem] p-2 overflow-hidden">{findPositionByMovieId(movie.id)}</p>
+                    <Link key={movie.id} href={`http://localhost:3000/title/${movie.id}`} className="no-underline">
+                        <div className="flex flex-row max-h-[50px] max-w-full w-auto justify-start items-center gap-1">
+                            <p className="w-auto text-left font-michroma text-silver opacity-75 text-[0.8rem] overflow-hidden m-0 p-2">{findPositionByMovieId(movie.id)}</p>
                             {movie.backdrop_path
                                 && (
                                     <Image className="w-[50px] h-[50px] dark:shadow-gray-800 object-cover object-center"
@@ -83,7 +81,7 @@ export async function Page() {
                                            height={50}
                                     />
                                 )}
-                            <p className="w-full text-left font-michroma text-pearl-white text-[1rem] p-2">{movie.title}</p>
+                            <p className="w-full text-left font-michroma text-pearl-white text-[1rem] m-0 p-2">{movie.title}</p>
                         </div>
                     </Link>
                 ))}

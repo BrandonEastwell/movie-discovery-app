@@ -4,7 +4,7 @@ import WatchlistBtn from "./create-watchlist-btn";
 
 interface WatchlistListProps {
     cursorPosition: { x: number; y: number };
-    movieid: number;
+    movieid: number | undefined;
 }
 interface PlaylistProps {
     playlistid: number;
@@ -48,7 +48,7 @@ const Watchlist: React.FC<WatchlistListProps> = ({ cursorPosition, movieid}) => 
         const values = e.currentTarget.value
         const [playlistid, movieid] = values.split(','); // Split combined value
         try {
-            const response = await fetch('http://localhost:3000/api/watchlist-add', {
+            const response = await fetch('http://localhost:3000/api/watchlist-movies', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

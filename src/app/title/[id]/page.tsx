@@ -1,6 +1,6 @@
 import React from "react";
-import {getMovieDetails} from "../../../lib/movieDetails";
-import Image from 'next/image'
+import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../lib/movieDetails";
+import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: number } }) {
     interface Movie {
@@ -9,34 +9,189 @@ export default async function Page({ params }: { params: { id: number } }) {
         poster_path: string;
         release_date: string;
         runtime: number;
-        genres: [id: number, name: string];
-
+        genres: [genre];
+        popularity: number;
+        budget: number;
+        backdrop_path: string;
+        overview: string;
 
     }
-    const movieData = await getMovie(params.id)
-    const movie: Movie = movieData as Movie
+
+    interface genre {
+        id: number, name: string
+    }
+    interface Providers {
+        // Key represents the two-letter ISO code for the country (e.g., "AD" for Andorra)
+        results: {
+            [countryCode: string]: WatchProviderInfo | undefined;
+        };
+    }
+
+    interface WatchProviderInfo {
+        link?: string; // Link to the watch provider page for this movie
+        flatrate?: WatchProviderDetails[]; // Streaming services with flatrate access
+        rent?: WatchProviderDetails[]; // Streaming services with rental options
+        buy?: WatchProviderDetails[]; // Streaming services with purchase options
+    }
+
+    interface WatchProviderDetails {
+        logo_path?: string; // URL for the logo of the provider
+        provider_id: number; // Unique identifier for the provider
+        provider_name: string; // Name of the provider (e.g., "Netflix")
+        display_priority?: number; // Priority for displaying the provider (lower is higher priority)
+    }
+
+    interface Trailer {
+        id: string;
+        key: string; // YouTube video key
+        site: string; // Site hosting the video (e.g., "YouTube")
+        size?: number; // Video resolution (e.g., 1080)
+        // Other video details can be added here if needed
+    }
+
+    interface VideosResponse {
+        results: Trailer[];
+    }
+
+    function getOfficialTrailers(data: { results: any[] }): Trailer[] {
+        const trailers: Trailer[] = [];
+        data.results.forEach((video) => {
+            if (video.type === "Trailer" && video.official === true) {
+                trailers.push({
+                    id: video.id,
+                    key: video.key,
+                    site: video.site,
+                    size: video.size, // Include size if available
+                });
+            }
+        });
+        return trailers;
+    }
+
+
+    const movie: Movie = await getMovieDetails(params.id)
+    const providers: Providers = await getMovieWatchProviders(params.id)
+    const videos: VideosResponse = await getMovieVideos(params.id)
+    const trailers: Trailer[] = getOfficialTrailers(videos)
+    const youtubeId = trailers[0].id
+    let showVideo = false
+    const gbProvider = providers.results["GB"]; // Access provider info for UK ("GB")
 
     return (
-        <div className="grid grid-cols-layout grid-rows-layout">
-            <div className="content-wrapper col-start-2 row-start-2">
-                <div className="content flex flex-col flex-wrap">
-                    <Image className="dark:shadow-gray-800 object-contain"
-                         src={`${movie.poster_path}`}
-                         alt={`${movie.title} Poster`}
-                           width={80}
-                           height={80}
+        <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
+            <b className="flex items-center text-[4rem] font-vt323 text-pearl-white mt-4 font-medium uppercase">
+                {movie.title}
+            </b>
+            <div className="flex flex-row flex-nowrap justify-start">
+                {movie.genres.map((genre) => (
+                    <p key={genre.id}
+                       className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">
+                        {genre.name}
+                    </p>
+                ))}
+            </div>
+            <div className="video-container w-full">
+                {movie.poster_path
+                    && (
+                        <img className="w-full dark:shadow-gray-800 object-cover object-center overflow-hidden"
+                             src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
+                             alt={`${movie?.title} Poster`}
+                        />
+                    )}
+                {showVideo && ( // Render iframe only if youtubeId exists
+                    <iframe
+                        width="100%"
+                        src={`https://www.youtube.com/embed/${youtubeId}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title="Embedded youtube video"
+                        className="w-full h-auto"
                     />
-                    <div>Release Date: {movie.release_date}</div>
-                    <div>Runtime: {movie.runtime} Minutes</div>
-                    <div>Provider: Netflix</div>
+                )}
+            </div>
+            <div className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
+                <div className="flex flex-col">
+                    <div className="flex flex-row flex-nowrap justify-between">
+                        <p className="text-pearl-white text-[1.5rem] m-0">where to watch</p>
+                    </div>
+                    <div className="flex flex-row flex-wrap justify-start"> {/* Use flex-wrap for wrapping logos */}
+                        <div className="flex flex-col mr-4">
+                            {gbProvider?.flatrate && (
+                                <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">stream</p>
+                            )}
+                            <div className="flex flex-row">
+                                {gbProvider && gbProvider.flatrate?.map((provider) => ( // Check if provider exists and has flatrate options
+                                    <div key={provider.provider_id} className="mr-4">
+                                        {provider.logo_path && ( // Check if logo path exists
+                                            <Link href={``} className="cursor-pointer">
+                                                <img
+                                                    className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                    alt={`${provider.provider_name} Logo`}
+                                                    width={50}
+                                                    height={50}
+                                                />
+                                            </Link>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            {gbProvider?.rent && (
+                                <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">buy/rent - digital</p>
+                            )}
+                            <div className="flex flex-row">
+                                {gbProvider && gbProvider.rent?.map((provider) => ( // Check if provider exists and has flatrate options
+                                    <div key={provider.provider_id} className="mr-4">
+                                        {provider.logo_path && ( // Check if logo path exists
+                                            <Link href={``} className="cursor-pointer">
+                                                <img
+                                                    className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                    alt={`${provider.provider_name} Logo`}
+                                                    width={50}
+                                                    height={50}
+                                                />
+                                            </Link>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
+                <div className="flex flex-col w-[45%]">
+                    <div className="flex flex-row flex-nowrap justify-between border-b border-gray-100">
+                        <p className="text-pearl-white text-[1.5rem]">Details</p>
+                    </div>
+                    <div className="flex flex-row flex-nowrap justify-between">
+                        <p className="text-gray-100 opacity-75">Release Date</p>
+                        <p className="text-pearl-white">{movie.release_date}</p>
+                    </div>
+                    <div className="flex flex-row flex-nowrap justify-between">
+                        <p className="text-gray-100 opacity-75">Duration</p>
+                        <p className="text-pearl-white">{movie.runtime} minutes</p>
+                    </div>
+                    <div className="flex flex-row flex-nowrap justify-between">
+                        <p className="text-gray-100 opacity-75">Budget</p>
+                        <p className="text-pearl-white">
+                            {movie.budget ? (movie.budget / 1000000).toFixed(0) + ' Million' : '-'}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex flex-col w-[45%]">
+                    <div className="flex flex-row flex-nowrap justify-between">
+                        <p className="text-pearl-white text-[1.5rem]">overview</p>
+                    </div>
+                    <div className="flex flex-row flex-nowrap justify-between lowercase">
+                        <p className="text-pearl-white">{movie.overview}</p>
+                    </div>
                 </div>
             </div>
         </div>
     )
-}
-
-async function getMovie(id: number) {
-    let movie = await getMovieDetails(id)
-    console.log(movie)
-    return await movie
 }

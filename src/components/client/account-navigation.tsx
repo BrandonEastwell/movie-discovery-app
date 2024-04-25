@@ -38,22 +38,17 @@ function AccountNavigation() {
                           className="lowercase self-stretch relative no-underline text-[1rem] text-pearl-white font-robotomono">home</Link>
                 </div>
                 <div className="flex flex-row items-start justify-center gap-[1.5rem]">
-                    <span className="material-symbols-outlined text-[1rem]">home</span>
+                    <span className="material-symbols-outlined text-[1rem]">person</span>
                     <Link href={`/account/${userid}`}
                           className="lowercase self-stretch relative no-underline text-[1rem] text-pearl-white font-robotomono">profile</Link>
                 </div>
                 <div className="flex flex-row items-start justify-center gap-[1.5rem]">
-                    <span className="material-symbols-outlined text-[1rem]">home</span>
-                    <Link href={`/account/${userid}/ratings`}
-                          className="lowercase self-stretch relative no-underline leading-[20px] text-[1rem] text-pearl-white font-robotomono">ratings</Link>
-                </div>
-                <div className="flex flex-row items-start justify-center gap-[1.5rem]">
-                    <span className="material-symbols-outlined text-[1rem]">home</span>
+                    <span className="material-symbols-outlined text-[1rem]">playlist_play</span>
                     <Link href={`/account/${userid}/watchlists`}
                           className="lowercase self-stretch relative no-underline text-[1rem] text-pearl-white font-robotomono">watchlists</Link>
                 </div>
                 <div className="flex flex-row items-start justify-center gap-[1.5rem]">
-                    <span className="material-symbols-outlined text-[1rem]">home</span>
+                    <span className="material-symbols-outlined text-[1rem]">favorite</span>
                     <Link href={`/account/${userid}/favourites`}
                           className="lowercase self-stretch relative no-underline text-[1rem] text-pearl-white font-robotomono">favourites</Link>
                 </div>

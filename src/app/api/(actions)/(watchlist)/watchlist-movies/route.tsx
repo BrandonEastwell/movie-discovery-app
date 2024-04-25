@@ -94,6 +94,5 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 async function getMovie(id: number) {
     let movie = await getMovieDetails(id)
-    console.log(movie)
     return await movie
 }

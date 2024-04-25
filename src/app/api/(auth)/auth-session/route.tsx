@@ -5,7 +5,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }
-    console.log('AUTH SESSION Request Headers:', req.headers);
 
     const cookieHeader = req.headers.get('cookie');
     if (!cookieHeader) {

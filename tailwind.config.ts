@@ -17,7 +17,7 @@ module.exports = {
         'layout': 'minmax(2rem, 25rem) 1fr',
       },
       gridTemplateRows: {
-        'layout': 'minmax(2rem, 7rem) minmax(2rem, 7rem) 1fr',
+        'layout': 'minmax(1rem, 5rem) minmax(1rem, 2.5rem) 1fr',
       },
       spacing: {},
       fontFamily: {

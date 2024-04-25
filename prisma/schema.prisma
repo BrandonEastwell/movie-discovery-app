@@ -79,7 +79,9 @@ model playlistmovies {
 
 model userpreferences {
   userid         Int      @id
-  preferredgenre String?  @db.VarChar(50)
+  preferredGenre   String?   @db.VarChar(100)
+  preferredCast    String?   @db.VarChar(100)
+  preferredCrew    String?   @db.VarChar(100)
   accounts       accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
 }
 
