@@ -92,5 +92,6 @@ const WatchlistForm = forwardRef((props, ref) => {
             </div>
         ))
 });
+WatchlistForm.displayName = 'WatchlistForm';
 
 export default WatchlistForm;

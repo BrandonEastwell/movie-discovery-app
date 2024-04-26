@@ -117,5 +117,5 @@ const LoginForm = forwardRef((props, ref) => {
             </div>
         ))
 });
-
+LoginForm.displayName = 'LoginForm';
 export default LoginForm;
