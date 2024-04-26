@@ -39,7 +39,7 @@ export async function Page({ params }: { params: { id: string } }) {
         <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
             <div className="flex flex-row flex-nowrap justify-start mt-4">
                 <b className="flex items-center text-[4rem] font-vt323 text-pearl-white mt-4 font-medium uppercase">
-                    {accountDetails?.username}'s ACCOUNT
+                    {accountDetails?.username}
                 </b>
                 <p className="text-[0.75rem] text-gray-100 opacity-75 uppercase font-roboto-mono ml-4 mt-auto">
                     {formattedDate}
