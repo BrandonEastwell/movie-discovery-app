@@ -1,4 +1,4 @@
-// api/login/route.tsx
+// api/login.tsx/route.tsx
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         // Set token as a cookie using the response headers
         const cookieHeaderValue = `token=${jwtToken}; HttpOnly; Max-Age=21600; Path=/; SameSite=Lax Domain=localhost`;
-        res = NextResponse.json({ message: 'Successful login', userid: user.userid, username: user.username }, {
+        res = NextResponse.json({ message: 'Successful login.tsx', userid: user.userid, username: user.username }, {
             status: 201,
             headers: {
                 'Set-Cookie': cookieHeaderValue

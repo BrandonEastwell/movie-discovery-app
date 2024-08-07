@@ -1,0 +1,64 @@
+import "./styles/globals.css"
+import {MovieList, Recommended} from '../components/client/movies-list';
+import {getTrendingWeekMovie, getTopRated, getUpcoming, getPopular} from "../lib/movieLists";
+import HeaderBar from "../components/server/header-bar";
+import SearchBar from "../components/client/search-bar";
+import UserNavigation from "../components/client/user-navigation";
+import React from "react";
+
+export async function Page() {
+    const trending = await getTrendingWeekMovie()
+    const topRated = await getTopRated()
+    const popular = await getPopular()
+    const upcoming = await getUpcoming()
+
+    return (
+        <div className="container grid grid-cols-layout grid-rows-layout w-screen max-w-[1920px]">
+            <div className="header relative col-span-2 z-10 bg-transparent">
+                <HeaderBar/>
+            </div>
+            <div className="search relative col-span-2 z-10 bg-transparent">
+                <SearchBar/>
+            </div>
+            <div className="navigation relative col-span-1 row-start-3 z-10 bg-transparent">
+                <UserNavigation/>
+            </div>
+            <div
+                className="main-content w-full h-full col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar">
+                <div className="w-full h-100 flex flex-col gap-10 justify-start overflow-auto no-scrollbar">
+                    <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+                        TRENDING FILM
+                    </b>
+                    <div
+                        className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                        <MovieList movies={trending.results}/>
+                    </div>
+                    <Recommended></Recommended>
+                    <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+                        POPULAR FILM
+                    </b>
+                    <div
+                        className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                        <MovieList movies={popular.results}/>
+                    </div>
+                    <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+                        CRITICALLY ACCLAIMED FILM
+                    </b>
+                    <div
+                        className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                        <MovieList movies={topRated.results}/>
+                    </div>
+                    <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+                        UPCOMING FILM
+                    </b>
+                    <div
+                        className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                        <MovieList movies={upcoming.results}/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Page

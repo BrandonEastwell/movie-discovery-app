@@ -29,7 +29,7 @@ export const authSession = (req: NextRequest, res: NextResponse) => {
                 return NextResponse.redirect(new URL(`${origin}/login?expired=true`));
             } else {
                 console.error('Error verifying JWT token:', error);
-                // If JWT verification fails for another reason, redirect to the login page
+                // If JWT verification fails for another reason, redirect to the login.tsx page
                 return NextResponse.redirect(new URL(`${origin}/login`));
             }
         }

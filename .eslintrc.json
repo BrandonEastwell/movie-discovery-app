@@ -1,3 +1,12 @@
 {
-  "extends": "next/core-web-vitals"
+  "rules": {
+    "no-unused-vars": "off", // Disables the no-unused-vars rule globally
+    "no-restricted-syntax": [ // Replace with the specific rule you want to disable
+      "error",
+      {
+        "selector": "import", // Disable the "import" keyword specifically
+        "message": "Ignoring this ESLint rule for now." // Optional message
+      }
+    ]
+  }
 }

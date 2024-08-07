@@ -13,8 +13,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const body = await req.json();
     const password = body.password;
     const username = body.username;
-    console.log(password);
-    console.log(username);
     try {
         // Checks if password meets the conditions of a good password
         if (typeof password !== 'string' || password.trim().length === 0) {
@@ -42,9 +40,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 return NextResponse.json({ error: 'Password must meet the safety conditions (1 uppercase)' }, {status: 400});
             }
         }
+
+
         //hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        console.log(password)
+        console.log(hashedPassword)
 
         // Check if username already exists
         const existingUser = await prisma.accounts.findFirst({

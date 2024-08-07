@@ -15,7 +15,7 @@ const HeaderMenu: React.FC = () => {
 
     useEffect(() => {
         const handleOutSideClick = (event: MouseEvent) => {
-            // Check if the clicked element is not part of the login form
+            // Check if the clicked element is not part of the login.tsx form
             if (formRef.current && !formRef.current.contains(event.target as Node)) {
                 setIsVisible(false);
             }

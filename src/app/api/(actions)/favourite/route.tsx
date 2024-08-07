@@ -50,7 +50,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             });
             return NextResponse.json({ result: "favourite added" }, {status: 200});
         } else {
-            // Redirect to login page if authentication fails
+            // Redirect to login.tsx page if authentication fails
             return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
         }
     } catch (error) {
