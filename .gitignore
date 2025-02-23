@@ -17,27 +17,10 @@ node_modules/
 out/
 dist/
 
-# TypeScript
-*.tsbuildinfo
 
 # Prisma
-prisma/migrations/
-prisma/*.db
-prisma/*.sqlite
-
-# Next.js specific
-.next/
-.next-env.d.ts
-
-# Config files that may contain sensitive data
-next.config.js
-nodemon.json
-tsconfig.json
-
-# Lock files (optional, depending on preference)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+prisma/generated
+.prisma/client
 
 # Miscellaneous
 .DS_Store
