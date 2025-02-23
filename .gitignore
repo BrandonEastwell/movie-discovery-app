@@ -1,11 +1,47 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-/node_modules/
-/node_modules/flatted/
-/.idea
+# Environment variables
+.env
+
+# Logs
+*.log
+debug.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Dependency directories
+node_modules/
+
+# Build outputs
+.next/
+out/
+dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Prisma
+prisma/migrations/
+prisma/*.db
+prisma/*.sqlite
+
+# Next.js specific
+.next/
+.next-env.d.ts
+
+# Config files that may contain sensitive data
+next.config.js
+nodemon.json
+tsconfig.json
+
+# Lock files (optional, depending on preference)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
