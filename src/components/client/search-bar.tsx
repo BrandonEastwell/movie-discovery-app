@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {useSearchParams, useRouter, usePathname} from 'next/navigation';
 
 const SearchBar: React.FC = () => {
-    const searchParams = useSearchParams();
     const router = useRouter()
     const [searchTerm, setSearchTerm] = useState({
         q: "",

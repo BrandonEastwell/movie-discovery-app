@@ -2,56 +2,57 @@ import React from "react";
 import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../lib/movieDetails";
 import Link from "next/link";
 
-export default async function Page({ params }: { params: { id: number } }) {
-    interface Movie {
-        id: number;
-        title: string;
-        poster_path: string;
-        release_date: string;
-        runtime: number;
-        genres: [genre];
-        popularity: number;
-        budget: number;
-        backdrop_path: string;
-        overview: string;
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    release_date: string;
+    runtime: number;
+    genres: [genre];
+    popularity: number;
+    budget: number;
+    backdrop_path: string;
+    overview: string;
 
-    }
+}
 
-    interface genre {
-        id: number, name: string
-    }
-    interface Providers {
-        // Key represents the two-letter ISO code for the country (e.g., "AD" for Andorra)
-        results: {
-            [countryCode: string]: WatchProviderInfo | undefined;
-        };
-    }
+interface genre {
+    id: number, name: string
+}
+interface Providers {
+    // Key represents the two-letter ISO code for the country (e.g., "AD" for Andorra)
+    results: {
+        [countryCode: string]: WatchProviderInfo | undefined;
+    };
+}
 
-    interface WatchProviderInfo {
-        link?: string; // Link to the watch provider page for this movie
-        flatrate?: WatchProviderDetails[]; // Streaming services with flatrate access
-        rent?: WatchProviderDetails[]; // Streaming services with rental options
-        buy?: WatchProviderDetails[]; // Streaming services with purchase options
-    }
+interface WatchProviderInfo {
+    link?: string; // Link to the watch provider page for this movie
+    flatrate?: WatchProviderDetails[]; // Streaming services with flatrate access
+    rent?: WatchProviderDetails[]; // Streaming services with rental options
+    buy?: WatchProviderDetails[]; // Streaming services with purchase options
+}
 
-    interface WatchProviderDetails {
-        logo_path?: string; // URL for the logo of the provider
-        provider_id: number; // Unique identifier for the provider
-        provider_name: string; // Name of the provider (e.g., "Netflix")
-        display_priority?: number; // Priority for displaying the provider (lower is higher priority)
-    }
+interface WatchProviderDetails {
+    logo_path?: string; // URL for the logo of the provider
+    provider_id: number; // Unique identifier for the provider
+    provider_name: string; // Name of the provider (e.g., "Netflix")
+    display_priority?: number; // Priority for displaying the provider (lower is higher priority)
+}
 
-    interface Trailer {
-        id: string;
-        key: string; // YouTube video key
-        site: string; // Site hosting the video (e.g., "YouTube")
-        size?: number; // Video resolution (e.g., 1080)
-        // Other video details can be added here if needed
-    }
+interface Trailer {
+    id: string;
+    key: string; // YouTube video key
+    site: string; // Site hosting the video (e.g., "YouTube")
+    size?: number; // Video resolution (e.g., 1080)
+    // Other video details can be added here if needed
+}
 
-    interface VideosResponse {
-        results: Trailer[];
-    }
+interface VideosResponse {
+    results: Trailer[];
+}
+
+export default async function Page({ params }: { params: Promise<{ id: number }> }) {
 
     function getOfficialTrailers(data: { results: any[] }): Trailer[] {
         const trailers: Trailer[] = [];
@@ -68,10 +69,9 @@ export default async function Page({ params }: { params: { id: number } }) {
         return trailers;
     }
 
-
-    const movie: Movie = await getMovieDetails(params.id)
-    const providers: Providers = await getMovieWatchProviders(params.id)
-    const videos: VideosResponse = await getMovieVideos(params.id)
+    const movie: Movie = await getMovieDetails((await params).id)
+    const providers: Providers = await getMovieWatchProviders((await params).id)
+    const videos: VideosResponse = await getMovieVideos((await params).id)
     const trailers: Trailer[] = getOfficialTrailers(videos)
     const youtubeId = trailers[0].id
     let showVideo = false

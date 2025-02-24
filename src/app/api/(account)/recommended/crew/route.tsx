@@ -7,7 +7,8 @@ import { prisma } from "../../../../../lib/prisma";
 interface Person {
     name: string;
 }
-export async function GET(req: NextRequest, res: NextResponse) {
+
+export async function GET(req: NextRequest) {
     if (req.method !== 'GET') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }

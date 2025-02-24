@@ -3,7 +3,7 @@ import {getMoviesByDiscoveryGenre} from "../../../../../lib/movieLists";
 import {authSession} from "../../../../../lib/authenticate";
 import { prisma } from "../../../../../lib/prisma";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
     if (req.method !== 'GET') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }

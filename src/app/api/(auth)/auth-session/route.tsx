@@ -1,7 +1,7 @@
 import {TokenExpiredError, verify} from "jsonwebtoken";
 import {NextRequest, NextResponse} from "next/server";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }

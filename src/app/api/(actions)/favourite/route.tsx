@@ -3,7 +3,7 @@ import {authSession} from "../../../../lib/authenticate";
 import {getMovieDetails} from "../../../../lib/movieDetails";
 import { prisma } from "../../../../lib/prisma";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     let userid: number | null = null;
     let movieid: number | null = null;
     if (req.method !== 'POST') {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
     if (req.method !== 'GET') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }

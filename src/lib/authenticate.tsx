@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {TokenExpiredError, verify} from "jsonwebtoken";
+
 export const authSession = (req: NextRequest) => {
     const cookieHeader = req.headers.get('cookie');
     if (!cookieHeader) {
@@ -22,7 +23,7 @@ export const authSession = (req: NextRequest) => {
                 message: 'Authentication Successful',
                 userid: userid,
                 username: username
-            }, {status: 201});
+            }, {status: 200});
         } catch (error) {
             console.error('Error authenticating user:', error);
             if (error instanceof TokenExpiredError) {

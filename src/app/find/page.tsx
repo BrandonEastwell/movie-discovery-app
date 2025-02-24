@@ -1,8 +1,9 @@
 import MoviesSearch from "../../components/client/movies-search";
 import {getMediaBySearch} from "../../lib/movieLists";
 import React from "react";
-export async function Page({ searchParams, }: { searchParams?: { q?: string; }; }) {
-    const query = searchParams?.q || '';
+
+export default async function Page({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
+    const query = (await searchParams)?.q || '';
 
     const moviesResult = await getMediaBySearch(query.replaceAll(' ', '%20'));
         return (
@@ -16,5 +17,3 @@ export async function Page({ searchParams, }: { searchParams?: { q?: string; }; 
             </div>
         )
 }
-
-export default Page

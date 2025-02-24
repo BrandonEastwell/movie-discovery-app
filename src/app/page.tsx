@@ -6,11 +6,22 @@ import SearchBar from "../components/client/search-bar";
 import UserNavigation from "../components/client/user-navigation";
 import React from "react";
 
-export async function Page() {
+async function fetchMovieData() {
     const trending = await getTrendingWeekMovie()
     const topRated = await getTopRated()
     const popular = await getPopular()
     const upcoming = await getUpcoming()
+
+    return {
+        trending,
+        topRated,
+        popular,
+        upcoming
+    }
+}
+
+export default async function Page() {
+    const { trending, topRated, popular, upcoming } = await fetchMovieData()
 
     return (
         <div className="container grid grid-cols-layout grid-rows-layout w-screen max-w-[1920px]">
@@ -60,5 +71,3 @@ export async function Page() {
         </div>
     )
 }
-
-export default Page

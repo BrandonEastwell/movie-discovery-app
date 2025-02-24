@@ -9,7 +9,7 @@
       "esnext"
     ],
     "allowJs": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     //"noEmit": true,

@@ -4,7 +4,7 @@ import {cookies} from "next/headers";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../../../lib/prisma";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed
     }
