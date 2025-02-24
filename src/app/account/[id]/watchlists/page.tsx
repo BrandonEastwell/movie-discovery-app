@@ -9,7 +9,7 @@ interface PlaylistProps {
     playlist_desc: string | null;
 }
 
-export function Page() {
+export default function Page() {
     const [playlists, setPlaylists] = useState<PlaylistProps[]>([]);
     const router = useRouter()
     useEffect(() => {
@@ -69,5 +69,3 @@ export function Page() {
         </div>
     )
 }
-
-export default Page
