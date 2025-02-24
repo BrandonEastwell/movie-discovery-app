@@ -15,7 +15,7 @@ interface Movie {
     backdrop_path: string;
 }
 
-export function Page() {
+export default function Page() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [playlists, setPlaylists] = useState<PlaylistProps[]>([]);
     const searchParams = useSearchParams()
@@ -89,5 +89,3 @@ export function Page() {
         </div>
     )
 }
-
-export default Page
