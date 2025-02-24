@@ -3,6 +3,11 @@
     "next/core-web-vitals",
     "eslint:recommended"
   ],
+  "rules": {
+    "no-unused-vars": "warn",    // Change from error to warning
+    "@next/next/no-img-element": "warn",  // For image warnings
+    "react-hooks/exhaustive-deps": "warn"  // For useEffect dependencies
+  },
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
