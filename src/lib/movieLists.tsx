@@ -1,5 +1,5 @@
 import fetchTMDB from "../app/api/themoviedb/fetchTMDB";
-import {sort} from "next/dist/build/webpack/loaders/css-loader/src/utils";
+
 export async function getMediaBySearch( query:string ) {
     return await fetchTMDB(`search/movie?query=${query}&include_adult=false&language=en-US&page=1`, "GET")
 }

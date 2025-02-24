@@ -2,7 +2,7 @@
   /*"compileOnSave": true,*/
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "esnext",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",

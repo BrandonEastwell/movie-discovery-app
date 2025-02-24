@@ -1,4 +1,5 @@
 import HeaderMenu from "../client/header-menu";
+import React from "react";
 
 const HeaderBar: React.FC = () => {
     return (

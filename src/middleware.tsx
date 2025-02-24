@@ -1,11 +1,11 @@
 import {NextRequest, NextResponse} from 'next/server'
-import jwt, {TokenExpiredError, verify} from "jsonwebtoken";
+import jwt, {TokenExpiredError} from "jsonwebtoken";
 
 export const config = {
     matcher: ['/account/:path*']
 }
 
-export function middleware(req: NextRequest, res: NextResponse) {
+export function middleware(req: NextRequest) {
     const {origin } = req.nextUrl;
     let userid: number | undefined = undefined;
 

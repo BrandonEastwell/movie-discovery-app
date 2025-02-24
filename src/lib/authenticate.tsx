@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {TokenExpiredError, verify} from "jsonwebtoken";
-export const authSession = (req: NextRequest, res: NextResponse) => {
+export const authSession = (req: NextRequest) => {
     const cookieHeader = req.headers.get('cookie');
     if (!cookieHeader) {
         return NextResponse.json({error: 'Cookie header not found'}, {status: 400});

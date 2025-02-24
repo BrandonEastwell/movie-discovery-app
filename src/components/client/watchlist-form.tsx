@@ -3,7 +3,7 @@ import React, {forwardRef, useState} from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const WatchlistForm = forwardRef((props, ref) => {
+const WatchlistForm = forwardRef(() => {
     const [isVisible, setIsVisible] = useState<boolean>(true);
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);

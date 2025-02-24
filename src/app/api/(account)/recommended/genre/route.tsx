@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         // Add more genres as needed
     };
     try {
-        const response = authSession(req, res); // Await the authentication function
+        const response = authSession(req); // Await the authentication function
         if (response.ok) {
             // If authentication is successful, extract userid and username from data
             const data = await response.json(); // Await the JSON response from the authentication function

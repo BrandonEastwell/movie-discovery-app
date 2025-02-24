@@ -74,7 +74,7 @@ const Watchlist: React.FC<WatchlistListProps> = ({ cursorPosition, movieid}) => 
         <div className="absolute bg-[#212121] border p-2 rounded flex flex-col gap-1 z-20" style={{ left: `${cursorPosition.x}px`, top: `${cursorPosition.y}px`, width: '200px', height: 'auto'}}>
             <WatchlistBtn></WatchlistBtn>
             {
-                playlists.map((playlist, index) => (
+                playlists.map((playlist) => (
                     <button key={playlist.playlistid} className="w-full font-robotomono bg-transparent text-pearl-white rounded p-2 cursor-pointer text-start z-20"
                             type="submit" onClick={handlePlaylistAdd} value={`${playlist.playlistid},${movieid}`}>
                         {playlist.playlist_name}
