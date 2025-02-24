@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
-  "type": "commonjs",
   "main": "dist/index.js",
   "engines": {
     "node": "v20.11.x"
