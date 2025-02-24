@@ -3,7 +3,7 @@ import React from "react";
 import {PrismaClient} from "@prisma/client";
 import Link from "next/link";
 
-export async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
     const prisma = new PrismaClient();
     const { id } = params;
     const favouriteMovies= await prisma.favouritemovies.findMany({
@@ -70,5 +70,3 @@ export async function Page({ params }: { params: { id: string } }) {
 
     )
 }
-
-export default Page
