@@ -3,8 +3,8 @@ import React from "react";
 import { prisma } from "../../../lib/prisma";
 import Link from "next/link";
 
-export default async function Page({ params }: { params: { id: string } })  {
-    const { id } = params;
+export default async function Page({ params }: { params: Promise<{ id: string }> })  {
+    const { id } = await params;
     const favouriteMovies= await prisma.favouritemovies.findMany({
         where: {
             userid: parseInt(id)

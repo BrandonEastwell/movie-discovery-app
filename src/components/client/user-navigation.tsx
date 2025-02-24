@@ -6,6 +6,7 @@ import Image from 'next/image'
 import netflix from '../../images/netflix.svg'
 import disney from '../../images/disney.svg'
 import primevideo from '../../images/primevideo.svg'
+
 function UserNavigation() {
         return (
                 <div className="fixed flex flex-col items-start justify-start overflow-hidden w-52 max-w-[200px] text-left text-xl text-gray-100">
