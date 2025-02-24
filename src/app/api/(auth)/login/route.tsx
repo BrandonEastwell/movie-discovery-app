@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             if (len < 8) {
                 return NextResponse.json({ error: 'Password must meet the safety conditions (8 character length)' }, {status: 400});
             }
-            const regex = /[!@#$%^&*()\-+={}[\]:;"'<>,.?\/|\\]/;
+            const regex = /[!@#$%^&*()\-+={}[\]:;"'<>,.?/|\\]/;
             if (!regex.test(password)) {
                 return NextResponse.json({ error: 'Password must meet the safety conditions (1 special character)' }, {status: 400});
             }
@@ -67,8 +67,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
            expiresIn: `${process.env.JWT_EXPIRES_IN}`
         });
 
-        if (cookies().has("token")) {
-            cookies().delete("token");
+        if ((await cookies()).has("token")) {
+            (await cookies()).delete("token");
         }
 
         // Set token as a cookie using the response headers
