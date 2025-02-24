@@ -27,12 +27,9 @@ const Movies: React.FC<MovieListProps> = ({ movies }) => {
     const router = useRouter()
     const [ids, setIds] = useState<number[]>([]);
     const elemRefs = useRef<HTMLParagraphElement[]>([]);
-    const scrollIntervalRef = useRef<NodeJS.Timeout[]>([]);
-    const [scrollDirections, setScrollDirections] = useState<(1 | -1)[]>(movies.map(() => 1)); // 1 for right, -1 for left
     const [isVisible, setIsVisible] = useState(false); // Add isVisible state
     const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
     const [watchlistMovieID, setWatchlistMovieID] = useState<number | undefined>(undefined);
-
 
     useEffect(() => {
         const getFavouriteIds = async () => {
@@ -109,39 +106,6 @@ const Movies: React.FC<MovieListProps> = ({ movies }) => {
     const imageLoader = ({src}: any) => {
         return `https://image.tmdb.org/t/p/w500${src}`;
     }
-
-    useEffect(() => {
-        scrollIntervalRef.current = movies.map((_, index) => {
-            return setInterval(() => {
-                const elem = elemRefs.current[index];
-                if (elem) {
-                    const isAtStart = elem.scrollLeft === 0;
-                    const isAtEnd = elem.scrollLeft + elem.clientWidth === elem.scrollWidth;
-                    if (isAtStart && scrollDirections[index] === -1) {
-                        setScrollDirections((prevDirections) => {
-                            const newDirections = [...prevDirections];
-                            newDirections[index] = 1; // Change direction to right
-                            return newDirections;
-                        });
-                    } else if (isAtEnd && scrollDirections[index] === 1) {
-                        setScrollDirections((prevDirections) => {
-                            const newDirections = [...prevDirections];
-                            newDirections[index] = -1; // Change direction to left
-                            return newDirections;
-                        });
-                    }
-                    elem.scrollTo({
-                        left: elem.scrollLeft + scrollDirections[index],
-                        behavior: 'smooth',
-                    });
-                }
-            }, 50);
-        });
-
-        return () => {
-            scrollIntervalRef.current.forEach((interval) => clearInterval(interval));
-        };
-    }, [movies, scrollDirections]);
 
     const handleRef = (elem: HTMLParagraphElement | null) => {
         if (elem) {

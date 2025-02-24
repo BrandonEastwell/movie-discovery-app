@@ -46,7 +46,7 @@ export function Page() {
         };
 
         fetchMovies();
-    }, []);
+    }, [playlistid]);
 
     if (!movies || movies.length === 0) {
         return <p>No movies found.</p>;
