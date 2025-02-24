@@ -1,16 +1,9 @@
 import "../../styles/globals.css"
 import React from "react";
-import {PrismaClient} from "@prisma/client";
+import { prisma } from "../../../lib/prisma";
 import Link from "next/link";
 
-type AccountPageProps = {
-    params: {
-        id: string;
-    };
-}
-
-export default async function Page({ params }: AccountPageProps)  {
-    const prisma = new PrismaClient();
+export default async function Page({ params }: { params: { id: string } })  {
     const { id } = params;
     const favouriteMovies= await prisma.favouritemovies.findMany({
         where: {

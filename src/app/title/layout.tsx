@@ -1,7 +1,6 @@
 import HeaderBar from "../../components/server/header-bar";
 import UserNavigation from "../../components/client/user-navigation";
 import SearchBar from "../../components/client/search-bar";
-import Footer from "../../components/server/footer";
 import React from "react";
 
 export const metadata = {

@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client';
 import {getMovieDetails} from "../../../../../lib/movieDetails";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../../lib/prisma";
+
 export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed

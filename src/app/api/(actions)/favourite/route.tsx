@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import {authSession} from "../../../../lib/authenticate";
 import {getMovieDetails} from "../../../../lib/movieDetails";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../lib/prisma";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     let userid: number | null = null;

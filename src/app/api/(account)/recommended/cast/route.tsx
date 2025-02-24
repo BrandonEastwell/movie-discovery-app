@@ -1,10 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "../../../../../lib/prisma";
 import {getMoviesByDiscoveryCast} from "../../../../../lib/movieLists";
 import {authSession} from "../../../../../lib/authenticate";
 import {getPersonDetails} from "../../../../../lib/personDetails";
-
-const prisma = new PrismaClient();
 
 interface Person {
     name: string;

@@ -2,10 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "../../../../lib/prisma";
 import {cookies} from "next/headers";
 
-const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {
         return NextResponse.json({status: 405}); // Method Not Allowed

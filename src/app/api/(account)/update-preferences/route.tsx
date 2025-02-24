@@ -1,8 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {authSession} from "../../../../lib/authenticate";
 import {getMovieCredits, getMovieDetails} from "../../../../lib/movieDetails";
-import {PrismaClient} from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../lib/prisma";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {

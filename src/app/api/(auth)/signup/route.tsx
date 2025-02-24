@@ -1,9 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import {cookies} from "next/headers";
 import jwt from "jsonwebtoken";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../lib/prisma";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== 'POST') {

@@ -1,9 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client';
 import {getMoviesByDiscoveryGenre} from "../../../../../lib/movieLists";
 import {authSession} from "../../../../../lib/authenticate";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../../../lib/prisma";
 
 export async function GET(req: NextRequest, res: NextResponse) {
     if (req.method !== 'GET') {
