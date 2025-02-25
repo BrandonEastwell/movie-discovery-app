@@ -1,4 +1,7 @@
 import React from "react";
+import HeaderBar from "../components/server/header-bar";
+import SearchBar from "../components/client/search-bar";
+import UserNavigation from "../components/client/user-navigation";
 
 export const metadata = {
   title: 'Layout Template',
@@ -30,8 +33,19 @@ export default function RootLayout({
               rel="stylesheet"/>
           <title></title>
       </head>
-      <body className="flex justify-center bg-custom-gradient w-screen h-screen">
-      {children}
+      <body className="flex justify-center bg-custom-gradient w-screen">
+      <div className="container grid grid-cols-layout grid-rows-layout w-screen max-w-[1920px] pb-0 pl-6">
+          <div className="header relative col-span-2 z-10 bg-transparent">
+              <HeaderBar/>
+          </div>
+          <div className="search relative col-span-2 z-10 bg-transparent">
+              <SearchBar/>
+          </div>
+          <div className="navigation relative col-span-1 row-start-3 z-10 bg-transparent">
+              <UserNavigation/>
+          </div>
+          {children}
+      </div>
       </body>
       </html>
   )

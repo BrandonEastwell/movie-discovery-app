@@ -78,117 +78,119 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     const gbProvider = providers.results["GB"]; // Access provider info for UK ("GB")
 
     return (
-        <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
-            <b className="flex items-center text-[4rem] font-vt323 text-pearl-white mt-4 font-medium uppercase">
-                {movie.title}
-            </b>
-            <div className="flex flex-row flex-nowrap justify-start">
-                {movie.genres.map((genre) => (
-                    <p key={genre.id}
-                       className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">
-                        {genre.name}
-                    </p>
-                ))}
-            </div>
-            <div className="video-container w-full">
-                {movie.poster_path
-                    && (
-                        <img className="w-full dark:shadow-gray-800 object-cover object-center overflow-hidden"
-                             src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
-                             alt={`${movie?.title} Poster`}
+        <div className="main-content flex col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar mr-4">
+            <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
+                <b className="flex items-center text-[4rem] font-vt323 text-pearl-white mt-4 font-medium uppercase">
+                    {movie.title}
+                </b>
+                <div className="flex flex-row flex-nowrap justify-start">
+                    {movie.genres.map((genre) => (
+                        <p key={genre.id}
+                           className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">
+                            {genre.name}
+                        </p>
+                    ))}
+                </div>
+                <div className="video-container w-full">
+                    {movie.poster_path
+                        && (
+                            <img className="w-full dark:shadow-gray-800 object-cover object-center overflow-hidden"
+                                 src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
+                                 alt={`${movie?.title} Poster`}
+                            />
+                        )}
+                    {showVideo && ( // Render iframe only if youtubeId exists
+                        <iframe
+                            width="100%"
+                            src={`https://www.youtube.com/embed/${youtubeId}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            title="Embedded youtube video"
+                            className="w-full h-auto"
                         />
                     )}
-                {showVideo && ( // Render iframe only if youtubeId exists
-                    <iframe
-                        width="100%"
-                        src={`https://www.youtube.com/embed/${youtubeId}`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title="Embedded youtube video"
-                        className="w-full h-auto"
-                    />
-                )}
-            </div>
-            <div className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
-                <div className="flex flex-col">
-                    <div className="flex flex-row flex-nowrap justify-between">
-                        <p className="text-pearl-white text-[1.5rem] m-0">where to watch</p>
-                    </div>
-                    <div className="flex flex-row flex-wrap justify-start"> {/* Use flex-wrap for wrapping logos */}
-                        <div className="flex flex-col mr-4">
-                            {gbProvider?.flatrate && (
-                                <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">stream</p>
-                            )}
-                            <div className="flex flex-row">
-                                {gbProvider && gbProvider.flatrate?.map((provider) => ( // Check if provider exists and has flatrate options
-                                    <div key={provider.provider_id} className="mr-4">
-                                        {provider.logo_path && ( // Check if logo path exists
-                                            <Link href={``} className="cursor-pointer">
-                                                <img
-                                                    className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
-                                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
-                                                    alt={`${provider.provider_name} Logo`}
-                                                    width={50}
-                                                    height={50}
-                                                />
-                                            </Link>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                </div>
+                <div className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
+                    <div className="flex flex-col">
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <p className="text-pearl-white text-[1.5rem] m-0">where to watch</p>
                         </div>
-                        <div className="flex flex-col">
-                            {gbProvider?.rent && (
-                                <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">buy/rent - digital</p>
-                            )}
-                            <div className="flex flex-row">
-                                {gbProvider && gbProvider.rent?.map((provider) => ( // Check if provider exists and has flatrate options
-                                    <div key={provider.provider_id} className="mr-4">
-                                        {provider.logo_path && ( // Check if logo path exists
-                                            <Link href={``} className="cursor-pointer">
-                                                <img
-                                                    className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
-                                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
-                                                    alt={`${provider.provider_name} Logo`}
-                                                    width={50}
-                                                    height={50}
-                                                />
-                                            </Link>
-                                        )}
-                                    </div>
-                                ))}
+                        <div className="flex flex-row flex-wrap justify-start"> {/* Use flex-wrap for wrapping logos */}
+                            <div className="flex flex-col mr-4">
+                                {gbProvider?.flatrate && (
+                                    <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">stream</p>
+                                )}
+                                <div className="flex flex-row">
+                                    {gbProvider && gbProvider.flatrate?.map((provider) => ( // Check if provider exists and has flatrate options
+                                        <div key={provider.provider_id} className="mr-4">
+                                            {provider.logo_path && ( // Check if logo path exists
+                                                <Link href={``} className="cursor-pointer">
+                                                    <img
+                                                        className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                        alt={`${provider.provider_name} Logo`}
+                                                        width={50}
+                                                        height={50}
+                                                    />
+                                                </Link>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                {gbProvider?.rent && (
+                                    <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">buy/rent - digital</p>
+                                )}
+                                <div className="flex flex-row">
+                                    {gbProvider && gbProvider.rent?.map((provider) => ( // Check if provider exists and has flatrate options
+                                        <div key={provider.provider_id} className="mr-4">
+                                            {provider.logo_path && ( // Check if logo path exists
+                                                <Link href={``} className="cursor-pointer">
+                                                    <img
+                                                        className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                        alt={`${provider.provider_name} Logo`}
+                                                        width={50}
+                                                        height={50}
+                                                    />
+                                                </Link>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div
-                className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
-                <div className="flex flex-col w-[45%]">
-                    <div className="flex flex-row flex-nowrap justify-between border-b border-gray-100">
-                        <p className="text-pearl-white text-[1.5rem]">Details</p>
+                <div
+                    className="flex flex-row flex-nowrap mt-2 justify-between font-roboto-mono font-medium uppercase text-[1rem]">
+                    <div className="flex flex-col w-[45%]">
+                        <div className="flex flex-row flex-nowrap justify-between border-b border-gray-100">
+                            <p className="text-pearl-white text-[1.5rem]">Details</p>
+                        </div>
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <p className="text-gray-100 opacity-75">Release Date</p>
+                            <p className="text-pearl-white">{movie.release_date}</p>
+                        </div>
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <p className="text-gray-100 opacity-75">Duration</p>
+                            <p className="text-pearl-white">{movie.runtime} minutes</p>
+                        </div>
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <p className="text-gray-100 opacity-75">Budget</p>
+                            <p className="text-pearl-white">
+                                {movie.budget ? (movie.budget / 1000000).toFixed(0) + ' Million' : '-'}
+                            </p>
+                        </div>
                     </div>
-                    <div className="flex flex-row flex-nowrap justify-between">
-                        <p className="text-gray-100 opacity-75">Release Date</p>
-                        <p className="text-pearl-white">{movie.release_date}</p>
-                    </div>
-                    <div className="flex flex-row flex-nowrap justify-between">
-                        <p className="text-gray-100 opacity-75">Duration</p>
-                        <p className="text-pearl-white">{movie.runtime} minutes</p>
-                    </div>
-                    <div className="flex flex-row flex-nowrap justify-between">
-                        <p className="text-gray-100 opacity-75">Budget</p>
-                        <p className="text-pearl-white">
-                            {movie.budget ? (movie.budget / 1000000).toFixed(0) + ' Million' : '-'}
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col w-[45%]">
-                    <div className="flex flex-row flex-nowrap justify-between">
-                        <p className="text-pearl-white text-[1.5rem]">overview</p>
-                    </div>
-                    <div className="flex flex-row flex-nowrap justify-between lowercase">
-                        <p className="text-pearl-white">{movie.overview}</p>
+                    <div className="flex flex-col w-[45%]">
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <p className="text-pearl-white text-[1.5rem]">overview</p>
+                        </div>
+                        <div className="flex flex-row flex-nowrap justify-between lowercase">
+                            <p className="text-pearl-white">{movie.overview}</p>
+                        </div>
                     </div>
                 </div>
             </div>

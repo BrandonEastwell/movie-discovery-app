@@ -3,11 +3,11 @@ import React from "react";
 
 const HeaderBar: React.FC = () => {
     return (
-        <div className="fixed w-full max-w-[1920px] flex flex-row items-center text-center align-middle justify-between mt-[-1rem] pt-0 px-[1.375rem] box-border font-vt323">
-            <h1 className="flex justify-start m-0 p-0 tracking-[0.31em] text-[3rem] text-[#5F43B2] font-medium w-[33%]">
+        <div className="fixed grid grid-cols-3 w-full max-w-[1920px] pt-0 font-vt323">
+            <h1 className="place-self-start self-center m-0 p-0 tracking-[0.31em] text-[3rem] text-[#5F43B2] font-medium">
                 SIVTER
             </h1>
-            <h1 className="justify-center m-0 p-0 mx-auto tracking-[0.31em] text-[4rem] text-white font-michroma text-center font-medium w-[33%]">
+            <h1 className="place-self-center m-0 p-0 tracking-[0.31em] text-[4rem] text-white font-michroma font-medium">
                 FILM
             </h1>
             <HeaderMenu></HeaderMenu>
