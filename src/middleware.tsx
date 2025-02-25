@@ -7,7 +7,6 @@ export function middleware(req: NextRequest) {
 
     const token = req.cookies.get('token')?.value;
     const protectedPaths = ['/account'];
-    console.log(req.nextUrl.pathname.startsWith);
     const isProtectedPath = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
     const isAuthPath = req.nextUrl.pathname.startsWith('/login');
 
