@@ -22,7 +22,7 @@ export default async function Page() {
 
     return (
         <div className="main-content w-full h-full col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar">
-            <div className="w-full h-100 flex flex-col gap-10 justify-start overflow-auto no-scrollbar">
+            <div className="w-full h-100 flex flex-col gap-10 justify-start overflow-hidden no-scrollbar">
                 <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                     TRENDING FILM
                 </b>

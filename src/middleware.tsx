@@ -1,50 +1,44 @@
 import {NextRequest, NextResponse} from 'next/server'
-import jwt, {TokenExpiredError} from "jsonwebtoken";
-
-export const config = {
-    matcher: ['/account/:path*']
-}
+import {TokenExpiredError, verify} from "jsonwebtoken";
 
 export function middleware(req: NextRequest) {
-    const {origin } = req.nextUrl;
-    let userid: number | undefined = undefined;
+    const { origin } = req.nextUrl;
+    let res = NextResponse;
 
-    try {
-        const cookieHeader = req.headers.get('cookie');
-        if (!cookieHeader) {
-            return NextResponse.redirect(new URL(`${origin}/login`));
-        }
+    const token = req.cookies.get('token')?.value;
+    const protectedPaths = ['/account'];
+    console.log(req.nextUrl.pathname.startsWith);
+    const isProtectedPath = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
+    const isAuthPath = req.nextUrl.pathname.startsWith('/login');
 
-        const tokenMatch = cookieHeader.match(/token=([^;]+)/);
-        if (!tokenMatch || tokenMatch.length < 2) {
-            return NextResponse.redirect(new URL(`${origin}/login`));
-        }
+    if (isProtectedPath && !token) {
+        res.json({ error: 'Token not found' }, { status: 400 });
+        return res.redirect(new URL(`${origin}/login`));
+    }
 
-        const token = tokenMatch[1];
-
-        if (token) {
+    if (token) {
+        try {
             // Decode JWT token
-            const decodedToken = jwt.decode(token) as { username: string; userid: number };
-            userid = decodedToken.userid
+            const decodedToken = verify(token, `${process.env.JWT_SECRET}`) as { username: string, userid: number };
             console.log('MIDDLEWARE: Authentication Successful');
-        }
-        console.log(req.nextUrl.pathname.startsWith)
-        if (req.nextUrl.pathname === '/account') {
-            if (userid !== undefined) {
-                console.log('MIDDLEWARE: REDIRECTING TO ' + `${origin}/account/${userid}`);
-                return NextResponse.redirect(new URL(`${origin}/account/${userid}`))
-            } else {
-                console.log('MIDDLEWARE: REDIRECTING TO ' + `${origin}/login`);
-                return NextResponse.redirect(new URL(`${origin}/login`));
+
+            if (isAuthPath) {
+                return res.redirect(new URL(`/`, req.url));
+            }
+
+        } catch (error) {
+            if (isProtectedPath) {
+                if (error instanceof TokenExpiredError) {
+                    return res.redirect(new URL(`${origin}/login?expired=true`));
+                } else {
+                    // If JWT verification fails, redirect to the login.tsx
+                    console.error('Error verifying JWT token:', error);
+                    console.log('MIDDLEWARE: REDIRECTING TO ' + `${origin}/login`);
+                    return res.redirect(new URL(`${origin}/login`));
+                }
             }
         }
-    } catch (error) {
-        if (error instanceof TokenExpiredError) {
-            return NextResponse.redirect(new URL(`${origin}/login?expired=true`));
-        } else {
-            console.error('Error verifying JWT token:', error);
-            // If JWT verification fails for another reason, redirect to the login.tsx page
-            return NextResponse.redirect(new URL(`${origin}/login`));
-        }
     }
+
+    return NextResponse.next();
 }

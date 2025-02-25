@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
             cookieStore.delete("token");
         }
 
-        const response = NextResponse.json({ message: 'Successful login', userid: user.userid, username: user.username }, {
+        const response = NextResponse.json({ message: 'successful login', userid: user.userid, username: user.username }, {
             status: 201,
         });
 

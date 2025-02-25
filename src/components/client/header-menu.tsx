@@ -58,10 +58,6 @@ const HeaderMenu: React.FC = async () => {
         }
     }
 
-    useEffect(() => {
-        authenticate();
-    }, []);
-
     return (
         <div className="flex justify-center align-middle gap-5 text-[1.25rem] text-gray-100">
             {/* Navigation links that change based on login status */}
