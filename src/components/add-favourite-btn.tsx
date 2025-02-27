@@ -39,4 +39,4 @@ const handleFavourite = async (e: any) => {
     } catch (error: any) {
         console.error('Action failed:', error.response?.data);
     }
-};
+}

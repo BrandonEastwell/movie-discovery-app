@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMoviesByDiscoveryCrew} from "../../../../../lib/movieLists";
-import {authSession} from "../../../../../lib/authenticate";
-import {getPersonDetails} from "../../../../../lib/personDetails";
+import {getMoviesByDiscoveryCrew} from "../../../../../lib/api/server/movieLists";
+import {getAuthStateFromRequest} from "../../../../../lib/getAuthStateFromRequest";
+import {getPersonDetails} from "../../../../../lib/api/server/personDetails";
 import { prisma } from "../../../../../lib/prisma";
 
 interface Person {
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
     let userid: number | null = null;
     try {
-        const response = authSession(req); // Await the authentication function
+        const response = getAuthStateFromRequest(req); // Await the authentication function
         if (response.ok) {
             // If authentication is successful, extract userid and username from data
             const data = await response.json(); // Await the JSON response from the authentication function

@@ -1,5 +1,5 @@
 import MoviesSearch from "../../components/client/movies-search";
-import {getMediaBySearch} from "../../lib/movieLists";
+import {getMediaBySearch} from "../../lib/api/server/movieLists";
 import React from "react";
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {

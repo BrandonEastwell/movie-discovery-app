@@ -1,10 +1,29 @@
 import "./styles/globals.css"
 import {Movies} from '../components/client/movies-list';
-import {getTrendingWeekMovie, getTopRated, getUpcoming, getPopular} from "../lib/movieLists";
 import React from "react";
+import getAuthState from "../lib/getAuthState";
+import fetchMovieData from "../lib/getMovieLists";
+import {UserRecommendedMovies} from "../components/recommended-list";
+import {FavouriteMovies} from "../lib/services/favouriteMovies";
+
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    backdrop_path: string;
+}
 
 export default async function Page() {
     const { trending, topRated, popular, upcoming } = await fetchMovieData()
+    const { isLoggedIn, userData } = (await getAuthState());
+    const favouriteMovieService = new FavouriteMovies();
+    let favourites : Movie[] = [];
+    let favouriteIds: number[] = []
+
+    if (userData) {
+        favourites = await favouriteMovieService.getFavouriteMovies(userData.userid);
+        favouriteIds = favourites.map((movie: Movie) => movie.id);
+    }
 
     return (
         <div className="main-content w-full h-full col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar">
@@ -12,46 +31,42 @@ export default async function Page() {
                 <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                     TRENDING FILM
                 </b>
-                <div
-                    className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
-                    <Movies movies={trending.results}/>
+                <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                    <Movies movies={trending.results} favouriteMovieIds={favouriteIds}/>
                 </div>
+
+                {isLoggedIn && favourites && <UserRecommendedMovies favouriteMoviesIds={[]}
+                                                                    initFavouriteMovies={[]}
+                                                                    initRecommendedCastMovies={[]}
+                                                                    initRecommendedCastMembers={[]}
+                                                                    initRecommendedGenreMovies={[]}
+                                                                    initRecommendedGenreNames={[]}
+                                                                    initRecommendedCrewMovies={[]}
+                                                                    initRecommendedCrewMembers={[]} />
+                }
+
+                {isLoggedIn && !favourites }
+                {!isLoggedIn }
+
                 <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                     POPULAR FILM
                 </b>
-                <div
-                    className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
-                    <Movies movies={popular.results}/>
+                <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                    <Movies movies={popular.results} favouriteMovieIds={favouriteIds}/>
                 </div>
                 <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                     CRITICALLY ACCLAIMED FILM
                 </b>
-                <div
-                    className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
-                    <Movies movies={topRated.results}/>
+                <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                    <Movies movies={topRated.results} favouriteMovieIds={favouriteIds}/>
                 </div>
                 <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                     UPCOMING FILM
                 </b>
-                <div
-                    className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
-                    <Movies movies={upcoming.results}/>
+                <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
+                    <Movies movies={upcoming.results} favouriteMovieIds={favouriteIds}/>
                 </div>
             </div>
         </div>
     )
-}
-
-async function fetchMovieData() {
-    const trending = await getTrendingWeekMovie()
-    const topRated = await getTopRated()
-    const popular = await getPopular()
-    const upcoming = await getUpcoming()
-
-    return {
-        trending,
-        topRated,
-        popular,
-        upcoming
-    }
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {authSession} from "../../../../../lib/authenticate";
+import {getAuthStateFromRequest} from "../../../../../lib/getAuthStateFromRequest";
 import { prisma } from "../../../../../lib/prisma";
 
 export async function POST(req: NextRequest) {
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     }
     let userid: number | null = null;
     try {
-        const response = authSession(req); // Await the authentication function
+        const response = getAuthStateFromRequest(req); // Await the authentication function
         if (response.ok) {
             // If authentication is successful, extract userid and username from data
             const data = await response.json(); // Await the JSON response from the authentication function
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
     }
     let userid: number | null = null;
     try {
-        const response = authSession(req); // Await the authentication function
+        const response = getAuthStateFromRequest(req); // Await the authentication function
         if (response.ok) {
             // If authentication is successful, extract userid and username from data
             const data = await response.json(); // Await the JSON response from the authentication function

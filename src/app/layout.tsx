@@ -2,8 +2,7 @@ import React from "react";
 import HeaderBar from "../components/server/header-bar";
 import SearchBar from "../components/client/search-bar";
 import UserNavigation from "../components/client/user-navigation";
-import {cookies} from "next/headers";
-import {verify} from "jsonwebtoken";
+import getAuthState from "../lib/getAuthState";
 
 export const metadata = {
   title: 'Layout Template',
@@ -16,24 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-
-    let isLoggedIn = false;
-    let userData = null;
-
-    if (token) {
-        try {
-            userData = verify(token, `${process.env.JWT_SECRET}`) as { username: string, userid: number };
-
-            // if decode successful
-            if (userData.username) {
-                isLoggedIn = true;
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const { isLoggedIn, userData } = (await getAuthState());
 
     return (
         <html lang="en">

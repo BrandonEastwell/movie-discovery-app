@@ -13,5 +13,5 @@ export default function HeaderBar({isLoggedIn, userData} : {isLoggedIn: boolean,
             <HeaderMenu isLoggedIn={isLoggedIn} userData={userData}></HeaderMenu>
         </div>
     );
-};
+}
 
