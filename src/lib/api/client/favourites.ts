@@ -1,4 +1,4 @@
-const getFavouriteMovies = async () => {
+const fetchFavouriteMovies = async () => {
     try {
         const response = await fetch('http://localhost:3000/api/favourite', {
             method: 'GET',
@@ -19,4 +19,4 @@ const getFavouriteMovies = async () => {
     }
 };
 
-export {getFavouriteMovies}
+export {fetchFavouriteMovies}

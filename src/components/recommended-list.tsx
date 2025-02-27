@@ -1,6 +1,7 @@
+"use client"
 import React, {useEffect, useState} from "react";
 import {Movies} from "./client/movies-list";
-import {getFavouriteMovies} from "../lib/api/client/favourites";
+import {fetchFavouriteMovies} from "../lib/api/client/favourites";
 
 interface Movie {
     id: number;
@@ -56,7 +57,7 @@ const UserRecommendedMovies: React.FC<RecommendedProps> = ({ favouriteMoviesIds,
                         const cast = await fetchRecommendedMovies('http://localhost:3000/api/recommended/cast');
                         const genre = await fetchRecommendedMovies('http://localhost:3000/api/recommended/genre');
                         const crew = await fetchRecommendedMovies('http://localhost:3000/api/recommended/crew');
-                        const favourites: Movie[] = await getFavouriteMovies();
+                        const favourites: Movie[] = await fetchFavouriteMovies();
 
                         setRecommendedCast(cast[0]);
                         setRecommendedGenre(genre[0]);

@@ -2,9 +2,9 @@ import "./styles/globals.css"
 import {Movies} from '../components/client/movies-list';
 import React from "react";
 import getAuthState from "../lib/getAuthState";
-import fetchMovieData from "../lib/getMovieLists";
 import {UserRecommendedMovies} from "../components/recommended-list";
-import {FavouriteMovies} from "../lib/services/favouriteMovies";
+import {FavouritesService} from "../lib/services/favouritesService";
+import {MoviesService} from "../lib/services/moviesService";
 
 interface Movie {
     id: number;
@@ -14,16 +14,25 @@ interface Movie {
 }
 
 export default async function Page() {
-    const { trending, topRated, popular, upcoming } = await fetchMovieData()
+    const movieService = new MoviesService();
+    const { trending, topRated, popular, upcoming } = await movieService.getListsOfMoviesByCategory();
     const { isLoggedIn, userData } = (await getAuthState());
-    const favouriteMovieService = new FavouriteMovies();
+    const favouriteService = new FavouritesService();
     let favourites : Movie[] = [];
-    let favouriteIds: number[] = []
+    let favouriteIds: number[] = [];
 
     if (userData) {
-        favourites = await favouriteMovieService.getFavouriteMovies(userData.userid);
+        favourites = await favouriteService.getFavouriteMovies(userData.userid);
         favouriteIds = favourites.map((movie: Movie) => movie.id);
+
+        if (favourites) {
+
+
+        }
+
     }
+
+
 
     return (
         <div className="main-content w-full h-full col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar">

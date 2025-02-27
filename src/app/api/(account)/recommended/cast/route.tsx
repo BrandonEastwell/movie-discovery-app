@@ -9,25 +9,13 @@ interface Person {
 }
 
 export async function GET(req: NextRequest) {
-    if (req.method !== 'GET') {
-        return NextResponse.json({status: 405}); // Method Not Allowed
-    }
-
-    let userid: number | null = null;
     try {
-        const response = getAuthStateFromRequest(req); // Await the authentication function
-        if (response.ok) {
-            // If authentication is successful, extract userid and username from data
-            const data = await response.json(); // Await the JSON response from the authentication function
-            userid = data.userid;
-        } else {
-            // If authentication fails, handle the error
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
-        }
-        if (userid != null) {
+        const authState = getAuthStateFromRequest(req);
+        if (authState.userData && authState.userData.userid) {
             const preferences = await prisma.userpreferences.findUnique({
-                where: {userid: userid}
+                where: {userid: authState.userData.userid}
             });
+
             if (preferences != null && preferences.preferredCast != null) {
                 const preferredCast = preferences.preferredCast.replace(/,/g, '|');
                 const preferredCastList = preferences.preferredCast.split(","); // Split comma-separated genres

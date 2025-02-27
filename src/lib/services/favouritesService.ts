@@ -8,7 +8,7 @@ interface Movie {
     backdrop_path: string;
 }
 
-export class FavouriteMovies {
+export class FavouritesService {
 
     async getFavouriteMovieIDs(userid: number) {
         return prisma.favouritemovies.findMany({
