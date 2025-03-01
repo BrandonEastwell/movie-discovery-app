@@ -8,40 +8,41 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const password = body.password;
     const username = body.username;
-    const authService = new AuthService();
 
     try {
-        // Checks if password meets the check conditions required
         try {
+            // Checks if password meets the check conditions required
             isPasswordValid(password);
-        } catch (e) {
-            return NextResponse.json({error: e}, {status: 400});
+        } catch (error) {
+            return NextResponse.json({error: error}, {status: 400});
         }
 
         // Hash the password
-        const hashedPassword = await authService.hashPassword(password);
+        const hashedPassword = await AuthService.hashPassword(password);
 
         // Check if username already exists
-        const existingUser = await authService.getFirstUserByUsername(username);
-        if (existingUser) {
+        const user = await AuthService.getFirstUserByUsername(username);
+        if (user) {
             return NextResponse.json({ error: 'Username already exists' }, {status: 400});
         }
 
         // Create user with hashed password and new username
         // Add user to database
-        const newUser = await authService.addUserToDB(username, hashedPassword);
+        const createdUser = await AuthService.addUserToDB(username, hashedPassword);
 
         if ((await cookies()).has('token')) {
             return NextResponse.json({ error: 'User already signed in'}, {status: 400});
         }
 
         // Generate JWT token
-        const jwtToken = authService.signToken(newUser.userid, newUser.username);
+        const token = AuthService.signToken(createdUser.userid, createdUser.username);
+
+        let response = NextResponse.json({ message: 'User registered successfully' }, {status: 201});
 
         // Set secure to true in production
-        (await cookies()).set('token', jwtToken, {httpOnly: true, maxAge: 21600, secure: false, path: '/', sameSite: 'lax'});
+        AuthService.setAuthCookieToResponse(response, token)
 
-        return NextResponse.json({ message: 'User registered successfully', userid: newUser.userid, username: newUser.username }, {status: 201});
+        return response;
     } catch (error) {
         console.error('Error registering user:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, {status: 500});

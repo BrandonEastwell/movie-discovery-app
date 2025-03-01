@@ -2,12 +2,23 @@ import {prisma} from "./prisma";
 import bcrypt from "bcryptjs";
 import jwt, {verify} from "jsonwebtoken";
 import {cookies} from "next/headers";
-import {NextRequest} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
 const SALT_ROUNDS = 10;
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1d';
+
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not set');
+    //This will generate a random hexadecimal string of 32 bytes (256 bits) using node crypto library
+    //const crypto = require('crypto');
+    //const jwtSecretKey = crypto.randomBytes(32).toString('hex');
+    //console.log("secret key:", jwtSecretKey);
+}
+
 
 export class AuthService {
-    getFirstUserByUsername(username: string) {
+    static getFirstUserByUsername(username: string) {
         return prisma.accounts.findFirst({
             where: {
                 username,
@@ -15,7 +26,7 @@ export class AuthService {
         });
     }
 
-    addUserToDB(username: string, hashedPassword: string) {
+    static addUserToDB(username: string, hashedPassword: string) {
         return prisma.accounts.create({
             data: {
                 username,
@@ -24,14 +35,30 @@ export class AuthService {
         });
     }
 
-    hashPassword(password: string) {
+    static hashPassword(password: string) {
         return bcrypt.hash(password, SALT_ROUNDS);
     }
 
-    signToken(userid: number, username: string){
-        return jwt.sign({ userid: userid, username: username }, `${process.env.JWT_SECRET}`, {
-            expiresIn: `${process.env.JWT_EXPIRES_IN}`
+    static comparePasswords(passwordToCompare: string, hashedPassword: string) {
+        return bcrypt.compare(passwordToCompare, hashedPassword)
+    }
+
+    static signToken(userid: number, username: string){
+        return jwt.sign({ userid: userid, username: username }, `${JWT_EXPIRES_IN}`, {
+            expiresIn: `${JWT_EXPIRES_IN}`
         });
+    }
+
+    static setAuthCookieToResponse(response: NextResponse, jwtToken: string) {
+        response.cookies.set({
+            name: "token",
+            value: jwtToken,
+            httpOnly: true,
+            maxAge: 21600,
+            path: "/",
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === 'production'
+        })
     }
 
     static decodeToken(token: string | undefined) {
@@ -40,13 +67,13 @@ export class AuthService {
 
         if (token) {
             try {
-                userData = verify(token, `${process.env.JWT_SECRET}`) as { username: string, userid: number };
+                userData = verify(token, `${JWT_SECRET}`) as { username: string, userid: number };
                 // if decode successful
                 if (userData.username) {
                     isLoggedIn = true;
                 }
             } catch (error) {
-                console.log(error);
+                console.error('Token verification failed:', error);
             }
         }
 
@@ -60,17 +87,10 @@ export class AuthService {
     }
 
     static getAuthStateFromRequestHeader(req: NextRequest){
-        const cookieHeader = req.headers.get('cookie');
-        if (!cookieHeader) {
-            throw new Error('Cookie header not found');
+        const token = req.cookies.get('token')?.value;
+        if (!token) {
+            throw new Error('Token not found');
         }
-
-        const tokenMatch = cookieHeader.match(/token=([^;]+)/);
-        if (!tokenMatch || tokenMatch.length < 2) {
-            throw new Error('Token not found in the cookie header');
-        }
-
-        const token = tokenMatch[1];
         return AuthService.decodeToken(token);
     }
 }

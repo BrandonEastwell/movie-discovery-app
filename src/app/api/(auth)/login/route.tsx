@@ -1,60 +1,37 @@
-// api/login.tsx/route.tsx
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { prisma } from "../../../../lib/services/prisma";
 import {cookies} from "next/headers";
+import {AuthService} from "../../../../lib/services/authService";
 
 export async function POST(req: NextRequest) {
-    //This will generate a random hexadecimal string of 32 bytes (256 bits) using node crypto library
-    //const crypto = require('crypto');
-    //const jwtSecretKey = crypto.randomBytes(32).toString('hex');
-    //console.log("secret key:", jwtSecretKey);
+    const body = await req.json();
+    const password = body.password;
+    const username = body.username;
 
     try {
-        const body = await req.json();
-        const password = body.password;
-        const username = body.username;
-
         // Find user by username
-        const user = await prisma.accounts.findUnique({
-            where: {
-                username,
-            },
-        });
+        const user = await AuthService.getFirstUserByUsername(username);
 
         if (!user) {
             return NextResponse.json({ error: 'Username does not exist' }, {status: 401});
         }
 
         // Compare passwords
-        const passwordMatch = await bcrypt.compare(password, user.encryptedpassword);
+        const passwordMatch = await AuthService.comparePasswords(password, user.encryptedpassword);
         if (!passwordMatch) {
-            return NextResponse.json({ error: 'Password does not match' }, {status: 401});
+            return NextResponse.json({ error: 'Password is incorrect' }, {status: 401});
         }
 
         // Generate JWT token
-        const jwtToken = jwt.sign({ userid: user.userid, username: user.username }, `${process.env.JWT_SECRET}`, {
-           expiresIn: `${process.env.JWT_EXPIRES_IN}`
-        });
+        const token = AuthService.signToken(user.userid, user.username);
 
-        const cookieStore = await cookies();
-        if (cookieStore.has("token")) {
-            cookieStore.delete("token");
+        if ((await cookies()).has('token')) {
+            (await cookies()).delete("token");
         }
 
-        const response = NextResponse.json({ message: 'successful login', userid: user.userid, username: user.username }, {
-            status: 201,
-        });
+        let response = NextResponse.json({ message: 'successful login' }, {status: 201});
 
-        response.cookies.set({
-            name: "token",
-            value: jwtToken,
-            httpOnly: true,
-            maxAge: 21600,
-            path: "/",
-            sameSite: "lax"
-        })
+        AuthService.setAuthCookieToResponse(response, token)
 
         return response;
     } catch (error) {
