@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
-import {getAuthStateFromRequest} from "../../../../lib/utils/getAuthStateFromRequest";
 import {prisma} from "../../../../lib/services/prisma";
 import {FavouritesService} from "../../../../lib/services/favouritesService";
+import {AuthService} from "../../../../lib/services/authService";
 
 export async function POST(req: NextRequest) {
     let movieid: number | null;
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     movieid = typeof body.movieid === 'number' ? body.movieid : parseInt(body.movieid);
 
     try {
-        const authState = getAuthStateFromRequest(req);
+        const authState = AuthService.getAuthStateFromRequestHeader(req);
 
         //add or remove movie id to favourite database process
         if (authState.userData && authState.userData.userid && movieid != null) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        const authState = getAuthStateFromRequest(req);
+        const authState = AuthService.getAuthStateFromRequestHeader(req);
 
         // If authentication is successful, extract userid and username from data
         if (authState.userData && authState.userData.userid) {

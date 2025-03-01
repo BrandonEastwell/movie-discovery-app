@@ -1,12 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import { prisma } from "../../../../../lib/services/prisma";
 import {getMoviesByDiscoveryCast} from "../../../../../lib/api/serverSide/movieLists";
-import {getAuthStateFromRequest} from "../../../../../lib/utils/getAuthStateFromRequest";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
+import {AuthService} from "../../../../../lib/services/authService";
 
 export async function GET(req: NextRequest) {
     try {
-        const authState = getAuthStateFromRequest(req);
+        const authState = AuthService.getAuthStateFromRequestHeader(req);
         if (authState.userData && authState.userData.userid) {
             const preferencesService = new PreferencesService();
             const preferences = await preferencesService.getAllUserPreferenceIDs(authState.userData.userid);

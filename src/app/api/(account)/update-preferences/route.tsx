@@ -1,14 +1,14 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getAuthStateFromRequest} from "../../../../lib/utils/getAuthStateFromRequest";
 import { prisma } from "../../../../lib/services/prisma";
 import {FavouritesService} from "../../../../lib/services/favouritesService";
 import {MoviesService} from "../../../../lib/services/moviesService";
 import {PreferencesService} from "../../../../lib/services/preferencesService";
+import {AuthService} from "../../../../lib/services/authService";
 
 
 export async function POST(req: NextRequest) {
     try {
-        const authState = getAuthStateFromRequest(req);
+        const authState = AuthService.getAuthStateFromRequestHeader(req);
 
         if (authState.userData && authState.userData.userid) {
             const favouriteService = new FavouritesService();

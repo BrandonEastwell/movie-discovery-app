@@ -5,7 +5,7 @@ import {UserRecommendedMovies} from "../components/recommended-list";
 import {FavouritesService} from "../lib/services/favouritesService";
 import {MoviesService} from "../lib/services/moviesService";
 import {PreferencesService} from "../lib/services/preferencesService";
-import getAuthState from "../lib/services/authService";
+import {AuthService} from "../lib/services/authService";
 
 interface Movie {
     id: number;
@@ -17,7 +17,7 @@ interface Movie {
 export default async function Page() {
     const movieService = new MoviesService();
     const { trending, topRated, popular, upcoming } = await movieService.getListsOfMoviesByCategory();
-    const { isLoggedIn, userData } = (await getAuthState());
+    const { isLoggedIn, userData } = (await AuthService.getAuthState());
     const favouriteService = new FavouritesService();
     let favourites : Movie[] = [];
     let favouriteIds: number[] = [];
