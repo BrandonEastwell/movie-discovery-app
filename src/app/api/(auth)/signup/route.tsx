@@ -10,11 +10,10 @@ export async function POST(req: NextRequest) {
     const username = body.username;
 
     try {
-        try {
-            // Checks if password meets the check conditions required
-            isPasswordValid(password);
-        } catch (error) {
-            return NextResponse.json({error: error}, {status: 400});
+        // Checks if password meets the check conditions required
+        const isValid = isPasswordValid(password);
+        if (!isValid.valid) {
+            return NextResponse.json({error: isValid.error}, {status: 400});
         }
 
         // Hash the password
@@ -23,21 +22,21 @@ export async function POST(req: NextRequest) {
         // Check if username already exists
         const user = await AuthService.getFirstUserByUsername(username);
         if (user) {
-            return NextResponse.json({ error: 'Username already exists' }, {status: 400});
+            return NextResponse.json({ error: 'This username is already taken.' }, {status: 400});
+        }
+
+        if ((await cookies()).has('token')) {
+            return NextResponse.json({ error: 'You are already signed in to an account, please sign out.'}, {status: 400});
         }
 
         // Create user with hashed password and new username
         // Add user to database
         const createdUser = await AuthService.addUserToDB(username, hashedPassword);
 
-        if ((await cookies()).has('token')) {
-            return NextResponse.json({ error: 'User already signed in'}, {status: 400});
-        }
-
         // Generate JWT token
         const token = AuthService.signToken(createdUser.userid, createdUser.username);
 
-        let response = NextResponse.json({ message: 'User registered successfully' }, {status: 201});
+        let response = NextResponse.json({ message: 'You are registered.' }, {status: 201});
 
         // Set secure to true in production
         AuthService.setAuthCookieToResponse(response, token)

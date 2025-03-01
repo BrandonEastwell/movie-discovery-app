@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import '../../app/styles/globals.css';
 import MovieCard from "../movie-card";
 
@@ -16,10 +16,8 @@ interface MovieListProps {
 }
 
 const Movies: React.FC<MovieListProps> = ({ movies, favouriteMovieIds }) => {
-    const [favouriteIds, setFavouriteIds] = useState<number[] | null>(favouriteMovieIds);
-
     const isFavourite = (idToCheck: number) => {
-        return favouriteIds != null && favouriteIds.includes(idToCheck);
+        return favouriteMovieIds != null && favouriteMovieIds.includes(idToCheck);
     }
 
     return (

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {getAuthStateFromRequest} from "../../../../../lib/utils/getAuthStateFromRequest";
 import { prisma } from "../../../../../lib/services/prisma";
+import {AuthService} from "../../../../../lib/services/authService";
 
 export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     }
     let userid: number | null = null;
     try {
-        const response = getAuthStateFromRequest(req); // Await the authentication function
+        const response = AuthService.getAuthStateFromRequestHeader(req); // Await the authentication function
         if (response.ok) {
             // If authentication is successful, extract userid and username from data
             const data = await response.json(); // Await the JSON response from the authentication function

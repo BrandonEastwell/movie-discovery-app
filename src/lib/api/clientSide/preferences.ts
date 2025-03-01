@@ -7,7 +7,7 @@ interface Movie {
 
 const updatePreferences = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/update-preferences', {
+        const response = await fetch('/api/update-preferences', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const updatePreferences = async () => {
 
 const fetchUserRecommendedGenre = async () => {
     try {
-        const genre = await fetchRecommendedMovies('http://localhost:3000/api/recommended/genre');
+        const genre = await fetchRecommendedMovies('/api/recommended/genre');
         return {genre: genre[0], genreNames: genre[1]};
     } catch (error) {
         console.error('Action failed:', error);
@@ -35,7 +35,7 @@ const fetchUserRecommendedGenre = async () => {
 
 const fetchUserRecommendedCrew = async () => {
     try {
-        const crew = await fetchRecommendedMovies('http://localhost:3000/api/recommended/crew');
+        const crew = await fetchRecommendedMovies('/api/recommended/crew');
         return {cast: crew[0], castMembers: crew[1]};
     } catch (error) {
         console.error('Action failed:', error);
@@ -44,7 +44,7 @@ const fetchUserRecommendedCrew = async () => {
 
 const fetchUserRecommendedCast = async () => {
     try {
-        const cast = await fetchRecommendedMovies('http://localhost:3000/api/recommended/cast');
+        const cast = await fetchRecommendedMovies('/api/recommended/cast');
         return {cast: cast[0], castMembers: cast[1]};
     } catch (error) {
         console.error('Action failed:', error);

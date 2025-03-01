@@ -43,22 +43,22 @@ export class AuthService {
         return bcrypt.compare(passwordToCompare, hashedPassword)
     }
 
-    static signToken(userid: number, username: string){
-        return jwt.sign({ userid: userid, username: username }, `${JWT_EXPIRES_IN}`, {
-            expiresIn: `${JWT_EXPIRES_IN}`
-        });
-    }
-
     static setAuthCookieToResponse(response: NextResponse, jwtToken: string) {
         response.cookies.set({
             name: "token",
             value: jwtToken,
             httpOnly: true,
-            maxAge: 21600,
+            maxAge: 60 * 60 * 24,
             path: "/",
             sameSite: "lax",
             secure: process.env.NODE_ENV === 'production'
         })
+    }
+
+    static signToken(userid: number, username: string){
+        return jwt.sign({ userid: userid, username: username }, `${JWT_SECRET}`, {
+            expiresIn: `${JWT_EXPIRES_IN}`
+        });
     }
 
     static decodeToken(token: string | undefined) {

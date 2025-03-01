@@ -3,7 +3,7 @@ import React, {forwardRef, useState} from 'react';
 import Link from "next/link";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {handleAuth} from "../../lib/api/clientSide/accounts";
+import {handleAuth} from "../../lib/api/clientSide/authentication";
 
 interface formProps {
     action: "login" | "signup";
@@ -28,10 +28,12 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
 
     function formActionSignup() {
         setForm('signup');
+        setError(null);
     }
 
     function formActionLogin() {
         setForm('login');
+        setError(null);
     }
 
     return (

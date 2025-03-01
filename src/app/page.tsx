@@ -18,13 +18,13 @@ export default async function Page() {
     const movieService = new MoviesService();
     const { trending, topRated, popular, upcoming } = await movieService.getListsOfMoviesByCategory();
     const { isLoggedIn, userData } = (await AuthService.getAuthState());
-    const favouriteService = new FavouritesService();
+
     let favourites : Movie[] = [];
     let favouriteIds: number[] = [];
     let preferences;
 
     if (userData) {
-        favourites = await favouriteService.getFavouriteMovies(userData.userid);
+        favourites = await FavouritesService.getFavouriteMovies(userData.userid);
         favouriteIds = favourites.map((movie: Movie) => movie.id);
 
         if (favourites) {

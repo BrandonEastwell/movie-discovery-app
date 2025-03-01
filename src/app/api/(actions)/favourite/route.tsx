@@ -13,11 +13,10 @@ export async function POST(req: NextRequest) {
 
         //add or remove movie id to favourite database process
         if (authState.userData && authState.userData.userid && movieid != null) {
-            const favouriteMoviesService = new FavouritesService();
-            await favouriteMoviesService.toggleFavourite(authState.userData.userid, movieid);
-        } else {
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
+            const action = await FavouritesService.toggleFavourite(authState.userData.userid, movieid);
+            return NextResponse.json({result: action}, {status: 200})
         }
+        return NextResponse.json({ error: 'Error Authenticating' }, {status: 401});
     } catch (error) {
         console.error('Error Authenticating:', error);
         return NextResponse.json({ error: error }, {status: 500});
@@ -32,8 +31,7 @@ export async function GET(req: NextRequest) {
 
         // If authentication is successful, extract userid and username from data
         if (authState.userData && authState.userData.userid) {
-            const favouriteMoviesService = new FavouritesService();
-            const movies = favouriteMoviesService.getFavouriteMovies(authState.userData.userid);
+            const movies = FavouritesService.getFavouriteMovies(authState.userData.userid);
             return NextResponse.json({result: movies}, {status: 200})
         }
         return NextResponse.json({result: null}, {status: 200})

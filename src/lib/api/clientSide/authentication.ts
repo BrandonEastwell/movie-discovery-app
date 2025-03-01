@@ -1,11 +1,10 @@
 import React from "react";
 import {router} from "next/client";
-const  {NEXT_PUBLIC_API_URL} = process.env;
 
 const handleAuth = async (e: React.FormEvent, action: "login" | "signup", username: string, password: string) => {
     e.preventDefault()
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/${action}`, {
+        const response = await fetch(`/api/${action}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,13 +16,14 @@ const handleAuth = async (e: React.FormEvent, action: "login" | "signup", userna
 
         if (response.ok) {
             // Redirect to dashboard
+            console.log(data.message);
             return router.push(`/account/${data.userid}`);
         } else {
-            console.error(`${action} Failed: `, data.error);
-            return data.error
+            console.error(`${action} failed: `, data.error);
+            return data.error;
         }
     } catch (error : any) {
-        console.error(`${action} Failed: `, error.response?.data);
+        console.error(`${action} failed: `, error.response?.data);
     }
 };
 

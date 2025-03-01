@@ -10,7 +10,7 @@ interface Movie {
 
 export class FavouritesService {
 
-    async getFavouriteMovieIDs(userid: number) {
+    static async getFavouriteMovieIDs(userid: number) {
         return prisma.favouritemovies.findMany({
             where: {
                 userid: userid,
@@ -18,7 +18,7 @@ export class FavouritesService {
         });
     }
 
-    async getFavouriteMovies(userid: number) {
+    static async getFavouriteMovies(userid: number) {
         const favourites = await this.getFavouriteMovieIDs(userid);
         let movies: Movie[] = [];
 
@@ -33,7 +33,7 @@ export class FavouritesService {
         return movies;
     }
 
-    async toggleFavourite(userid: number, movieid: number) {
+    static async toggleFavourite(userid: number, movieid: number) {
         const existingFavorite= await prisma.favouritemovies.findFirst({
             where: {
                 userid: userid,
@@ -61,7 +61,7 @@ export class FavouritesService {
         return {action: 'added'}
     }
 
-    async getMovie(id: number) {
+    static async getMovie(id: number) {
         let movie = await getMovieDetails(id)
         return await movie
     }
