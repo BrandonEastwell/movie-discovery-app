@@ -1,6 +1,6 @@
 import "../../styles/globals.css"
 import React from "react";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "../../../lib/services/prisma";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> })  {

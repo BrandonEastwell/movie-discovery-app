@@ -1,5 +1,6 @@
-import {prisma} from "../prisma";
-import {getPersonDetails} from "../api/server/personDetails";
+import {prisma} from "./prisma";
+import {getPersonDetails} from "../api/serverSide/personDetails";
+import {getMoviesByDiscoveryCast, getMoviesByDiscoveryCrew, getMoviesByDiscoveryGenre} from "../api/serverSide/movieLists";
 
 interface Cast {
     id: number
@@ -109,5 +110,37 @@ export class PreferencesService {
 
         return genreToStrings;
 
+    }
+
+    async getAllListOfPreferences(userid: number) {
+        const preferences = await this.getAllUserPreferenceIDs(userid);
+
+        if (preferences && preferences.preferredCrew && preferences.preferredGenre && preferences.preferredCast) {
+            const preferredCrew = preferences.preferredCrew.replace(/,/g, '|');
+            const preferredCrewList = preferences.preferredCrew.split(",");
+
+            const preferredCast = preferences.preferredCast.replace(/,/g, '|');
+            const preferredCastList = preferences.preferredCast.split(",");
+
+            const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
+            const preferredGenreList = preferences.preferredGenre.split(",");
+
+            const preferredMoviesByGenre = await getMoviesByDiscoveryGenre(preferredGenre, "popularity.desc");
+            const preferredMoviesByCast = await getMoviesByDiscoveryCast("popularity.desc", preferredCast);
+            const preferredMoviesByCrew = await getMoviesByDiscoveryCrew("popularity.desc", preferredCrew);
+            const listOfGenreNames = await this.genreIdToString(preferredGenreList);
+            const listOfCrewMembers = await this.getPeopleData(preferredCrewList);
+            const listOfCastMembers = await this.getPeopleData(preferredCastList);
+
+            return {
+                preferredMoviesByGenre: preferredMoviesByGenre,
+                preferredMoviesByCrew: preferredMoviesByCrew,
+                preferredMoviesByCast: preferredMoviesByCast,
+                listOfCastMembers: listOfCastMembers,
+                listOfCrewMembers: listOfCrewMembers,
+                listOfGenreNames: listOfGenreNames
+            }
+        }
+        return null
     }
 }

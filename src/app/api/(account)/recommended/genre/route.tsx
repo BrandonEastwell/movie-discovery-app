@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMoviesByDiscoveryGenre} from "../../../../../lib/api/server/movieLists";
-import {getAuthStateFromRequest} from "../../../../../lib/getAuthStateFromRequest";
-import { prisma } from "../../../../../lib/prisma";
+import {getMoviesByDiscoveryGenre} from "../../../../../lib/api/serverSide/movieLists";
+import {getAuthStateFromRequest} from "../../../../../lib/utils/getAuthStateFromRequest";
+import { prisma } from "../../../../../lib/services/prisma";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 
 export async function GET(req: NextRequest) {
@@ -15,11 +15,11 @@ export async function GET(req: NextRequest) {
                 const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
                 const preferredGenreList = preferences.preferredGenre.split(","); // Split comma-separated genres
 
-                const genreToStrings = await preferencesService.genreIdToString(preferredGenreList);
+                const listOfGenreNames = await preferencesService.genreIdToString(preferredGenreList);
 
-                let discovery = await getMoviesByDiscoveryGenre(preferredGenre, "popularity.desc");
+                const preferredMoviesByGenre = await getMoviesByDiscoveryGenre(preferredGenre, "popularity.desc");
 
-                return NextResponse.json({result: true, movies: discovery.results, strings: genreToStrings}, {status: 200})
+                return NextResponse.json({result: true, movies: preferredMoviesByGenre.results, strings: listOfGenreNames}, {status: 200})
             } else {
                 return NextResponse.json({result: false}, {status: 200})
             }

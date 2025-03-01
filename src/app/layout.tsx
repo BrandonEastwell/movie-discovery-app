@@ -2,7 +2,8 @@ import React from "react";
 import HeaderBar from "../components/server/header-bar";
 import SearchBar from "../components/client/search-bar";
 import UserNavigation from "../components/client/user-navigation";
-import getAuthState from "../lib/getAuthState";
+
+import getAuthState from "../lib/services/authService";
 
 export const metadata = {
   title: 'Layout Template',

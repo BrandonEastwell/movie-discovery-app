@@ -1,5 +1,5 @@
-import {prisma} from "../prisma";
-import {getMovieDetails} from "../api/server/movieDetails";
+import {prisma} from "./prisma";
+import {getMovieDetails} from "../api/serverSide/movieDetails";
 
 interface Movie {
     id: number;

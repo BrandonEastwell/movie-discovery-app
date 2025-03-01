@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMovieDetails} from "../../../../../lib/api/server/movieDetails";
-import { prisma } from "../../../../../lib/prisma";
+import {getMovieDetails} from "../../../../../lib/api/serverSide/movieDetails";
+import { prisma } from "../../../../../lib/services/prisma";
 
 export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {

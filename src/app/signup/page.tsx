@@ -8,6 +8,7 @@ const SignupPage: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const router = useRouter()
+
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
     };
@@ -19,7 +20,7 @@ const SignupPage: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const response = await fetch('api/signup', {
+            const response = await fetch('http://localhost:3000/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getAuthStateFromRequest} from "../../../../lib/getAuthStateFromRequest";
-import { prisma } from "../../../../lib/prisma";
+import {getAuthStateFromRequest} from "../../../../lib/utils/getAuthStateFromRequest";
+import { prisma } from "../../../../lib/services/prisma";
 import {FavouritesService} from "../../../../lib/services/favouritesService";
 import {MoviesService} from "../../../../lib/services/moviesService";
 import {PreferencesService} from "../../../../lib/services/preferencesService";

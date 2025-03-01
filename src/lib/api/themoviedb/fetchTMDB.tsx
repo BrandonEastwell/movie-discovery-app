@@ -13,4 +13,5 @@ const FetchTMDB = async function (endpoint:string, method: 'GET' | 'POST' | 'PUT
     if (response.ok) return response.json();
     throw new requestError(response.statusText, response.status, response)
 }
+
 export default FetchTMDB;

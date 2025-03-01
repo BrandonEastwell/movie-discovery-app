@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../../lib/services/prisma";
 import {cookies} from "next/headers";
 
 export async function POST(req: NextRequest) {
@@ -15,32 +15,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const password = body.password;
         const username = body.username;
-
-        if (typeof password !== 'string' || password.trim().length === 0) {
-            return NextResponse.json({ error: 'Password is required' }, {status: 400});
-        } else {
-            let len = password.length;
-            if (len < 8) {
-                return NextResponse.json({ error: 'Password must meet the safety conditions (8 character length)' }, {status: 400});
-            }
-            const regex = /[!@#$%^&*()\-+={}[\]:;"'<>,.?/|\\]/;
-            if (!regex.test(password)) {
-                return NextResponse.json({ error: 'Password must meet the safety conditions (1 special character)' }, {status: 400});
-            }
-
-            let characters : string[] = [];
-            let uppercase : boolean = false;
-            for (let i = 0; i < len; i++) {
-                const char : string = password.charAt(i);
-                characters[i] = char;
-                if (char == char.toUpperCase()) {
-                    uppercase = true;
-                }
-            }
-            if (!uppercase) {
-                return NextResponse.json({ error: 'Password must meet the safety conditions (1 uppercase)' }, {status: 400});
-            }
-        }
 
         // Find user by username
         const user = await prisma.accounts.findUnique({

@@ -1,10 +1,11 @@
 import "./styles/globals.css"
 import {Movies} from '../components/client/movies-list';
 import React from "react";
-import getAuthState from "../lib/getAuthState";
 import {UserRecommendedMovies} from "../components/recommended-list";
 import {FavouritesService} from "../lib/services/favouritesService";
 import {MoviesService} from "../lib/services/moviesService";
+import {PreferencesService} from "../lib/services/preferencesService";
+import getAuthState from "../lib/services/authService";
 
 interface Movie {
     id: number;
@@ -20,19 +21,18 @@ export default async function Page() {
     const favouriteService = new FavouritesService();
     let favourites : Movie[] = [];
     let favouriteIds: number[] = [];
+    let preferences;
 
     if (userData) {
         favourites = await favouriteService.getFavouriteMovies(userData.userid);
         favouriteIds = favourites.map((movie: Movie) => movie.id);
 
         if (favourites) {
-
-
+            const preferencesService = new PreferencesService();
+            preferences = await preferencesService.getAllListOfPreferences(userData.userid);
         }
 
     }
-
-
 
     return (
         <div className="main-content w-full h-full col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar">
@@ -44,14 +44,14 @@ export default async function Page() {
                     <Movies movies={trending.results} favouriteMovieIds={favouriteIds}/>
                 </div>
 
-                {isLoggedIn && favourites && <UserRecommendedMovies favouriteMoviesIds={[]}
-                                                                    initFavouriteMovies={[]}
-                                                                    initRecommendedCastMovies={[]}
-                                                                    initRecommendedCastMembers={[]}
-                                                                    initRecommendedGenreMovies={[]}
-                                                                    initRecommendedGenreNames={[]}
-                                                                    initRecommendedCrewMovies={[]}
-                                                                    initRecommendedCrewMembers={[]} />
+                {isLoggedIn && favourites && preferences && <UserRecommendedMovies favouriteMoviesIds={favouriteIds}
+                                                                    initFavouriteMovies={favourites}
+                                                                    initRecommendedCastMovies={preferences.preferredMoviesByCast}
+                                                                    initRecommendedCastMembers={preferences.listOfCastMembers}
+                                                                    initRecommendedGenreMovies={preferences.preferredMoviesByGenre}
+                                                                    initRecommendedGenreNames={preferences.listOfGenreNames}
+                                                                    initRecommendedCrewMovies={preferences.preferredMoviesByCrew}
+                                                                    initRecommendedCrewMembers={preferences.listOfCrewMembers} />
                 }
 
                 {isLoggedIn && !favourites }

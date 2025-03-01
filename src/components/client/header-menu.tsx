@@ -2,8 +2,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Link from "next/link";
 import ReactDOM from "react-dom";
-import LoginForm from "./login-form";
 import {useRouter} from "next/navigation";
+import AuthForm from "./auth-form";
 
 interface HeaderMenuProps {
     isLoggedIn: boolean;
@@ -24,7 +24,9 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({isLoggedIn, userData}) => {
                 setIsVisible(false);
             }
         };
+
         document.addEventListener("mousedown", handleOutSideClick);
+
         return () => {
             document.removeEventListener("mousedown", handleOutSideClick);
         };
@@ -63,7 +65,9 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({isLoggedIn, userData}) => {
                 {isLoggedIn ? username : 'login'}
             </button>
 
-            {isVisible && ReactDOM.createPortal(<LoginForm ref={formRef}/>, document.body)}
+            {isVisible && ReactDOM.createPortal(<AuthForm ref={formRef} action={"login"}
+                                                          setIsVisible={() => setIsVisible(false)}
+                                                          isVisible={isVisible} />, document.body)}
         </div>
     );
 }

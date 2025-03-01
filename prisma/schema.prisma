@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model accounts {
@@ -52,25 +53,27 @@ model likedmovies {
 
 // Define the UserPlaylist model
 model userplaylist {
-  playlistid   Int       @id @default(autoincrement())
-  userid       Int
-  playlist_name String   @db.VarChar(255)
-  playlist_desc String?  @db.VarChar(255)
+  playlistid     Int              @id @default(autoincrement())
+  userid         Int
+  playlist_name  String           @db.VarChar(255)
+  playlist_desc  String?          @db.VarChar(255)
   playlistMovies playlistmovies[]
   // Define foreign key relationship with the Accounts model
-  accounts     accounts  @relation(fields: [userid], references: [userid])
+  accounts       accounts         @relation(fields: [userid], references: [userid])
+
   // Ensure uniqueness of the combination of userid and playlistid
   @@unique([userid, playlistid])
 }
 
 // Define the PlaylistMovies model
 model playlistmovies {
-  id           Int       @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   playlistid   Int
   movieid      Int
   position     Int
   // Define foreign key relationship with the UserPlaylist model
   userplaylist userplaylist @relation(fields: [playlistid], references: [playlistid])
+
   // Ensure uniqueness of the combination of playlistid and movieid
   @@unique([playlistid, movieid])
   // Ensure uniqueness of the position within each playlist
@@ -79,9 +82,9 @@ model playlistmovies {
 
 model userpreferences {
   userid         Int      @id
-  preferredGenre   String?   @db.VarChar(100)
-  preferredCast    String?   @db.VarChar(100)
-  preferredCrew    String?   @db.VarChar(100)
+  preferredGenre String?  @db.VarChar(100)
+  preferredCast  String?  @db.VarChar(100)
+  preferredCrew  String?  @db.VarChar(100)
   accounts       accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
 }
 
