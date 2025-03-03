@@ -1,7 +1,7 @@
-'use client'
-import React, {useState} from "react"
+import React from "react"
 import '../../app/styles/globals.css';
-import MovieCard from "../movie-card";
+import MovieCard from "../MovieCard";
+import {AuthService} from "../../lib/services/authService";
 
 interface Movie {
     id: number;
@@ -15,7 +15,7 @@ interface MovieListProps {
     favouriteMovieIds: number[];
 }
 
-const Movies: React.FC<MovieListProps> = ({ movies, favouriteMovieIds }) => {
+const Movies: React.FC<MovieListProps> = async ({movies, favouriteMovieIds}) => {
     const isFavourite = (idToCheck: number) => {
         return favouriteMovieIds != null && favouriteMovieIds.includes(idToCheck);
     }

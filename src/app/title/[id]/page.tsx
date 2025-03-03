@@ -1,5 +1,5 @@
 import React from "react";
-import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../lib/api/serverSide/movieDetails";
+import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../lib/api/server/movieDetails";
 import Link from "next/link";
 
 interface Movie {

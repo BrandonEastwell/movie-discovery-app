@@ -1,7 +1,7 @@
 "use client"
 import React, {useEffect, useState} from "react";
 import {Movies} from "./client/movies-list";
-import {fetchFavouriteMovies} from "../lib/api/clientSide/favourites";
+import {fetchFavouriteMovies} from "../lib/api/client/favourites";
 
 interface Movie {
     id: number;

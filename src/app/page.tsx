@@ -1,7 +1,7 @@
 import "./styles/globals.css"
 import {Movies} from '../components/client/movies-list';
 import React from "react";
-import {UserRecommendedMovies} from "../components/recommended-list";
+import {UserRecommendedMovies} from "../components/RecommendedMovies";
 import {FavouritesService} from "../lib/services/favouritesService";
 import {MoviesService} from "../lib/services/moviesService";
 import {PreferencesService} from "../lib/services/preferencesService";

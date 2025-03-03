@@ -1,8 +1,9 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
-import React, {useRef} from "react";
-import AddToPlaylist from "./add-playlist-btn";
-import AddFavouriteBtn from "./add-favourite-btn";
+import React from "react";
+import AddToPlaylist from "./AddPlaylistButton";
+import AddFavouriteButton from "./AddFavouriteButton";
 
 interface Movie {
     id: number;
@@ -13,17 +14,9 @@ interface Movie {
 }
 
 export default function MovieCard(movie : Movie) {
-    const elemRefs = useRef<HTMLParagraphElement[]>([]);
-
     const imageLoader = ({src}: any) => {
         return `https://image.tmdb.org/t/p/w500${src}`;
     }
-
-    const handleRef = (elem: HTMLParagraphElement | null) => {
-        if (elem) {
-            elemRefs.current.push(elem);
-        }
-    };
 
     return (
         <>
@@ -50,8 +43,8 @@ export default function MovieCard(movie : Movie) {
                 </Link>
                 <div className="flex flex-col max-w-[40px] justify-end gap-4">
                     <div className="gap-2 flex flex-col items-center max-w-[40px]">
-                        <p ref={handleRef} className="pointer-events-none mb-20 text-[2rem] m-0 w-[180px] max-h-[40px] uppercase -rotate-90 text-pearl-white opacity-75 font-vt323 whitespace-nowrap overflow-x-auto no-scrollbar">{movie.title}</p>
-                        <AddFavouriteBtn movieId={movie.id} isFavourite={movie.isFavourite} />
+                        <p className="pointer-events-none mb-20 text-[2rem] m-0 w-[180px] max-h-[40px] uppercase -rotate-90 text-pearl-white opacity-75 font-vt323 whitespace-nowrap overflow-x-auto no-scrollbar">{movie.title}</p>
+                        <AddFavouriteButton movieId={movie.id} isFavourite={movie.isFavourite} isLoggedIn={false} />
                         <AddToPlaylist movieId={movie.id}/>
                     </div>
                 </div>

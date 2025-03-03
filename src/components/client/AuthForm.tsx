@@ -1,9 +1,8 @@
 'use client'
 import React, {forwardRef, useState} from 'react';
-import Link from "next/link";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {handleAuth} from "../../lib/api/clientSide/authentication";
+import {handleAuth} from "../../lib/api/client/authentication";
 
 interface formProps {
     action: "login" | "signup";
@@ -13,7 +12,9 @@ interface formProps {
 
 const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
     const [message, setMessage] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [serverError, setServerError] = useState<string | null>(null);
+    const [usernameError, setUsernameError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [form, setForm] = useState(props.action);
@@ -26,26 +27,50 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
         setPassword(e.target.value);
     };
 
+    function handleError(res: { error: any; errorType: any; message: any; }) {
+        if (res.errorType) {
+            switch (res.errorType) {
+                case "username":
+                    setUsernameError(res.error)
+                    break
+                case "password":
+                    setPasswordError(res.error)
+                    break
+                case "server":
+                    setServerError(res.error)
+                    break
+            }
+        } else {
+            setMessage(res.message)
+        }
+    }
+
+    function resetErrors() {
+        setServerError(null);
+        setPasswordError(null);
+        setUsernameError(null);
+    }
+
     function formActionSignup() {
         setForm('signup');
-        setError(null);
+        resetErrors();
     }
 
     function formActionLogin() {
         setForm('login');
-        setError(null);
+        resetErrors();
     }
 
     return (
         props.isVisible && (
-            <div ref={ref} className="fixed max-w-[500px] max-h-[500px] w-full h-full bg-black bg-opacity-90 top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded overflow-hidden">
+            <div ref={ref} className="fixed max-w-[500px] max-h-[500px] w-full h-full bg-black bg-opacity-95 top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded-2xl overflow-hidden">
                 <div className="flex w-full justify-end">
-                    <button onClick={props.setIsVisible} className="m-1 bg-transparent cursor-pointer">
-                        <FontAwesomeIcon className="text-pearl-white opacity-75" icon={faXmark} size="xl"/>
+                    <button onClick={props.setIsVisible} className="bg-transparent cursor-pointer my-4 mx-4">
+                        <FontAwesomeIcon className="text-pearl-white" icon={faXmark} size="xl"/>
                     </button>
                 </div>
                 <form className="content-wrapper w-[75%] flex flex-col m-auto text-center gap-4">
-                    <h1 className="w-full font-michroma text-[2rem] text-pearl-white font-light">{form === "login" ? "Sign In" : "Sign Up"}</h1>
+                    <h1 className="w-full font-michroma text-[1.5rem] text-pearl-white font-light">{form === "login" ? "Sign in to Sivter" : "Join Sivter Today"}</h1>
                     <div className="input-box rounded bg-[#121212] py-3 px-3 overflow-hidden">
                         <input
                             className="w-full border-none outline-none font-michroma text-[1rem] text-silver bg-transparent"
@@ -57,6 +82,7 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
                             autoComplete={"off"}
                             required
                         />
+                        {usernameError && <p className="font-michroma text-Purple text-[1rem] m-1">{usernameError}</p>}
                     </div>
                     <div className="input-box rounded bg-[#121212] py-3 px-3 overflow-hidden">
                         <input
@@ -69,32 +95,24 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
                             autoComplete={"off"}
                             required
                         />
+                        {passwordError && <p className="font-michroma text-Purple text-[1rem] m-1">{passwordError}</p>}
                     </div>
                     <FormSubmitButton username={username} password={password} action={form}
                                       text={form === "login" ? "Sign In" : "Create Account"}
-                                      setError={(e) => setError(e)} />
-                    <div className="remember-forgot-box w-full flex flex-col gap-2">
+                                      setError={(res) => handleError(res)} />
+                    <div className="remember-forgot-box w-full flex flex-col gap-1">
                         { form === "login" &&
                             <>
-                                <button onClick={formActionSignup} className="font-michroma cursor-pointer bg-transparent text-pearl-white text-[1rem] no-underline">Create account.</button>
-                                <Link className="font-michroma text-silver text-[1rem] m-1 no-underline" href={''}>Forgot password?</Link>
+                                <button className="font-michroma cursor-pointer text-pearl-white bg-transparent text-[1rem] no-underline">Forgot password?</button>
+                                <p className="font-michroma bg-transparent text-silver text-[1rem] no-underline">Don't have an account? <button onClick={formActionSignup} className="font-michroma cursor-pointer bg-transparent text-pearl-white text-[1rem] no-underline">Create account.</button></p>
                             </>
                         }
-
                         { form === "signup" &&
                             <>
-                                <button onClick={formActionLogin} className="font-michroma cursor-pointer bg-transparent text-pearl-white text-[1rem] no-underline">Have an account?
-                                </button>
-                                <p className="font-michroma text-silver text-[1rem] m-1 whitespace-normal">
-                                    Password requirements:
-                                    - 1 Special Character
-                                    - 8 Character Length
-                                    - 1 Uppercase
-                                </p>
+                                <button onClick={formActionLogin} className="font-michroma cursor-pointer bg-transparent text-pearl-white text-[1rem] no-underline">Have an account?</button>
                             </>
                         }
-                        {message && <p className="font-michroma text-Purple text-[1rem] m-1">{message}</p>}
-                        {error && <p className="font-michroma text-red-800 text-[1rem] m-1">{error}</p>}
+                        {serverError && <p className="font-michroma text-red-800 text-[1rem] m-1">{serverError}</p>}
                     </div>
                 </form>
             </div>
@@ -106,14 +124,14 @@ interface FormSubmitButtonProps {
     password: string;
     action: "login" | "signup";
     text: string;
-    setError: (e: string) => void;
+    setError: (e: { error: string; errorType: string; message: string}) => void;
 }
 
 const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, action, text, setError})=> {
     return (
-        <button className="submit w-full font-michroma bg-Purple text-pearl-white text-center rounded p-3 cursor-pointer"
+        <button className="submit w-full font-michroma bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
                 type="submit" onClick={async (event) => {
-                    const res = await handleAuth(event, action, username, password);
+                    const res : {error: string, errorType: string, message: string} = await handleAuth(event, action, username, password);
                     setError(res);
                 }
         }>{text}

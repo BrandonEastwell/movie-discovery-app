@@ -1,4 +1,4 @@
-import fetchTMDB from "../themoviedb/fetchTMDB";
+import fetchTMDB from "./fetchTMDB";
 
 export async function getMovieDetails(id:number) {
     return fetchTMDB(`movie/${id}`, "GET")

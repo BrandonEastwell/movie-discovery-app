@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React from "react";
 
-export default function NavBtn({ params } : { params: { name: string, symbol: string, href: string }}) {
+export default function NavButton({ params } : { params: { name: string, symbol: string, href: string }}) {
     const { name, symbol, href } = params;
     return (
         <div className="flex flex-row gap-[1rem] place-items-center pt-4">

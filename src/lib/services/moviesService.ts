@@ -1,5 +1,5 @@
-import {getPopular, getTopRated, getTrendingWeekMovie, getUpcoming} from "../api/serverSide/movieLists";
-import {getMovieCredits, getMovieDetails} from "../api/serverSide/movieDetails";
+import {getPopular, getTopRated, getTrendingWeekMovie, getUpcoming} from "../api/server/movieLists";
+import {getMovieCredits, getMovieDetails} from "../api/server/movieDetails";
 
 interface Cast {
     id: number

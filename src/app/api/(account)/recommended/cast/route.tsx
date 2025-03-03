@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import { prisma } from "../../../../../lib/services/prisma";
-import {getMoviesByDiscoveryCast} from "../../../../../lib/api/serverSide/movieLists";
+import {getMoviesByDiscoveryCast} from "../../../../../lib/api/server/movieLists";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 import {AuthService} from "../../../../../lib/services/authService";
 

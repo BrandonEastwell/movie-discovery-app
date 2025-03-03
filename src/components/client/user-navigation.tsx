@@ -4,16 +4,16 @@ import Image from 'next/image'
 import netflix from '../../images/netflix.svg'
 import disney from '../../images/disney.svg'
 import primevideo from '../../images/primevideo.svg'
-import NavBtn from "../nav-btn";
+import NavButton from "../NavButton";
 
 function UserNavigation() {
         return (
                 <div className="fixed flex flex-col place-items-start overflow-hidden w-52 max-w-[200px] text-xl text-gray-100">
                     <div className="grid grid-cols-1 grid-rows-4 place-items-start">
-                        <NavBtn params={{name: "home", symbol: "home", href: "../.."}} />
-                        <NavBtn params={{name: "suggest me", symbol: "psychology", href: ""}} />
-                        <NavBtn params={{name: "discovery queue", symbol: "layers", href: ""}} />
-                        <NavBtn params={{name: "trending", symbol: "local_fire_department", href: "../.."}} />
+                        <NavButton params={{name: "home", symbol: "home", href: "../.."}} />
+                        <NavButton params={{name: "suggest me", symbol: "psychology", href: ""}} />
+                        <NavButton params={{name: "discovery queue", symbol: "layers", href: ""}} />
+                        <NavButton params={{name: "trending", symbol: "local_fire_department", href: "../.."}} />
                     </div>
                     <div className="flex flex-col items-start justify-center py-[25px] gap-[20px]">
                         <Image

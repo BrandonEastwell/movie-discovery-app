@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Link from "next/link";
 import ReactDOM from "react-dom";
 import {useRouter} from "next/navigation";
-import AuthForm from "./auth-form";
+import AuthForm from "./AuthForm";
 
 interface HeaderMenuProps {
     isLoggedIn: boolean;

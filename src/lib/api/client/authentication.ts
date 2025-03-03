@@ -20,7 +20,7 @@ const handleAuth = async (e: React.FormEvent, action: "login" | "signup", userna
             return router.push(`/account/${data.userid}`);
         } else {
             console.error(`${action} failed: `, data.error);
-            return data.error;
+            return data;
         }
     } catch (error : any) {
         console.error(`${action} failed: `, error.response?.data);

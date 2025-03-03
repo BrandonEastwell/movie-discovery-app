@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMoviesByDiscoveryGenre} from "../../../../../lib/api/serverSide/movieLists";
+import {getMoviesByDiscoveryGenre} from "../../../../../lib/api/server/movieLists";
 import { prisma } from "../../../../../lib/services/prisma";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 import {AuthService} from "../../../../../lib/services/authService";
