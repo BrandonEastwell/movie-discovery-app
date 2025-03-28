@@ -29,9 +29,8 @@ function AccountNavigation() {
     }, []);
 
     return (
-        <div className="fixed flex flex-col items-start justify-start overflow-hidden w-52 max-w-[200px] text-left text-xl text-gray-100">
-            <div
-                className="self-stretch flex flex-col items-start justify-start pt-4 pb-0 pr-0 pl-6 gap-[1rem] text-pearl-white">
+        <div className="flex flex-col items-start justify-start overflow-hidden w-full max-w-[200px] text-left text-xl text-gray-100">
+            <div className="self-stretch flex flex-col items-start justify-start pt-4 pb-0 pr-0 pl-6 gap-[1rem] text-pearl-white">
                 <div className="flex flex-row items-start justify-center gap-[1.5rem]">
                     <span className="material-symbols-outlined text-[1rem]">home</span>
                     <Link href={`http://localhost:3000`}

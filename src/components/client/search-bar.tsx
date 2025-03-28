@@ -28,7 +28,7 @@ const SearchBar: React.FC = () => {
     };
 
     return (
-        <div className="fixed max-w-[1920px] w-full flex flex-row items-center justify-center py-[7px] px-0 gap-4 text-5xl text-gray-300">
+        <div className="max-w-[1920px] w-full flex flex-row items-center justify-center py-[7px] px-0 gap-4 text-5xl text-gray-300">
             <div className="flex flex-row items-start justify-between gap-5">
                 <input
                     id="search"

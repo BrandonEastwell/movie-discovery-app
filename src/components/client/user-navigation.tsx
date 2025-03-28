@@ -8,7 +8,7 @@ import NavButton from "../NavButton";
 
 function UserNavigation() {
         return (
-                <div className="fixed flex flex-col place-items-start overflow-hidden w-52 max-w-[200px] text-xl text-gray-100">
+                <div className="min-w-[200px] flex flex-col place-items-start text-xl text-gray-100">
                     <div className="grid grid-cols-1 grid-rows-4 place-items-start">
                         <NavButton params={{name: "home", symbol: "home", href: "../.."}} />
                         <NavButton params={{name: "suggest me", symbol: "psychology", href: ""}} />

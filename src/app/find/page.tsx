@@ -7,7 +7,7 @@ export default async function Page({ searchParams }: { searchParams?: Promise<{ 
 
     const moviesResult = await getMediaBySearch(query.replaceAll(' ', '%20'));
         return (
-            <div className="main-content flex flex-row col-span-1 col-start-2 row-start-3 z-0 overflow-hidden">
+            <div className="flex flex-row col-span-1 col-start-2 row-start-3 z-0 overflow-hidden">
                 <div className="w-full h-full flex flex-col gap-1 justify-start overflow-hidden no-scrollbar">
                     <b className="flex items-center text-[1rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
                         {" results for " + query}

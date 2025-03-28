@@ -15,7 +15,7 @@ export default function AddFavouriteButton({movieId, isFavourite, isLoggedIn} : 
         <button onClick={(event) => handleFavourite(event)} value={movieId}
                 className="p-0 bg-transparent max-h-[32px] max-w-[32px] cursor-pointer">
             <FontAwesomeIcon
-                className={favourite ? "text-Purple" : "text-pearl-white" + " opacity-75"}
+                className={favourite.favourite ? "text-Purple" : "text-pearl-white" + " opacity-75"}
                 icon={faHeart} size="xl"/>
         </button>
     )

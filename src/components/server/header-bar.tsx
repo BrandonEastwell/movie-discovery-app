@@ -3,7 +3,7 @@ import React from "react";
 
 export default function HeaderBar({isLoggedIn, userData} : {isLoggedIn: boolean, userData: { userid: number; username: string } | null}){
     return (
-        <div className="fixed grid grid-cols-3 w-full max-w-[1920px] pt-0 font-vt323">
+        <div className="max-w-[1920px] grid grid-cols-3 w-full font-vt323">
             <h1 className="place-self-start self-center m-0 p-0 tracking-[0.31em] text-[3rem] text-[#5F43B2] font-medium">
                 SIVTER
             </h1>

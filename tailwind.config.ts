@@ -14,12 +14,11 @@ module.exports = {
       'black': "#000",
     },
       gridTemplateColumns: {
-        'layout': 'minmax(2rem, 25rem) 1fr',
+        'layout': 'auto 1fr',
       },
       gridTemplateRows: {
-        'layout': 'minmax(1rem, 5rem) minmax(1rem, 2.5rem) 1fr',
+        'layout': 'auto auto 1fr',
       },
-      spacing: {},
       fontFamily: {
         montserrat: ["Montserrat", 'sans-serif'],
         vt323: "VT323",

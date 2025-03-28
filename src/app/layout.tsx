@@ -34,18 +34,20 @@ export default async function RootLayout({children}: { children: React.ReactNode
                 rel="stylesheet"/>
             <title></title>
         </head>
-        <body className="flex justify-center bg-custom-gradient w-screen">
-        <div className="container grid grid-cols-layout grid-rows-layout w-screen max-w-[1920px] pb-0 pl-6">
-            <div className="header relative col-span-2 z-10 bg-transparent">
+        <body className="flex justify-center bg-custom-gradient min-h-screen w-screen">
+        <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_auto_1fr] w-screen max-h-screen max-w-[1920px] pl-6">
+            <div className="col-start-1 col-end-3 row-start-1 z-10 bg-transparent">
                 <HeaderBar isLoggedIn={isLoggedIn} userData={userData}/>
             </div>
-            <div className="search relative col-span-2 z-10 bg-transparent">
+            <div className="col-start-1 col-end-3 row-start-2 z-10 bg-transparent">
                 <SearchBar/>
             </div>
-            <div className="navigation relative col-span-1 row-start-3 z-10 bg-transparent">
+            <div className="col-start-1 col-end-2 row-start-3 z-10 bg-transparent">
                 <UserNavigation/>
             </div>
-            {children}
+            <div className="col-start-2 col-end-3 row-start-3 z-10 bg-transparent overflow-y-auto no-scrollbar scroll-smooth">
+                {children}
+            </div>
         </div>
         </body>
         </html>
