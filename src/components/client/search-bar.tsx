@@ -1,6 +1,6 @@
 'use client'
-import React, {useEffect, useState} from 'react';
-import {useSearchParams, useRouter, usePathname} from 'next/navigation';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useRouter} from 'next/navigation';
 
 const SearchBar: React.FC = () => {
     const router = useRouter()
@@ -17,29 +17,30 @@ const SearchBar: React.FC = () => {
                 params.set(key, value);
             }
         });
-        router.push(`/find?${params.toString()}`, {});
+        router.push(`/find?${params.toString()}`);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.currentTarget;
-        const updatedQuery= { ...searchTerm, q: value};
-        setSearchTerm(updatedQuery)
+    useEffect(() => {
         handleSearch();
-    };
+    }, [searchTerm])
+
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(prevState => ({...prevState, q: e.target.value}));
+    }, []);
 
     return (
-        <div className="max-w-[1920px] w-full flex flex-row items-center justify-center py-[7px] px-0 gap-4 text-5xl text-gray-300">
+        <div className="max-w-[1920px] w-full flex flex-row place-content-center gap-4">
             <div className="flex flex-row items-start justify-between gap-5">
                 <input
                     id="search"
-                    className="justify-start text-left border-none focus:outline-none font-robotomono w-[20rem] text-base bg-[transparent] text-gray-300"
-                    placeholder="Search for name, genre or category..."
+                    className="justify-start font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-300 text-pearl-white"
+                    placeholder="search by name, genre or category..."
                     type="text"
                     value={searchTerm.q}
                     onChange={handleChange}
                 />
                 <button
-                    className="justify-end text-right cursor-pointer [border:none] p-0 bg-[transparent] text-base font-robotomono text-pearl-white inline-block"
+                    className="font-iconsolata text-base justify-end place-self-center cursor-pointer bg-[transparent] text-pearl-white"
                     onClick={handleSearch}>
                     explore
                 </button>

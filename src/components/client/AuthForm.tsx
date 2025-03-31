@@ -2,7 +2,7 @@
 import React, {forwardRef, useState} from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {handleAuth} from "../../lib/api/client/authentication";
+import {FormSubmitButton} from "./form/FormSubmitButton";
 
 interface formProps {
     action: "login" | "signup";
@@ -63,7 +63,7 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
 
     return (
         props.isVisible && (
-            <div ref={ref} className="fixed max-w-[500px] max-h-[500px] w-full h-full bg-black bg-opacity-95 top-1/3 left-1/2 mr-[-20vh] ml-[-15vw] rounded-2xl overflow-hidden">
+            <div ref={ref} className="fixed max-w-[500px] max-h-[500px] w-full h-full bg-black bg-opacity-95 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl z-20 overflow-hidden">
                 <div className="flex w-full justify-end">
                     <button onClick={props.setIsVisible} className="bg-transparent cursor-pointer my-4 mx-4">
                         <FontAwesomeIcon className="text-pearl-white" icon={faXmark} size="xl"/>
@@ -118,25 +118,5 @@ const AuthForm = forwardRef<HTMLDivElement, formProps>((props, ref) => {
             </div>
         ))
 });
-
-interface FormSubmitButtonProps {
-    username: string;
-    password: string;
-    action: "login" | "signup";
-    text: string;
-    setError: (e: { error: string; errorType: string; message: string}) => void;
-}
-
-const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, action, text, setError})=> {
-    return (
-        <button className="submit w-full font-michroma bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
-                type="submit" onClick={async (event) => {
-                    const res : {error: string, errorType: string, message: string} = await handleAuth(event, action, username, password);
-                    setError(res);
-                }
-        }>{text}
-        </button>
-    )
-}
 
 export default AuthForm;

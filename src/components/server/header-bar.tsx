@@ -3,11 +3,11 @@ import React from "react";
 
 export default function HeaderBar({isLoggedIn, userData} : {isLoggedIn: boolean, userData: { userid: number; username: string } | null}){
     return (
-        <div className="max-w-[1920px] grid grid-cols-3 w-full font-vt323">
-            <h1 className="place-self-start self-center m-0 p-0 tracking-[0.31em] text-[3rem] text-[#5F43B2] font-medium">
+        <div className="w-full grid grid-cols-3">
+            <h1 className="text-left self-center tracking-[0.3em] text-6xl text-[#5F43B2] font-vt323 font-semibold">
                 SIVTER
             </h1>
-            <h1 className="place-self-center m-0 p-0 tracking-[0.31em] text-[4rem] text-white font-michroma font-medium">
+            <h1 className="text-center self-center tracking-[0.1em] text-8xl text-white font-vt323 font-semibold">
                 FILM
             </h1>
             <HeaderMenu isLoggedIn={isLoggedIn} userData={userData}></HeaderMenu>

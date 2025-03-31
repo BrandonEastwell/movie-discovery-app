@@ -1,11 +1,11 @@
-import "./styles/globals.css"
-import {Movies} from '../components/client/movies-list';
+import "../styles/globals.css"
+import {Movies} from '../../components/client/movies-list';
 import React from "react";
-import {UserRecommendedMovies} from "../components/RecommendedMovies";
-import {FavouritesService} from "../lib/services/favouritesService";
-import {MoviesService} from "../lib/services/moviesService";
-import {PreferencesService} from "../lib/services/preferencesService";
-import {AuthService} from "../lib/services/authService";
+import {UserRecommendedMovies} from "../../components/RecommendedMovies";
+import {FavouritesService} from "../../lib/services/favouritesService";
+import {MoviesService} from "../../lib/services/moviesService";
+import {PreferencesService} from "../../lib/services/preferencesService";
+import {AuthService} from "../../lib/services/authService";
 
 interface Movie {
     id: number;
@@ -35,8 +35,8 @@ export default async function Page() {
     }
 
     return (
-        <div className="w-full flex flex-col gap-10 justify-start overflow-hidden no-scrollbar">
-            <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+        <div className="w-full flex flex-col gap-10 justify-start font-vt323 overflow-hidden no-scrollbar">
+            <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 TRENDING FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
@@ -53,19 +53,19 @@ export default async function Page() {
                                                                                initRecommendedCrewMembers={preferences.listOfCrewMembers} />
             }
 
-            <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+            <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 POPULAR FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
                 <Movies movies={popular.results} favouriteMovieIds={favouriteIds}/>
             </div>
-            <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+            <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 CRITICALLY ACCLAIMED FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
                 <Movies movies={topRated.results} favouriteMovieIds={favouriteIds}/>
             </div>
-            <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
+            <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 UPCOMING FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">

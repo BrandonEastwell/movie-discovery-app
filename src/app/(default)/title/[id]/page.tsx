@@ -1,6 +1,6 @@
 import React from "react";
-import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../lib/api/server/movieDetails";
 import Link from "next/link";
+import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/server/movieDetails";
 
 interface Movie {
     id: number;

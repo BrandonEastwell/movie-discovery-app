@@ -8,8 +8,8 @@ import NavButton from "../NavButton";
 
 function UserNavigation() {
         return (
-                <div className="min-w-[200px] flex flex-col place-items-start text-xl text-gray-100">
-                    <div className="grid grid-cols-1 grid-rows-4 place-items-start">
+                <div className="min-w-[200px] flex flex-col place-items-start font-semibold text-gray-100">
+                    <div className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
                         <NavButton params={{name: "home", symbol: "home", href: "../.."}} />
                         <NavButton params={{name: "suggest me", symbol: "psychology", href: ""}} />
                         <NavButton params={{name: "discovery queue", symbol: "layers", href: ""}} />
@@ -39,25 +39,25 @@ function UserNavigation() {
                         />
                     </div>
                     <div className="flex flex-col place-items-start box-border gap-[25px] text-[0.65rem]">
-                        <div className="self-stretch flex flex-col items-start justify-start gap-[7px]">
-                            <div className="self-stretch relative text-sm font-robotomono text-silver">RECENTLY VIEWED</div>
-                            <div className="relative lowercase font-robotomono">oppenheimer</div>
-                            <div className="relative lowercase font-robotomono">BARBIE</div>
-                            <div className="relative lowercase font-robotomono">PRISONERS</div>
+                        <div className="flex flex-col items-start justify-start gap-[7px]">
+                            <div className="text-sm text-silver font-vt323">RECENTLY VIEWED</div>
+                            <div className="lowercase">oppenheimer</div>
+                            <div className="lowercase">BARBIE</div>
+                            <div className="lowercase">PRISONERS</div>
                         </div>
-                        <div className="self-stretch flex flex-col items-start justify-start gap-[7px]">
-                            <div className="self-stretch relative text-sm font-robotomono text-silver">BY CATEGORIES</div>
-                            <div className="self-stretch relative lowercase font-robotomono">TOP WATCHED</div>
-                            <div className="self-stretch relative lowercase font-robotomono">NEW RELEASE</div>
-                            <div className="self-stretch relative lowercase font-robotomono">SIMILAR TO</div>
-                            <div className="self-stretch relative lowercase font-robotomono">NETFLIX ONLY</div>
+                        <div className="flex flex-col items-start justify-start gap-[7px]">
+                            <div className="text-sm text-silver font-vt323">BY CATEGORIES</div>
+                            <div className="lowercase">TOP WATCHED</div>
+                            <div className="lowercase">NEW RELEASE</div>
+                            <div className="lowercase">SIMILAR TO</div>
+                            <div className="lowercase">NETFLIX ONLY</div>
                         </div>
-                        <div className="self-stretch flex flex-col items-start justify-start gap-[7px]">
-                            <div className="relative text-sm font-robotomono text-silver">BY GENRE</div>
-                            <div className="relative lowercase font-robotomono">ACTION</div>
-                            <div className="relative lowercase font-robotomono">ADVENTURE</div>
-                            <div className="relative lowercase font-robotomono">THRILLER</div>
-                            <div className="relative lowercase font-robotomono">COMEDY</div>
+                        <div className="flex flex-col items-start justify-start gap-[7px]">
+                            <div className="text-sm text-silver font-vt323">BY GENRE</div>
+                            <div className="lowercase">ACTION</div>
+                            <div className="lowercase">ADVENTURE</div>
+                            <div className="lowercase">THRILLER</div>
+                            <div className="lowercase">COMEDY</div>
                         </div>
                     </div>
                 </div>

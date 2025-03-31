@@ -6,8 +6,8 @@ export default function NavButton({ params } : { params: { name: string, symbol:
     const { name, symbol, href } = params;
     return (
         <div className="flex flex-row gap-[1rem] place-items-center pt-4">
-            <span className="material-symbols-outlined text-[1rem] text-pearl-white">{symbol}</span>
-            <Link href={href} className="lowercase no-underline text-[1rem] text-pearl-white font-robotomono">{name}</Link>
+            <span className="material-symbols-outlined text-sm text-pearl-white">{symbol}</span>
+            <Link href={href} className="no-underline text-base text-pearl-white">{name}</Link>
         </div>
     )
 }

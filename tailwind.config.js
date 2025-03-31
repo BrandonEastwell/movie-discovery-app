@@ -39,20 +39,12 @@ module.exports = {
         poppins: "Poppins",
         robotomono: ["Roboto Mono", 'monospace'],
         michroma: "Michroma",
+        iconsolata: ["Inconsolata", 'monospace'],
       },
       borderRadius: {
         "8xs": "5px",
       },
-    },
-    fontSize: {
-      sm: "14px",
-      base: "16px",
-      xl: "20px",
-      "5xl": "24px",
-      "17xl": "36px",
-      "13xl": "32px",
-      inherit: "inherit",
-    },
+    }
   },
   corePlugins: {
     preflight: false,
