@@ -9,6 +9,7 @@ const SearchBar: React.FC = () => {
         page: "",
         sort: ""
     });
+    const isInitialRender = React.useRef(true);
 
     const handleSearch = () => {
         const params = new URLSearchParams();
@@ -19,10 +20,6 @@ const SearchBar: React.FC = () => {
         });
         router.push(`/find?${params.toString()}`);
     };
-
-    useEffect(() => {
-        handleSearch();
-    }, [searchTerm])
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(prevState => ({...prevState, q: e.target.value}));

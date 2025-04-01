@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt, {verify} from "jsonwebtoken";
 import {cookies} from "next/headers";
 import {NextRequest, NextResponse} from "next/server";
+import {jwtVerify, SignJWT} from "jose";
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -15,7 +16,6 @@ if (!JWT_SECRET) {
     //const jwtSecretKey = crypto.randomBytes(32).toString('hex');
     //console.log("secret key:", jwtSecretKey);
 }
-
 
 export class AuthService {
     static getFirstUserByUsername(username: string) {
@@ -55,29 +55,26 @@ export class AuthService {
         })
     }
 
-    static signToken(userid: number, username: string){
-        return jwt.sign({ userid: userid, username: username }, `${JWT_SECRET}`, {
-            expiresIn: `${JWT_EXPIRES_IN}`
-        });
+    static async signToken(userid: number, username: string) {
+        const secretKey = new TextEncoder().encode(JWT_SECRET);
+
+        return await new SignJWT({userid, username})
+            .setProtectedHeader({alg: "HS256"})
+            .setExpirationTime(JWT_EXPIRES_IN)
+            .sign(secretKey);
     }
 
-    static decodeToken(token: string | undefined) {
-        let isLoggedIn = false;
-        let userData = null;
+    static async decodeToken(token: string | undefined) {
+        if (!token) return {isLoggedIn: false, userData: null};
 
-        if (token) {
-            try {
-                userData = verify(token, `${JWT_SECRET}`) as { username: string, userid: number };
-                // if decode successful
-                if (userData.username) {
-                    isLoggedIn = true;
-                }
-            } catch (error) {
-                console.error('Token verification failed:', error);
-            }
+        try {
+            const secretKey = new TextEncoder().encode(JWT_SECRET);
+            const { payload } = await jwtVerify(token, secretKey) as { payload: {username: string, userid: number}};
+            return {isLoggedIn: !!payload.username, userData: {username: payload.username, userid: payload.userid}};
+        } catch (error) {
+            console.error("Token verification failed:", error);
+            return {isLoggedIn: false, userData: null};
         }
-
-        return {isLoggedIn, userData}
     }
 
     static async getAuthState() {

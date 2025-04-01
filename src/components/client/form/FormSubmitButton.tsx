@@ -11,7 +11,7 @@ interface FormSubmitButtonProps {
 
 const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, action, text, setError})=> {
     return (
-        <button className="submit w-full font-michroma bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
+        <button className="submit w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
                 type="submit" onClick={async (event) => {
             const res : {error: string, errorType: string, message: string} = await handleAuth(event, action, username, password);
             setError(res);

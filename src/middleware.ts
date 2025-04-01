@@ -1,17 +1,20 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {TokenExpiredError, verify} from "jsonwebtoken";
+import {TokenExpiredError} from "jsonwebtoken";
 import {AuthService} from "./lib/services/authService";
 
-export function middleware(req: NextRequest) {
-    const { origin } = req.nextUrl;
+export const config = {
+    runtime: 'nodejs', // Force Node.js runtime (avoids Edge restrictions)
+};
+
+export async function middleware(req: NextRequest) {
+    const {origin} = req.nextUrl;
     let res = NextResponse;
     const protectedPaths = ['/account'];
     const isProtectedPath = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
     const isAuthPath = req.nextUrl.pathname.startsWith('/login');
 
     try {
-        const {isLoggedIn} = AuthService.getAuthStateFromRequestHeader(req);
-        console.log('MIDDLEWARE: Authentication Successful');
+        const { isLoggedIn } = await AuthService.getAuthStateFromRequestHeader(req);
 
         if (isProtectedPath && !isLoggedIn) {
             res.json({error: 'User must be login to access this path'}, {status: 400});
@@ -21,6 +24,8 @@ export function middleware(req: NextRequest) {
         if (isAuthPath) {
             return res.redirect(new URL(`/`, req.url));
         }
+
+        console.log('MIDDLEWARE: Authentication Successful');
 
     } catch (error) {
         if (isProtectedPath) {

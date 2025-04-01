@@ -3,7 +3,7 @@ import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import useFavourite from "../lib/hooks/useFavourite";
 
-export default function AddFavouriteButton({movieId, isFavourite, isLoggedIn} : {movieId: number, isFavourite: boolean, isLoggedIn: boolean}) {
+export default function AddFavouriteButton({movieId, isFavourite} : {movieId: number, isFavourite: boolean, isLoggedIn: boolean}) {
     const favourite = useFavourite(isFavourite, movieId)
 
     const handleFavourite = async (e: any) => {

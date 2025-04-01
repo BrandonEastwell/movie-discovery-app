@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Link from "next/link";
 import ReactDOM from "react-dom";
 import {useRouter} from "next/navigation";
-import AuthForm from "./AuthForm";
+import AuthPopup from "./form/AuthPopup";
 
 interface HeaderMenuProps {
     isLoggedIn: boolean;
@@ -54,9 +54,9 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({isLoggedIn, userData}) => {
                     onClick={handleAccountClick}>
                 {isLoggedIn ? username : 'login'}
             </button>
-            {isVisible && ReactDOM.createPortal(<AuthForm ref={formRef} action={"login"}
-                                                          setIsVisible={() => setIsVisible(false)}
-                                                          isVisible={isVisible} />, document.body)}
+            {isVisible && ReactDOM.createPortal(<AuthPopup ref={formRef} action={"login"}
+                                                           setIsVisible={() => setIsVisible(false)}
+                                                           isVisible={isVisible} />, document.body)}
         </div>
     );
 }

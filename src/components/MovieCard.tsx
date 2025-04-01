@@ -19,20 +19,20 @@ export default function MovieCard(movie : Movie) {
     }
 
     return (
-        <>
-            <div className="flex h-full w-full flex-row max-h-[250px] max-w-[300px] align-middle">
+        <div className="flex flex-col max-h-[325px] max-w-[300px]">
+            <div className="flex h-full w-full flex-row max-h-[250px] align-middle">
                 <div className="flex flex-col max-w-[10px] justify-end gap-16 whitespace-nowrap mr-1">
-                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-75 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK
+                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK
                         PORTRA 400</p>
-                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-75 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">17
+                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">17
                         42</p>
-                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-75 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK</p>
+                    <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK</p>
                 </div>
                 <Link href={`/title/${movie.id}`} className="max-h-[250px] max-w-[250px]">
                     {movie.poster_path
                         && (
                             <Image
-                                className="w-[250px] h-[250px] dark:shadow-gray-800 object-cover object-center overflow-hidden"
+                                className="w-[250px] h-[250px] object-cover object-center overflow-hidden"
                                 loader={imageLoader}
                                 src={`${movie?.backdrop_path}`}
                                 alt={`${movie?.title} Poster`}
@@ -42,13 +42,13 @@ export default function MovieCard(movie : Movie) {
                         )}
                 </Link>
                 <div className="flex flex-col max-w-[40px] justify-end gap-4">
-                    <div className="gap-2 flex flex-col items-center max-w-[40px]">
-                        <p className="pointer-events-none mb-20 text-[2rem] m-0 w-[180px] max-h-[40px] uppercase -rotate-90 text-pearl-white opacity-75 font-vt323 whitespace-nowrap overflow-x-auto no-scrollbar">{movie.title}</p>
+                    <div className="gap-2 pl-1 flex flex-col items-center max-w-[40px]">
                         <AddFavouriteButton movieId={movie.id} isFavourite={movie.isFavourite} isLoggedIn={false} />
                         <AddToPlaylist movieId={movie.id}/>
                     </div>
                 </div>
             </div>
-        </>
+            <p className="px-3 m-0 text-3xl uppercase text-pearl-white font-vt323">{movie.title}</p>
+        </div>
     );
 }

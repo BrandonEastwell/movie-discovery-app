@@ -1,6 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
-@import '../../../node_modules/tailwindcss/base.css';
-@import '../../../node_modules/tailwindcss/components.css';
 @import '../../../node_modules/tailwindcss/utilities.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
@@ -38,7 +36,7 @@
   }
 }
 body {
-  @apply leading-[normal] m-0;
+  @apply leading-[normal];
 }
 *,
 ::before,
