@@ -23,7 +23,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
             <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet"/>
             <title></title>
         </head>
-        <body className="flex justify-center bg-custom-gradient min-h-screen w-full">
+        <body className="flex justify-center bg-custom-gradient min-h-screen w-full overflow-hidden">
             <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_auto_1fr] max-h-screen w-screen max-w-[1920px]">
                 {children}
             </div>

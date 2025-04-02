@@ -4,22 +4,23 @@ import {FavouritesService} from "../../../../lib/services/favouritesService";
 import {AuthService} from "../../../../lib/services/authService";
 
 export async function POST(req: NextRequest) {
-    let movieid: number | null;
-    const body = await req.json();
-    movieid = typeof body.movieid === 'number' ? body.movieid : parseInt(body.movieid);
-
     try {
-        const authState = AuthService.getAuthStateFromRequestHeader(req);
+        const authState = await AuthService.getAuthStateFromRequestHeader(req);
 
-        //add or remove movie id to favourite database process
+        const body = await req.json();
+        let movieid = typeof body.movieid === 'number' ? body.movieid : parseInt(body.movieid);
+
+        // Add or remove movie id to favourite database process
         if (authState.userData && authState.userData.userid && movieid != null) {
             const action = await FavouritesService.toggleFavourite(authState.userData.userid, movieid);
-            return NextResponse.json({result: action}, {status: 200})
+            console.log(action)
+            return NextResponse.json({ success: true, result: action }, {status: 200})
+        } else {
+            return NextResponse.json({ success: false, error: 'Error Authenticating' }, {status: 401});
         }
-        return NextResponse.json({ error: 'Error Authenticating' }, {status: 401});
     } catch (error) {
-        console.error('Error Authenticating:', error);
-        return NextResponse.json({ error: error }, {status: 500});
+        console.error('Error: ', error);
+        return NextResponse.json({ success: false, error: error }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }
@@ -27,17 +28,18 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        const authState = AuthService.getAuthStateFromRequestHeader(req);
+        const authState = await AuthService.getAuthStateFromRequestHeader(req);
 
         // If authentication is successful, extract userid and username from data
         if (authState.userData && authState.userData.userid) {
-            const movies = FavouritesService.getFavouriteMovies(authState.userData.userid);
-            return NextResponse.json({result: movies}, {status: 200})
+            const movies = await FavouritesService.getFavouriteMovies(authState.userData.userid);
+            return NextResponse.json({ success: true, result: movies }, {status: 200})
+        } else {
+            return NextResponse.json({ success: false, error: 'Error Authenticating' }, {status: 401});
         }
-        return NextResponse.json({result: null}, {status: 200})
     } catch (error) {
-        console.error('Error Authenticating:', error);
-        return NextResponse.json({ error: error }, {status: 500});
+        console.error('Error: ', error);
+        return NextResponse.json({ success: false, error: error }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }

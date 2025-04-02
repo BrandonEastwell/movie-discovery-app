@@ -1,5 +1,5 @@
 import React from "react";
-import MoviesSearch from "../../../components/client/movies-search";
+import MoviesSearchList from "../../../components/client/MoviesSearchList";
 import {getMediaBySearch} from "../../../lib/api/server/movieLists";
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
@@ -12,7 +12,7 @@ export default async function Page({ searchParams }: { searchParams?: Promise<{ 
                     {"results for " + query}
                 </b>
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,250px))] mt-10 gap-7 overflow-x-hidden no-scrollbar">
-                    <MoviesSearch movies={moviesResult.results} query={query}/>
+                    <MoviesSearchList movies={moviesResult.results} query={query}/>
                 </div>
             </div>
         )

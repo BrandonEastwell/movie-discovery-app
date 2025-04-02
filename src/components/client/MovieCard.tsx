@@ -13,7 +13,7 @@ interface Movie {
     isFavourite: boolean;
 }
 
-export default function MovieCard(movie : Movie) {
+export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedIn: boolean}) {
     const imageLoader = ({src}: any) => {
         return `https://image.tmdb.org/t/p/w500${src}`;
     }
@@ -43,7 +43,7 @@ export default function MovieCard(movie : Movie) {
                 </Link>
                 <div className="flex flex-col max-w-[40px] justify-end gap-4">
                     <div className="gap-2 pl-1 flex flex-col items-center max-w-[40px]">
-                        <AddFavouriteButton movieId={movie.id} isFavourite={movie.isFavourite} isLoggedIn={false} />
+                        <AddFavouriteButton movieId={movie.id} isFavourite={movie.isFavourite} isLoggedIn={isLoggedIn} />
                         <AddToPlaylist movieId={movie.id}/>
                     </div>
                 </div>

@@ -17,8 +17,8 @@ const useAuthForm = (action: "login" | "signup") => {
         setPassword(e.target.value);
     };
 
-    function handleError(res: { error: any; errorType: any; message: any; }) {
-        if (res.errorType) {
+    function handleError(res: { success: boolean; error: string; errorType: string; }) {
+        if (!res.success) {
             switch (res.errorType) {
                 case "username":
                     setUsernameError(res.error)
@@ -31,7 +31,7 @@ const useAuthForm = (action: "login" | "signup") => {
                     break
             }
         } else {
-            setMessage(res.message)
+            setMessage(`Successful ${action}`)
         }
     }
 

@@ -1,7 +1,7 @@
 import "../styles/globals.css"
-import {Movies} from '../../components/client/movies-list';
+import {Movies} from '../../components/client/MoviesList';
 import React from "react";
-import {UserRecommendedMovies} from "../../components/RecommendedMovies";
+import {UserRecommendedMovies} from "../../components/client/RecommendedMovies";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
 import {PreferencesService} from "../../lib/services/preferencesService";
@@ -24,12 +24,22 @@ export default async function Page() {
     let preferences;
 
     if (userData) {
-        favourites = await FavouritesService.getFavouriteMovies(userData.userid);
-        favouriteIds = favourites.map((movie: Movie) => movie.id);
+        try {
+            favourites = await FavouritesService.getFavouriteMovies(userData.userid);
+            favouriteIds = favourites.map((movie: Movie) => movie.id);
+        } catch (error) {
+            console.log("Error: ", error)
+        }
 
         if (favourites) {
-            const preferencesService = new PreferencesService();
-            preferences = await preferencesService.getAllListOfPreferences(userData.userid);
+            if (favourites.length % 5 && favourites.length >= 5) {
+                try {
+                    await PreferencesService.updateAllPreferences(userData.userid, favourites)
+                    preferences = await PreferencesService.getAllListOfPreferences(userData.userid);
+                } catch (error) {
+                    console.log("Error: ", error)
+                }
+            }
         }
 
     }
@@ -40,10 +50,10 @@ export default async function Page() {
                 TRENDING FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
-                <Movies movies={trending.results} favouriteMovieIds={favouriteIds}/>
+                <Movies movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
 
-            {isLoggedIn && favourites && preferences && <UserRecommendedMovies favouriteMoviesIds={favouriteIds}
+            {isLoggedIn && preferences && <UserRecommendedMovies favouriteMoviesIds={favouriteIds}
                                                                                initFavouriteMovies={favourites}
                                                                                initRecommendedCastMovies={preferences.preferredMoviesByCast}
                                                                                initRecommendedCastMembers={preferences.listOfCastMembers}
@@ -57,19 +67,19 @@ export default async function Page() {
                 POPULAR FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
-                <Movies movies={popular.results} favouriteMovieIds={favouriteIds}/>
+                <Movies movies={popular.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 CRITICALLY ACCLAIMED FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
-                <Movies movies={topRated.results} favouriteMovieIds={favouriteIds}/>
+                <Movies movies={topRated.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 UPCOMING FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
-                <Movies movies={upcoming.results} favouriteMovieIds={favouriteIds}/>
+                <Movies movies={upcoming.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
         </div>
     )

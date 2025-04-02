@@ -58,6 +58,7 @@ export class FavouritesService {
                 movieid: movieid,
             },
         });
+
         return {action: 'added'}
     }
 

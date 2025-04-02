@@ -16,7 +16,7 @@ interface MovieListProps {
     query: string;
 }
 
-const MoviesSearch: React.FC<MovieListProps> = ({ movies }) => {
+const MoviesSearchList: React.FC<MovieListProps> = ({ movies }) => {
     if (!movies || movies.length === 0) {
         return <p>No movies found.</p>;
     }
@@ -49,4 +49,4 @@ const MoviesSearch: React.FC<MovieListProps> = ({ movies }) => {
     )
 };
 
-export default MoviesSearch;
+export default MoviesSearchList;

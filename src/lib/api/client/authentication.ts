@@ -1,8 +1,6 @@
-import React from "react";
-import {router} from "next/client";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-const handleAuth = async (e: React.FormEvent, action: "login" | "signup", username: string, password: string) => {
-    e.preventDefault()
+const handleAuthenticationReq = async (router: AppRouterInstance, action: "login" | "signup", username: string, password: string) => {
     try {
         const response = await fetch(`/api/${action}`, {
             method: 'POST',
@@ -14,17 +12,17 @@ const handleAuth = async (e: React.FormEvent, action: "login" | "signup", userna
 
         const data = await response.json()
 
-        if (response.ok) {
+        if (data.success) {
             // Redirect to dashboard
-            console.log(data.message);
-            return router.push(`/account/${data.userid}`);
+            router.push(`/account/${data.userid}`);
+            return data;
         } else {
             console.error(`${action} failed: `, data.error);
             return data;
         }
     } catch (error : any) {
-        console.error(`${action} failed: `, error.response?.data);
+        console.error(`${action} failed: `, error);
     }
 };
 
-export {handleAuth}
+export {handleAuthenticationReq}

@@ -11,7 +11,7 @@ export default function Page(){
 
     const navigateToLogin = (e: React.MouseEvent) => {
         e.preventDefault(); // Prevent form submission
-        router.push('/login');
+        router.push('/auth/login');
     };
 
     return (

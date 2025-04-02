@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import '../../app/styles/globals.css';
-import MovieCard from "../MovieCard";
+import MovieCard from "./MovieCard";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -15,12 +15,13 @@ interface Movie {
     backdrop_path: string;
 }
 
-interface MovieListProps {
+interface props {
     movies: Movie[];
     favouriteMovieIds: number[];
+    isLoggedIn : boolean;
 }
 
-const Movies: React.FC<MovieListProps> = ({movies, favouriteMovieIds}) => {
+const Movies: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) => {
     const isFavourite = (idToCheck: number) => {
         return favouriteMovieIds != null && favouriteMovieIds.includes(idToCheck);
     }
@@ -36,11 +37,9 @@ const Movies: React.FC<MovieListProps> = ({movies, favouriteMovieIds}) => {
             {movies.map((movie) => (
                 <SwiperSlide>
                     <MovieCard key={movie.id}
-                               id={movie.id}
-                               title={movie.title}
-                               poster_path={movie.poster_path}
-                               backdrop_path={movie.backdrop_path}
-                               isFavourite={isFavourite(movie.id)}
+                               movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
+                                   backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
+                               isLoggedIn={isLoggedIn}
                     />
                 </SwiperSlide>
             ))}

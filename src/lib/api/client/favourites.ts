@@ -1,4 +1,4 @@
-const fetchFavouriteMovies = async () => {
+const getFavouriteMovies = async () => {
     try {
         const response = await fetch('/api/favourite', {
             method: 'GET',
@@ -6,16 +6,18 @@ const fetchFavouriteMovies = async () => {
                 'Content-Type': 'application/json',
             },
         });
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Action failed:', errorData);
-        }
-
         const data = await response.json();
-        return data.result;
+
+        if (data.success) {
+            return data.result;
+        } else {
+            console.error("Action failed: ", data.error)
+            return { result: [] };
+        }
 
     } catch (error) {
         console.error('Error fetching favourite movies:', error);
+        return { result: [] };
     }
 };
 
@@ -31,18 +33,18 @@ const toggleFavouriteMovie = async (movieid : number) => {
 
         const data = await response.json();
 
-        if (response.ok) {
+        if (data.success) {
             console.log(data.result + " movie " + movieid + " to/from favourites");
-            return {success: true};
+            return {success: data.success};
         } else {
             console.error('Action failed:', data.error);
-            // redirect user to login page
-            return {success: false};
+            return {success: data.success};
         }
+
     } catch (error: any) {
         console.error('Action failed:', error.response?.data);
         return {success: false};
     }
 }
 
-export {fetchFavouriteMovies, toggleFavouriteMovie}
+export {getFavouriteMovies, toggleFavouriteMovie}

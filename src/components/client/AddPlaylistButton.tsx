@@ -1,4 +1,4 @@
-import Watchlist from "./client/watchlist-list";
+import Watchlist from "./watchlist-list";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";

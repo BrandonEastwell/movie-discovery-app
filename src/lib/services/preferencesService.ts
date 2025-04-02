@@ -1,6 +1,7 @@
 import {prisma} from "./prisma";
 import {getPersonDetails} from "../api/server/personDetails";
 import {getMoviesByDiscoveryCast, getMoviesByDiscoveryCrew, getMoviesByDiscoveryGenre} from "../api/server/movieLists";
+import {MoviesService} from "./moviesService";
 
 interface Cast {
     id: number
@@ -18,7 +19,7 @@ interface Genre {
 }
 
 export class PreferencesService {
-    async setPreferences({genre, cast, crew} : {genre: Genre[], cast: Cast[], crew: Crew[]}, userid : number) {
+    static async setPreferences({genre, cast, crew} : {genre: Genre[], cast: Cast[], crew: Crew[]}, userid : number) {
         //sort crew and cast by count descending order
         crew.sort((a, b) => b.count - a.count);
         cast.sort((a, b) => b.count - a.count);
@@ -49,13 +50,24 @@ export class PreferencesService {
         });
     }
 
-    async getAllUserPreferenceIDs(userid: number) {
+    static async updateAllPreferences(userid: number, favouriteMovies : Movie[]) {
+        if (favouriteMovies.length < 5) {
+            throw new Error('Action Failed: Not enough data to generate preferences')
+        }
+
+        const movieService = new MoviesService();
+        const moviesData = await movieService.getDetailsFromMovies(favouriteMovies);
+
+        await PreferencesService.setPreferences({genre: moviesData.genreIds, crew: moviesData.crewIds, cast: moviesData.castIds}, userid);
+    }
+
+    static async getAllUserPreferenceIDs(userid: number) {
         return prisma.userpreferences.findUnique({
             where: {userid: userid}
         });
     }
 
-    async getPeopleData(people : string[]) {
+    static async getPeopleData(people : string[]) {
         // Array to store retrieved person names
         const members: string[] = [];
         if (people !== null) {
@@ -73,7 +85,7 @@ export class PreferencesService {
         return members;
     }
 
-    async genreIdToString(genreIds : string[]) {
+    static async genreIdToString(genreIds : string[]) {
         // Create a list of genre strings
         const idToGenreNameMapping: Record<number, string> = {
             28: "Action",
@@ -112,7 +124,7 @@ export class PreferencesService {
 
     }
 
-    async getAllListOfPreferences(userid: number) {
+    static async getAllListOfPreferences(userid: number) {
         const preferences = await this.getAllUserPreferenceIDs(userid);
 
         if (preferences && preferences.preferredCrew && preferences.preferredGenre && preferences.preferredCast) {

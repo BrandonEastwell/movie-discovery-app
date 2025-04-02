@@ -56,7 +56,7 @@ export class AuthService {
     }
 
     static async signToken(userid: number, username: string) {
-        const secretKey = new TextEncoder().encode(JWT_SECRET);
+        const secretKey = new TextEncoder().encode(JWT_SECRET || '');
 
         return await new SignJWT({userid, username})
             .setProtectedHeader({alg: "HS256"})
@@ -68,7 +68,7 @@ export class AuthService {
         if (!token) return {isLoggedIn: false, userData: null};
 
         try {
-            const secretKey = new TextEncoder().encode(JWT_SECRET);
+            const secretKey = new TextEncoder().encode(JWT_SECRET || '');
             const { payload } = await jwtVerify(token, secretKey) as { payload: {username: string, userid: number}};
             return {isLoggedIn: !!payload.username, userData: {username: payload.username, userid: payload.userid}};
         } catch (error) {

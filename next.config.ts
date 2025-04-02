@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
         domains: ['localhost', 'image.tmdb.org', 'themoviedb.org'],
     },
     experimental: {
-        serverComponentsExternalPackages: ["@prisma/client", "jsonwebtoken"],
     },
     // Configure all API routes to use Node.js runtime by default
     functions: {

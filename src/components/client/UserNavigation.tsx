@@ -4,17 +4,17 @@ import Image from 'next/image'
 import netflix from '../../images/netflix.svg'
 import disney from '../../images/disney.svg'
 import primevideo from '../../images/primevideo.svg'
-import NavButton from "../NavButton";
+import NavButton from "./NavButton";
 
 function UserNavigation() {
         return (
                 <div className="min-w-[200px] flex flex-col place-items-start font-semibold text-gray-100">
-                    <div className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
+                    <nav className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
                         <NavButton params={{name: "home", symbol: "home", href: "../.."}} />
                         <NavButton params={{name: "suggest me", symbol: "psychology", href: ""}} />
                         <NavButton params={{name: "discovery queue", symbol: "layers", href: ""}} />
                         <NavButton params={{name: "trending", symbol: "local_fire_department", href: "../.."}} />
-                    </div>
+                    </nav>
                     <div className="flex flex-col items-start justify-center py-[25px] gap-[20px]">
                         <Image
                             className="max-w-[70px] max-h-[32px]"

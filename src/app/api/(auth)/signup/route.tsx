@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         // Checks if password meets the check conditions required
         const isValid = isPasswordValid(password);
         if (!isValid.valid) {
-            return NextResponse.json({error: isValid.error, errorType: "password"}, {status: 400});
+            return NextResponse.json({ success: false, error: isValid.error, errorType: "password" }, {status: 400});
         }
 
         // Hash the password
@@ -22,11 +22,11 @@ export async function POST(req: NextRequest) {
         // Check if username already exists
         const user = await AuthService.getFirstUserByUsername(username);
         if (user) {
-            return NextResponse.json({ error: 'This username is already taken.', errorType: "username"}, {status: 400});
+            return NextResponse.json({ success: false, error: 'This username is already taken.', errorType: "username"}, {status: 400});
         }
 
         if ((await cookies()).has('token')) {
-            return NextResponse.json({ error: 'You are already signed in to an account, please sign out.', errorType: "password"}, {status: 400});
+            return NextResponse.json({ success: false, error: 'You are already signed in to an account, please sign out.', errorType: "password"}, {status: 400});
         }
 
         // Create user with hashed password and new username
@@ -34,17 +34,17 @@ export async function POST(req: NextRequest) {
         const createdUser = await AuthService.addUserToDB(username, hashedPassword);
 
         // Generate JWT token
-        const token = AuthService.signToken(createdUser.userid, createdUser.username);
+        const token = await AuthService.signToken(createdUser.userid, createdUser.username);
 
-        let response = NextResponse.json({ message: 'You are registered.' }, {status: 201});
+        let response = NextResponse.json({ success: true, error: '', errorType: '', userid: createdUser.userid }, {status: 201});
 
         // Set secure to true in production
         AuthService.setAuthCookieToResponse(response, token)
 
         return response;
     } catch (error) {
-        console.error('Error registering user:', error);
-        return NextResponse.json({ error: 'Internal Server Error', errorType: "server"}, {status: 500});
+        console.error('Error:', error);
+        return NextResponse.json({ success: false, error: 'Internal Server Error', errorType: "server"}, {status: 500});
     } finally {
         await prisma.$disconnect();
     }
