@@ -1,23 +1,13 @@
-"use client"
-import Image from "next/image";
 import React, {useState} from "react";
-import AddToPlaylist from "./AddPlaylistButton";
-import AddFavouriteButton from "./AddFavouriteButton";
-import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
-import useFavourite from "../../lib/hooks/useFavourite";
+import {toggleFavouriteMovie} from "../../../lib/api/client/favourites";
+import {AnimatePresence, motion} from "framer-motion";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-    isFavourite: boolean;
-}
-
-export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedIn: boolean}) {
+export default function FavouriteMovieCard({favouriteMovie, setMovie, movies} : {favouriteMovie: Movie, setMovie: (movies: Movie[]) => void, movies: Movie[]}) {
     const [hover, setHover] = useState<boolean>(false);
-    const favouriteState = useFavourite(movie.isFavourite, movie.id, isLoggedIn)
     const router = useRouter();
 
     const imageLoader = ({src}: any) => {
@@ -41,8 +31,16 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
         }
     }
 
+    const toggleFavourite = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        const response: { success: boolean } = await toggleFavouriteMovie(favouriteMovie.id);
+        if (response.success) {
+            setMovie(movies.filter(movie => movie.id !== favouriteMovie.id))
+        }
+    }
+
     const navigateToMovie = async () => {
-        router.push(`/title/${movie.id}`)
+        router.push(`/title/${favouriteMovie.id}`)
     }
 
     return (
@@ -58,28 +56,32 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                 <motion.div onClick={navigateToMovie} className="cursor-pointer relative max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
                     <AnimatePresence>
                         { hover &&
-                            <motion.div className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end" variants={cardHoverVarients} animate="visible" exit="hidden" initial="hidden">
-                                <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}>
-                                    <AddFavouriteButton isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
-                                    <AddToPlaylist movieId={movie.id}/>
+                            <motion.div className="absolute bg-midnight/50 w-full h-full flex flex-col place-items-center justify-center" variants={cardHoverVarients} animate="visible" exit="hidden" initial="hidden">
+                                <motion.div className="max-w-[80px] pl-1" initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}>
+                                    <motion.button onClick={(event) => toggleFavourite(event)} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}
+                                                   className="z-20 p-0 bg-transparent max-h-[60px] max-w-[60px] cursor-pointer">
+                                        <FontAwesomeIcon
+                                            className="text-Purple w-full h-full"
+                                            icon={faHeart} size={"xl"}/>
+                                    </motion.button>
                                 </motion.div>
                             </motion.div>
                         }
                     </AnimatePresence>
-                    {movie.poster_path
+                    {favouriteMovie.poster_path
                         && (
                             <Image
                                 className="w-[250px] h-[250px] object-cover object-center overflow-hidden"
                                 loader={imageLoader}
-                                src={`${movie?.backdrop_path}`}
-                                alt={`${movie?.title} Poster`}
+                                src={`${favouriteMovie?.backdrop_path}`}
+                                alt={`${favouriteMovie?.title} Poster`}
                                 width={250}
                                 height={250}
                             />
                         )}
                 </motion.div>
             </div>
-            <p className="px-3 m-0 text-3xl uppercase text-pearl-white font-vt323">{movie.title}</p>
+            <p onClick={navigateToMovie} className="cursor-pointer px-3 m-0 text-3xl uppercase text-pearl-white font-vt323">{favouriteMovie.title}</p>
         </div>
-    );
+    )
 }

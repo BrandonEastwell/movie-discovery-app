@@ -1,6 +1,6 @@
 import HeaderBar from "../../../components/server/header-bar";
 import SearchBar from "../../../components/client/search-bar";
-import React from "react";
+import React, {Suspense} from "react";
 import AccountNavigation from "../../../components/client/AccountNavigation";
 import {AuthService} from "../../../lib/services/authService";
 import {redirect} from "next/navigation";
@@ -21,7 +21,9 @@ export default async function AccountLayout({children}: { children: React.ReactN
                     <AccountNavigation userid={userData?.userid} />
                 </div>
                 <div className="col-start-2 col-end-3 row-start-3 z-10 overflow-y-auto no-scrollbar scroll-smooth">
-                    {children}
+                    <Suspense fallback={<p>loading..</p>}>
+                        {children}
+                    </Suspense>
                 </div>
             </>
         )

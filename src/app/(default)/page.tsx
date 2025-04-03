@@ -1,6 +1,6 @@
 import "../styles/globals.css"
 import {Movies} from '../../components/client/MoviesList';
-import React from "react";
+import React, {Suspense} from "react";
 import {UserRecommendedMovies} from "../../components/client/RecommendedMovies";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
@@ -49,9 +49,11 @@ export default async function Page() {
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 TRENDING FILM
             </b>
-            <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
-                <Movies movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
-            </div>
+            <Suspense fallback={<p>loading..</p>}>
+                <div className="flex w-full h-full flex-row gap-[3rem] overflow-hidden no-scrollbar">
+                    <Movies movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
+                </div>
+            </Suspense>
 
             {isLoggedIn && preferences && <UserRecommendedMovies favouriteMoviesIds={favouriteIds}
                                                                                initFavouriteMovies={favourites}

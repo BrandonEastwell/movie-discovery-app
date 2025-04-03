@@ -1,4 +1,6 @@
 import React from "react";
+import "nprogress/nprogress.css";
+import LoadingBar from "../components/client/LoadingBar";
 
 export const metadata = {
   title: 'SIVTER',
