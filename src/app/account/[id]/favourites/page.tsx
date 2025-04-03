@@ -11,12 +11,34 @@ export default function Page() {
             </b>
             <div className="flex flex-row flex-wrap gap-6">
                 <div className="flex flex-row flex-wrap gap-6">
-                    <Suspense fallback={<p>Loading favourites..</p>}>
+                    <Suspense fallback={<FavouriteFallback count={15} />}>
                         <UserFavourites />
                     </Suspense>
                 </div>
             </div>
         </div>
+    )
+}
+
+function FavouriteFallback({ count } : { count: number }) {
+    const arr = Array.from({ length: count }, (_, i) => i);
+
+    const Fallback = () => {
+        return (
+            <div className="flex flex-col w-full max-h-[325px] max-w-[250px]">
+                <div className="cursor-pointer flex flex-row h-full w-full max-h-[250px] bg-midnight/80 backdrop-blur-[15px] ">
+                </div>
+                <div className="cursor-pointer w-full h-full px-3 m-0 backdrop-blur-[15px] bg-pearl-white"></div>
+            </div>
+        )
+    }
+
+    return (
+        <>
+            {arr.map((_, i) => (
+                <Fallback key={i} />
+            ))}
+        </>
     )
 }
 
