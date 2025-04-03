@@ -10,10 +10,10 @@ function UserNavigation() {
         return (
                 <div className="min-w-[200px] flex flex-col place-items-start font-semibold text-gray-100">
                     <nav className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
-                        <NavButton params={{name: "home", symbol: "home", href: "../.."}} />
-                        <NavButton params={{name: "suggest me", symbol: "psychology", href: ""}} />
-                        <NavButton params={{name: "discovery queue", symbol: "layers", href: ""}} />
-                        <NavButton params={{name: "trending", symbol: "local_fire_department", href: "../.."}} />
+                        <NavButton params={{name: "Home", symbol: "home", href: "../.."}} />
+                        <NavButton params={{name: "Suggest me", symbol: "psychology", href: ""}} />
+                        <NavButton params={{name: "Discovery queue", symbol: "layers", href: ""}} />
+                        <NavButton params={{name: "Trending", symbol: "local_fire_department", href: "../.."}} />
                     </nav>
                     <div className="flex flex-col items-start justify-center py-[25px] gap-[20px]">
                         <Image

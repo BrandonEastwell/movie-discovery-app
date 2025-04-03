@@ -4,6 +4,7 @@ import Link from "next/link";
 import ReactDOM from "react-dom";
 import {useRouter} from "next/navigation";
 import AuthPopup from "./form/AuthPopup";
+import { motion } from 'framer-motion';
 
 interface HeaderMenuProps {
     isLoggedIn: boolean;
@@ -40,20 +41,41 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({isLoggedIn, userData}) => {
         }
     }
 
+    function handleLinkClick(href: string) {
+        router.push(href)
+    }
+
+    const variants = {
+        hover: {
+            color: '#fefdfd', borderBottom: "1px solid #8566e0",
+            transition: {
+                duration: 0.2,
+                ease: "easeInOut"
+            }
+        },
+        initial: {
+            color: 'rgba(254,253,253,0.8)', borderBottom: "0px solid #8566e0",
+            transition: {
+                duration: 0,
+                ease: "easeInOut"
+            }
+        }
+    }
+
     return (
         <div className="flex justify-end gap-5 text-lg place-items-center">
-            <Link className="cursor-pointer no-underline text-gray-100"
-                    href={isLoggedIn ? `/account/${userid}/watchlists` : '/login'}>
-                    watchlist
-            </Link>
-            <Link className="cursor-pointer no-underline text-gray-100"
-                    href={isLoggedIn ? `/account/${userid}/favourites` : '/login'}>
-                    favourites
-            </Link>
-            <button className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
+            <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
+                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/watchlists` : '/login')}>
+                watchlist
+            </motion.button>
+            <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
+                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/favourites` : '/login')}>
+                favourites
+            </motion.button>
+            <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
                     onClick={handleAccountClick}>
                 {isLoggedIn ? username : 'login'}
-            </button>
+            </motion.button>
             {isVisible && ReactDOM.createPortal(<AuthPopup ref={formRef} action={"login"}
                                                            setIsVisible={() => setIsVisible(false)}
                                                            isVisible={isVisible} />, document.body)}

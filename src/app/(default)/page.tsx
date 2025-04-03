@@ -45,8 +45,8 @@ export default async function Page() {
     }
 
     return (
-        <div className="w-full flex flex-col gap-10 justify-start font-vt323 overflow-hidden no-scrollbar">
-            <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
+        <div className="w-full flex flex-col gap-5 justify-start font-vt323 overflow-hidden no-scrollbar">
+            <b className="flex items-center text-[3rem] text-pearl-white ml-2 font-medium">
                 TRENDING FILM
             </b>
             <Suspense fallback={<p>loading..</p>}>
