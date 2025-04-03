@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/server/movieDetails";
+import LocalStorage from "../../../../components/client/LocalStorage";
 
 interface Movie {
     id: number;
@@ -8,77 +9,75 @@ interface Movie {
     poster_path: string;
     release_date: string;
     runtime: number;
-    genres: [genre];
+    genres: [Genre];
     popularity: number;
     budget: number;
     backdrop_path: string;
     overview: string;
-
 }
 
-interface genre {
+interface Genre {
     id: number, name: string
-}
-interface Providers {
-    // Key represents the two-letter ISO code for the country (e.g., "AD" for Andorra)
-    results: {
-        [countryCode: string]: WatchProviderInfo | undefined;
-    };
 }
 
 interface WatchProviderInfo {
-    link?: string; // Link to the watch provider page for this movie
-    flatrate?: WatchProviderDetails[]; // Streaming services with flatrate access
-    rent?: WatchProviderDetails[]; // Streaming services with rental options
-    buy?: WatchProviderDetails[]; // Streaming services with purchase options
+    link?: string;
+    flatrate?: WatchProviderDetails[];
+    rent?: WatchProviderDetails[];
+    buy?: WatchProviderDetails[];
 }
 
 interface WatchProviderDetails {
-    logo_path?: string; // URL for the logo of the provider
-    provider_id: number; // Unique identifier for the provider
-    provider_name: string; // Name of the provider (e.g., "Netflix")
-    display_priority?: number; // Priority for displaying the provider (lower is higher priority)
+    logo_path?: string;
+    provider_id: number;
+    provider_name: string;
+    display_priority?: number;
 }
 
 interface Trailer {
     id: string;
-    key: string; // YouTube video key
-    site: string; // Site hosting the video (e.g., "YouTube")
-    size?: number; // Video resolution (e.g., 1080)
-    // Other video details can be added here if needed
+    key: string;
+    site: string;
+    size?: number;
 }
 
 interface VideosResponse {
     results: Trailer[];
 }
 
+interface Providers {
+    results: {
+        [countryCode: string]: WatchProviderInfo | undefined;
+    };
+}
+
+function getOfficialTrailers(data: { results: any[] }): Trailer[] {
+    const trailers: Trailer[] = [];
+    data.results.forEach((video) => {
+        if (video.type === "Trailer" && video.official === true) {
+            trailers.push({
+                id: video.id,
+                key: video.key,
+                site: video.site,
+                size: video.size,
+            });
+        }
+    });
+    return trailers;
+}
+
 export default async function Page({ params }: { params: Promise<{ id: number }> }) {
-
-    function getOfficialTrailers(data: { results: any[] }): Trailer[] {
-        const trailers: Trailer[] = [];
-        data.results.forEach((video) => {
-            if (video.type === "Trailer" && video.official === true) {
-                trailers.push({
-                    id: video.id,
-                    key: video.key,
-                    site: video.site,
-                    size: video.size, // Include size if available
-                });
-            }
-        });
-        return trailers;
-    }
-
-    const movie: Movie = await getMovieDetails((await params).id)
-    const providers: Providers = await getMovieWatchProviders((await params).id)
-    const videos: VideosResponse = await getMovieVideos((await params).id)
-    const trailers: Trailer[] = getOfficialTrailers(videos)
-    const youtubeId = trailers[0].id
-    let showVideo = false
-    const gbProvider = providers.results["GB"]; // Access provider info for UK ("GB")
+    const movie: Movie = await getMovieDetails((await params).id);
+    const providers: Providers = await getMovieWatchProviders((await params).id);
+    const videos: VideosResponse = await getMovieVideos((await params).id);
+    const trailers: Trailer[] = getOfficialTrailers(videos);
+    const youtubeId = trailers[0].id;
+    let showVideo = false;
+    const gbProvider = providers.results["GB"];
 
     return (
         <div className="main-content flex col-span-1 col-start-2 row-start-3 z-0 overflow-auto no-scrollbar mr-4">
+            <LocalStorage movie={movie} />
             <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
                 <b className="flex items-center text-[4rem] font-vt323 text-pearl-white mt-4 font-medium uppercase">
                     {movie.title}
@@ -99,7 +98,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
                                  alt={`${movie?.title} Poster`}
                             />
                         )}
-                    {showVideo && ( // Render iframe only if youtubeId exists
+                    {showVideo && (
                         <iframe
                             width="100%"
                             src={`https://www.youtube.com/embed/${youtubeId}`}
@@ -115,19 +114,18 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
                         <div className="flex flex-row flex-nowrap justify-between">
                             <p className="text-pearl-white text-[1.5rem] m-0">where to watch</p>
                         </div>
-                        <div className="flex flex-row flex-wrap justify-start"> {/* Use flex-wrap for wrapping logos */}
+                        <div className="flex flex-row flex-wrap justify-start">
                             <div className="flex flex-col mr-4">
                                 {gbProvider?.flatrate && (
                                     <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">stream</p>
                                 )}
                                 <div className="flex flex-row">
-                                    {gbProvider && gbProvider.flatrate?.map((provider) => ( // Check if provider exists and has flatrate options
+                                    {gbProvider && gbProvider.flatrate?.map((provider) => (
                                         <div key={provider.provider_id} className="mr-4">
-                                            {provider.logo_path && ( // Check if logo path exists
+                                            {provider.logo_path && (
                                                 <Link href={``} className="cursor-pointer">
-                                                    <img
-                                                        className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
-                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                    <img className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
                                                         alt={`${provider.provider_name} Logo`}
                                                         width={50}
                                                         height={50}
@@ -143,13 +141,12 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
                                     <p className="text-[0.75rem] text-gray-100 opacity-75 mt-2 mb-2 mr-5 lowercase font-roboto-mono">buy/rent - digital</p>
                                 )}
                                 <div className="flex flex-row">
-                                    {gbProvider && gbProvider.rent?.map((provider) => ( // Check if provider exists and has flatrate options
+                                    {gbProvider && gbProvider.rent?.map((provider) => (
                                         <div key={provider.provider_id} className="mr-4">
-                                            {provider.logo_path && ( // Check if logo path exists
+                                            {provider.logo_path && (
                                                 <Link href={``} className="cursor-pointer">
-                                                    <img
-                                                        className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
-                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} // Adjust image size as needed
+                                                    <img className="dark:shadow-gray-800 object-cover object-center overflow-hidden rounded"
+                                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
                                                         alt={`${provider.provider_name} Logo`}
                                                         width={50}
                                                         height={50}

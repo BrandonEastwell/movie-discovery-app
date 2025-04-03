@@ -3,39 +3,29 @@ import { prisma } from "../../../../../lib/services/prisma";
 import {AuthService} from "../../../../../lib/services/authService";
 
 export async function POST(req: NextRequest) {
-    if (req.method !== 'POST') {
-        return NextResponse.json({status: 405}); // Method Not Allowed
-    }
-    let userid: number | null = null;
     try {
-        const response = AuthService.getAuthStateFromRequestHeader(req); // Await the authentication function
-        if (response.ok) {
-            // If authentication is successful, extract userid and username from data
-            const data = await response.json(); // Await the JSON response from the authentication function
-            userid = data.userid;
-        } else {
-            // If authentication fails, handle the error
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
-        }
+        const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
 
-        const body = await req.json();
-        const name : string = body.name;
-        const desc : string = body.desc;
+        if (isLoggedIn && userData?.userid) {
 
-        if (userid != null) {
+            const body = await req.json();
+            const name : string = body.name;
+            const desc : string = body.desc;
+
             const existingPlaylist = await prisma.userplaylist.findFirst({
                 where: {
-                    userid: userid,
+                    userid: userData.userid,
                     playlist_name: name,
                 },
             });
+
             if (existingPlaylist) {
                 return NextResponse.json({ message: "playlist already exists" }, {status: 500});
             } else {
                 if (name != null) {
                     await prisma.userplaylist.create({
                         data: {
-                            userid: userid,
+                            userid: userData.userid,
                             playlist_name: name,
                             playlist_desc: desc
                         },
@@ -45,6 +35,9 @@ export async function POST(req: NextRequest) {
                     return NextResponse.json({ message: "playlist name not provided" }, {status: 500});
                 }
             }
+
+        } else {
+            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
         }
     } catch (error) {
         console.error('Error authenticating user:', error);
@@ -55,26 +48,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-    if (req.method !== 'GET') {
-        return NextResponse.json({status: 405}); // Method Not Allowed
-    }
-    let userid: number | null = null;
     try {
-        const response = getAuthStateFromRequest(req); // Await the authentication function
-        if (response.ok) {
-            // If authentication is successful, extract userid and username from data
-            const data = await response.json(); // Await the JSON response from the authentication function
-            userid = data.userid;
-        } else {
-            // If authentication fails, handle the error
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
-        }
+        const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
+        if (isLoggedIn && userData?.userid) {
 
-        //add or remove movie id to favourite database process
-        if (userid != null) {
+            //add or remove movie id to favourite database process
             const playlists = await prisma.userplaylist.findMany({
                 where: {
-                    userid: userid
+                    userid: userData.userid
                 },
             });
 
@@ -83,6 +64,9 @@ export async function GET(req: NextRequest) {
             } else {
                 return NextResponse.json({ result: null }, {status: 200});
             }
+        } else {
+            // If authentication fails, handle the error
+            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
         }
     } catch (error) {
         console.error('Error authenticating user:', error);

@@ -40,7 +40,7 @@ export default function NavButton({ params } : { params: { name: string, symbol:
     }
 
     return (
-        <motion.div variants={containerVariants} whileHover={'hover'} whileTap={'tap'} className="cursor-pointer flex flex-row gap-[1rem] bg-[#282828]/80 border-[#132C4F]/[0.04] place-items-center p-1 px-3 mt-2 rounded-xl">
+        <motion.div variants={containerVariants} whileHover={'hover'} whileTap={'tap'} className="cursor-pointer flex flex-row gap-[1rem] bg-[#282828]/60 border-[#132C4F]/[0.04] place-items-center p-1 px-3 mt-2 rounded-xl">
             <Link href={href}>
                 <motion.span variants={textVariants} className="material-symbols-outlined text-sm text-pearl-white">{symbol}</motion.span>
             </Link>

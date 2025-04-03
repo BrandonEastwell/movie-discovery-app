@@ -5,63 +5,51 @@ import netflix from '../../images/netflix.svg'
 import disney from '../../images/disney.svg'
 import primevideo from '../../images/primevideo.svg'
 import NavButton from "./NavButton";
+import RecentlyViewed from "./RecentlyViewed";
 
 function UserNavigation() {
+    const StreamService = ({src} : {src: string}) => {
         return (
-                <div className="min-w-[200px] flex flex-col place-items-start font-semibold text-gray-100">
-                    <nav className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
-                        <NavButton params={{name: "Home", symbol: "home", href: "../.."}} />
-                        <NavButton params={{name: "Suggest me", symbol: "psychology", href: ""}} />
-                        <NavButton params={{name: "Discovery queue", symbol: "layers", href: ""}} />
-                        <NavButton params={{name: "Trending", symbol: "local_fire_department", href: "../.."}} />
-                    </nav>
-                    <div className="flex flex-col items-start justify-center py-[25px] gap-[20px]">
-                        <Image
-                            className="max-w-[70px] max-h-[32px]"
-                            alt="primevideo"
-                            src={primevideo}
-                            placeholder="blur"
-                            blurDataURL="data:..."
-                        />
-                        <Image
-                            className="max-w-[70px] max-h-[32px]"
-                            alt="disney"
-                            src={disney}
-                            placeholder="blur"
-                            blurDataURL="data:..."
-                        />
-                        <Image
-                            className="max-w-[70px] max-h-[32px]"
-                            alt="netflix"
-                            src={netflix}
-                            placeholder="blur"
-                            blurDataURL="data:..."
-                        />
-                    </div>
-                    <div className="flex flex-col place-items-start box-border gap-[25px] text-[0.65rem]">
-                        <div className="flex flex-col items-start justify-start gap-[7px]">
-                            <div className="text-sm text-silver font-vt323">RECENTLY VIEWED</div>
-                            <div className="lowercase">oppenheimer</div>
-                            <div className="lowercase">BARBIE</div>
-                            <div className="lowercase">PRISONERS</div>
+            <div className="cursor-pointer bg-[#282828]/40 border-[#132C4F]/[0.04] rounded-xl p-1 px-2.5">
+                <Image
+                    className="max-w-[70px] max-h-[35px]"
+                    alt={src}
+                    src={src}
+                    placeholder="blur"
+                    blurDataURL="data:..."
+                />
+            </div>
+        )
+    }
+
+    return (
+        <div className="min-w-[200px] max-w-[200px] gap-6 flex flex-col place-items-start font-semibold text-gray-100">
+            <nav className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">
+                <NavButton params={{name: "Home", symbol: "home", href: "../.."}} />
+                <NavButton params={{name: "Suggest me", symbol: "psychology", href: ""}} />
+                <NavButton params={{name: "Discovery queue", symbol: "layers", href: ""}} />
+                <NavButton params={{name: "Trending", symbol: "local_fire_department", href: "../.."}} />
+            </nav>
+            <div className="flex flex-row flex-wrap items-start gap-3">
+                <StreamService src={primevideo} />
+                <StreamService src={disney} />
+                <StreamService src={netflix} />
+            </div>
+            <div className="flex flex-col w-full place-items-start gap-3 text-[0.65rem]">
+                <RecentlyViewed />
+                <div className="w-full flex flex-col gap-1.5">
+                    <span className="text-2xl text-pearl-white opacity-80 font-vt323 font-semibold px-2">WATCHLISTS</span>
+                    <div className="grid grid-cols-[1fr_2fr] grid-rows-[1fr_1fr] w-full cursor-pointer bg-[#282828]/40 border-[#132C4F]/[0.04] rounded-xl">
+                        <div className="row-span-2 col-start-1 rounded aspect-square p-2">
+                            <div className="bg-white w-full h-full rounded"></div>
                         </div>
-                        <div className="flex flex-col items-start justify-start gap-[7px]">
-                            <div className="text-sm text-silver font-vt323">BY CATEGORIES</div>
-                            <div className="lowercase">TOP WATCHED</div>
-                            <div className="lowercase">NEW RELEASE</div>
-                            <div className="lowercase">SIMILAR TO</div>
-                            <div className="lowercase">NETFLIX ONLY</div>
-                        </div>
-                        <div className="flex flex-col items-start justify-start gap-[7px]">
-                            <div className="text-sm text-silver font-vt323">BY GENRE</div>
-                            <div className="lowercase">ACTION</div>
-                            <div className="lowercase">ADVENTURE</div>
-                            <div className="lowercase">THRILLER</div>
-                            <div className="lowercase">COMEDY</div>
-                        </div>
+                        <span className="row-start-1 col-start-2 p-1 self-end text-sm font-iconsolata text-pearl-white">oppenheimer</span>
+                        <span className="row-start-2 col-start-2 p-1 self-start text-xs opacity-80 font-iconsolata">something</span>
                     </div>
                 </div>
-        );
+            </div>
+        </div>
+    );
 }
 
 export default UserNavigation;

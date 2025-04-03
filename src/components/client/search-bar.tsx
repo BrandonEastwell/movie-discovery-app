@@ -27,17 +27,17 @@ const SearchBar: React.FC = () => {
 
     return (
         <div className="max-w-[1920px] w-full flex flex-row place-content-center gap-4">
-            <div className="flex flex-row items-start justify-between gap-5 bg-[#282828]/80 border-[#132C4F]/[0.04] rounded-xl p-1">
+            <div className="flex flex-row items-start justify-between gap-5 bg-[#282828]/80 border-[#132C4F]/[0.04] rounded-xl p-1 px-2.5">
                 <input
                     id="search"
-                    className="justify-start font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-300 text-pearl-white"
+                    className="justify-start p-0 font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-300 text-pearl-white"
                     placeholder="Search by name, genre or category..."
                     type="text"
                     value={searchTerm.q}
                     onChange={handleChange}
                 />
                 <button
-                    className="font-iconsolata text-base justify-end place-self-center cursor-pointer bg-[transparent] text-pearl-white hover:underline"
+                    className="font-iconsolata p-0 text-base justify-end place-self-center cursor-pointer bg-[transparent] text-pearl-white hover:underline"
                     onClick={handleSearch}>
                     explore
                 </button>
