@@ -6,6 +6,9 @@ import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
 import {PreferencesService} from "../../lib/services/preferencesService";
 import {AuthService} from "../../lib/services/authService";
+import {MoviesRecommendedByGenre} from "../../components/client/MoviesRecommendedByGenre";
+import {MoviesRecommendedByCast} from "../../components/client/MoviesRecommendedByCast";
+import {MoviesRecommendedByCrew} from "../../components/client/MoviesRecommendedByCrew";
 
 interface Movie {
     id: number;
@@ -23,6 +26,10 @@ export default async function Page() {
     let favouriteIds: number[] = [];
     let preferences;
 
+    let filteredRecommendedGenre : Movie[] = []
+    let filteredRecommendedCast : Movie[] = []
+    let filteredRecommendedCrew : Movie[] = []
+
     if (userData) {
         try {
             favourites = await FavouritesService.getFavouriteMovies(userData.userid);
@@ -35,13 +42,19 @@ export default async function Page() {
             if (favourites.length % 5 && favourites.length >= 5) {
                 try {
                     await PreferencesService.updateAllPreferences(userData.userid, favourites)
-                    preferences = await PreferencesService.getAllListOfPreferences(userData.userid);
+                    preferences = await PreferencesService.getListOfAllPreferences(userData.userid);
                 } catch (error) {
                     console.log("Error: ", error)
                 }
             }
         }
 
+        // Remove favorite movies from the recommended movie sets
+        if (preferences) {
+            filteredRecommendedGenre = preferences.preferredMoviesByGenre.filter((movie: Movie) => !favourites.some(fav => fav.id === movie.id));
+            filteredRecommendedCast = preferences.preferredMoviesByCast.filter((movie: Movie) => !favourites.some(fav => fav.id === movie.id));
+            filteredRecommendedCrew = preferences.preferredMoviesByCrew.filter((movie: Movie) => !favourites.some(fav => fav.id === movie.id));
+        }
     }
 
     return (
@@ -55,14 +68,15 @@ export default async function Page() {
                 </div>
             </Suspense>
 
-            {isLoggedIn && preferences && <UserRecommendedMovies favouriteMoviesIds={favouriteIds}
-                                                                               initFavouriteMovies={favourites}
-                                                                               initRecommendedCastMovies={preferences.preferredMoviesByCast}
-                                                                               initRecommendedCastMembers={preferences.listOfCastMembers}
-                                                                               initRecommendedGenreMovies={preferences.preferredMoviesByGenre}
-                                                                               initRecommendedGenreNames={preferences.listOfGenreNames}
-                                                                               initRecommendedCrewMovies={preferences.preferredMoviesByCrew}
-                                                                               initRecommendedCrewMembers={preferences.listOfCrewMembers} />
+            {isLoggedIn && preferences &&
+                <>
+                    <b className="flex items-center text-[3rem] text-pearl-white ml-2 font-medium">
+                        SELECTED FOR YOU
+                    </b>
+                    <MoviesRecommendedByGenre favouriteMoviesIds={favouriteIds} recommendedGenreMovies={filteredRecommendedGenre} recommendedGenreNames={preferences.genreNames} />
+                    <MoviesRecommendedByCast favouriteMoviesIds={favouriteIds} recommendedCastMovies={filteredRecommendedCast} recommendedCastMembers={preferences.castMembers} />
+                    <MoviesRecommendedByCrew favouriteMoviesIds={favouriteIds} recommendedCrewMovies={filteredRecommendedCrew} recommendedCrewMembers={preferences.crewMembers} />
+                </>
             }
 
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">

@@ -18,6 +18,10 @@ interface Genre {
     count: number
 }
 
+interface Person {
+    name: string;
+}
+
 export class PreferencesService {
     static async setPreferences({genre, cast, crew} : {genre: Genre[], cast: Cast[], crew: Crew[]}, userid : number) {
         //sort crew and cast by count descending order
@@ -69,7 +73,7 @@ export class PreferencesService {
 
     static async getPeopleData(people : string[]) {
         // Array to store retrieved person names
-        const members: string[] = [];
+        const members: Person[] = [];
         if (people !== null) {
             for (const personId of people) {
                 const membersId = parseInt(personId); // Convert string to number (assuming ID is numerical)
@@ -124,7 +128,7 @@ export class PreferencesService {
 
     }
 
-    static async getAllListOfPreferences(userid: number) {
+    static async getListOfAllPreferences(userid: number) {
         const preferences = await this.getAllUserPreferenceIDs(userid);
 
         if (preferences && preferences.preferredCrew && preferences.preferredGenre && preferences.preferredCast) {
@@ -137,20 +141,21 @@ export class PreferencesService {
             const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
             const preferredGenreList = preferences.preferredGenre.split(",");
 
-            const preferredMoviesByGenre = await getMoviesByDiscoveryGenre(preferredGenre, "popularity.desc");
+            const preferredMoviesByGenre = await getMoviesByDiscoveryGenre("popularity.desc", preferredGenre);
             const preferredMoviesByCast = await getMoviesByDiscoveryCast("popularity.desc", preferredCast);
             const preferredMoviesByCrew = await getMoviesByDiscoveryCrew("popularity.desc", preferredCrew);
-            const listOfGenreNames = await this.genreIdToString(preferredGenreList);
-            const listOfCrewMembers = await this.getPeopleData(preferredCrewList);
-            const listOfCastMembers = await this.getPeopleData(preferredCastList);
+            const genreNames = await this.genreIdToString(preferredGenreList);
+            const crewMembers = await this.getPeopleData(preferredCrewList);
+            const castMembers = await this.getPeopleData(preferredCastList);
+
 
             return {
-                preferredMoviesByGenre: preferredMoviesByGenre,
-                preferredMoviesByCrew: preferredMoviesByCrew,
-                preferredMoviesByCast: preferredMoviesByCast,
-                listOfCastMembers: listOfCastMembers,
-                listOfCrewMembers: listOfCrewMembers,
-                listOfGenreNames: listOfGenreNames
+                preferredMoviesByGenre: preferredMoviesByGenre.results,
+                preferredMoviesByCrew: preferredMoviesByCrew.results,
+                preferredMoviesByCast: preferredMoviesByCast.results,
+                crewMembers: crewMembers,
+                castMembers: castMembers,
+                genreNames: genreNames
             }
         }
         return null

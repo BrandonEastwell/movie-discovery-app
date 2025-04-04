@@ -5,7 +5,7 @@ export async function getMovieDetails(id:number) {
 }
 
 export async function getMovieCredits(id:number) {
-    return fetchTMDB(`movie/${id}/credits?language=en-US`, "GET")
+    return fetchTMDB(`movie/${id}/credits`, "GET")
 }
 
 export async function getMovieWatchProviders(id:number) {

@@ -7,7 +7,7 @@ export default async function GET(req: NextRequest) {
     try {
         const authState = await AuthService.getAuthStateFromRequestHeader(req);
         if (authState.isLoggedIn && authState.userData?.userid) {
-            const preferences = await PreferencesService.getAllListOfPreferences(authState.userData?.userid)
+            const preferences = await PreferencesService.getListOfAllPreferences(authState.userData?.userid)
             return NextResponse.json({result: true, preferences: preferences}, {status: 200})
         } else {
             return NextResponse.json({result: false}, {status: 401})

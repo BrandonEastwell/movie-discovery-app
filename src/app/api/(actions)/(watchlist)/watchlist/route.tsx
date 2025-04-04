@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             });
 
             if (existingPlaylist) {
-                return NextResponse.json({ message: "playlist already exists" }, {status: 500});
+                return NextResponse.json({ success: false, error: "playlist already exists" }, {status: 400});
             } else {
                 if (name != null) {
                     await prisma.userplaylist.create({
@@ -30,18 +30,18 @@ export async function POST(req: NextRequest) {
                             playlist_desc: desc
                         },
                     });
-                    return NextResponse.json({ message: "playlist created" }, {status: 200});
+                    return NextResponse.json({ success: true, result: "playlist created" }, {status: 200});
                 } else {
-                    return NextResponse.json({ message: "playlist name not provided" }, {status: 500});
+                    return NextResponse.json({ success: false, error: "playlist name not provided" }, {status: 400});
                 }
             }
 
         } else {
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
+            return NextResponse.json({ success: false, error: 'Error Authenticating' }, {status: 400});
         }
     } catch (error) {
-        console.error('Error authenticating user:', error);
-        return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
+        console.error('Error: ', error);
+        return NextResponse.json({ success: false, error: error }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }
@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
     try {
         const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
-        if (isLoggedIn && userData?.userid) {
 
+        if (isLoggedIn && userData?.userid) {
             //add or remove movie id to favourite database process
             const playlists = await prisma.userplaylist.findMany({
                 where: {
@@ -59,18 +59,14 @@ export async function GET(req: NextRequest) {
                 },
             });
 
-            if (playlists) {
-                return NextResponse.json({ result: playlists }, {status: 200});
-            } else {
-                return NextResponse.json({ result: null }, {status: 200});
-            }
+            return NextResponse.json({success: true, result: playlists }, {status: 200});
         } else {
             // If authentication fails, handle the error
-            return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
+            return NextResponse.json({success: false, error: 'Error Authenticating' }, {status: 400});
         }
     } catch (error) {
-        console.error('Error authenticating user:', error);
-        return NextResponse.json({ error: 'Error Authenticating' }, {status: 500});
+        console.error('Error:', error);
+        return NextResponse.json({ success: false, error: error }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }

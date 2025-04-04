@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, {useState} from "react";
-import AddToPlaylist from "./AddPlaylistButton";
-import AddFavouriteButton from "./AddFavouriteButton";
+import AddToPlaylistBtn from "./AddPlaylistButton";
+import AddFavouriteBtn from "./AddFavouriteButton";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import useFavourite from "../../lib/hooks/useFavourite";
@@ -60,8 +60,8 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                         { hover &&
                             <motion.div className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end" variants={cardHoverVarients} animate="visible" exit="hidden" initial="hidden">
                                 <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}>
-                                    <AddFavouriteButton isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
-                                    <AddToPlaylist movieId={movie.id}/>
+                                    <AddFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
+                                    <AddToPlaylistBtn movieID={movie.id}/>
                                 </motion.div>
                             </motion.div>
                         }

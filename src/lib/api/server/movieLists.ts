@@ -21,12 +21,12 @@ export async function getTrendingDayMovie({ query }:any) {
 export async function getTrendingWeekMovie() {
     return await fetchTMDB(`trending/movie/week?language=en-US`, "GET")
 }
-export async function getMoviesByDiscoveryGenre( genreParams:string, sortby:string) {
+export async function getMoviesByDiscoveryGenre(sortby:string, genreParams:string) {
     return await fetchTMDB(`discover/movie?language=en-US&page=1&sort_by=${sortby}&with_genres=${genreParams}`, "GET")
 }
-export async function getMoviesByDiscoveryCrew( sortby:string,  crew:string) {
+export async function getMoviesByDiscoveryCrew(sortby:string, crew:string) {
     return await fetchTMDB(`discover/movie?language=en-US&page=1&sort_by=${sortby}&with_crew=${crew}`, "GET")
 }
-export async function getMoviesByDiscoveryCast( sortby:string, cast:string) {
+export async function getMoviesByDiscoveryCast(sortby:string, cast:string) {
     return await fetchTMDB(`discover/movie?language=en-US&page=1&sort_by=${sortby}&with_cast=${cast}`, "GET")
 }

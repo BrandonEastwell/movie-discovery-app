@@ -9,24 +9,28 @@ interface Movie {
     backdrop_path: string;
 }
 
+interface Person {
+    name: string;
+}
+
 interface RecommendedProps {
     favouriteMoviesIds: number[];
     initFavouriteMovies: Movie[];
     initRecommendedCastMovies: Movie[];
-    initRecommendedCastMembers: string[];
+    initRecommendedCastMembers: Person[];
     initRecommendedGenreMovies: Movie[];
     initRecommendedGenreNames: string[];
     initRecommendedCrewMovies: Movie[];
-    initRecommendedCrewMembers: string[];
+    initRecommendedCrewMembers: Person[];
 }
 
 const UserRecommendedMovies: React.FC<RecommendedProps> = ({ favouriteMoviesIds, initFavouriteMovies, initRecommendedCastMovies, initRecommendedCrewMovies, initRecommendedCrewMembers, initRecommendedGenreMovies, initRecommendedGenreNames, initRecommendedCastMembers }) => {
     const [recommendedCast, setRecommendedCast] = useState<Movie[]>(initRecommendedCastMovies);
-    const [recommendedCastStrings, setRecommendedCastStrings] = useState<string[]>(initRecommendedCastMembers);
+    const [recommendedCastStrings, setRecommendedCastStrings] = useState<Person[]>(initRecommendedCastMembers);
     const [recommendedGenre, setRecommendedGenre] = useState<Movie[]>(initRecommendedGenreMovies);
     const [recommendedGenreStrings, setRecommendedGenreStrings] = useState<string[]>(initRecommendedGenreNames);
     const [recommendedCrew, setRecommendedCrew] = useState<Movie[]>(initRecommendedCrewMovies);
-    const [recommendedCrewStrings, setRecommendedCrewStrings] = useState<string[]>(initRecommendedCrewMembers);
+    const [recommendedCrewStrings, setRecommendedCrewStrings] = useState<Person[]>(initRecommendedCrewMembers);
     const [favouriteMovies, setFavourites] = useState<Movie[]>(initFavouriteMovies);
 
     // Remove favorite movies from the recommended movie sets
@@ -37,9 +41,9 @@ const UserRecommendedMovies: React.FC<RecommendedProps> = ({ favouriteMoviesIds,
     // Map over recommended genre strings and concatenate names
     const genreNames = recommendedGenreStrings.join(', ');
     // Map over recommended cast strings and concatenate names
-    const castNames = recommendedCastStrings.map((name) => name).join(', ');
+    const castNames = recommendedCastStrings.map((person) => person.name).join(', ');
     // Map over recommended crew strings and concatenate names
-    const crewNames = recommendedCrewStrings.map((name) => name).join(', ');
+    const crewNames = recommendedCrewStrings.map((person) => person.name).join(', ');
 
     return (
         <>

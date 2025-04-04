@@ -36,8 +36,10 @@ export class MoviesService {
         let genreIds : Genre[] = [];
         let castIds : Cast[] = [];
         let crewIds : Crew[] = [];
-        for (const movieid of movies) {
-            let movieCredits = await getMovieCredits(movieid.movieid)
+        for (const movie of movies) {
+            let movieCredits = await getMovieCredits(movie.id)
+            let movieDetails = await getMovieDetails(movie.id)
+
             if (movieCredits) {
                 // Loop through the cast array and push each cast member ID into the castIds array
                 for (const castMember of movieCredits.cast) {
@@ -68,9 +70,6 @@ export class MoviesService {
                 }
             }
 
-            let movieDetails = await getMovieDetails(movieid.movieid)
-
-            //const movie: Movie = movieDetails as Movie
             if (movieDetails && movieDetails.genres) {
                 for (const genre of movieDetails.genres) {
                     let found = false;

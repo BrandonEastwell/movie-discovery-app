@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import WatchlistBtn from "../../../../components/client/create-watchlist-btn";
+import WatchlistBtn from "../../../../components/client/CreateWatchlistBtn";
 import {useRouter} from "next/navigation";
 
 interface PlaylistProps {
