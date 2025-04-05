@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, {useState} from "react";
-import AddToPlaylistBtn from "./AddPlaylistButton";
-import AddFavouriteBtn from "./AddFavouriteButton";
+import AddToPlaylistBtn from "./AddPlaylistBtn";
+import AddFavouriteBtn from "./AddFavouriteBtn";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import useFavourite from "../../lib/hooks/useFavourite";
@@ -41,7 +41,8 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
         }
     }
 
-    const navigateToMovie = async () => {
+    const navigateToMovie = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation();
         router.push(`/title/${movie.id}`)
     }
 
@@ -55,16 +56,20 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                         42</p>
                     <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK</p>
                 </div>
-                <motion.div onClick={navigateToMovie} className="cursor-pointer relative max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
+                <motion.div onClick={(event) => navigateToMovie(event)} className="cursor-pointer relative max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
                     <AnimatePresence>
-                        { hover &&
-                            <motion.div className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end" variants={cardHoverVarients} animate="visible" exit="hidden" initial="hidden">
-                                <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}>
-                                    <AddFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
-                                    <AddToPlaylistBtn movieID={movie.id}/>
-                                </motion.div>
+                        <motion.div
+                            className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end"
+                            variants={cardHoverVarients}
+                            animate={hover ? "visible" : "hidden"}
+                            initial="hidden"
+                            exit="hidden"
+                        >
+                            <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" animate={{ scale: hover ? 1 : 0 }}>
+                                <AddFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
+                                <AddToPlaylistBtn movieID={movie.id} />
                             </motion.div>
-                        }
+                        </motion.div>
                     </AnimatePresence>
                     {movie.poster_path
                         && (

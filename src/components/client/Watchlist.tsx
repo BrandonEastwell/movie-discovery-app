@@ -31,7 +31,7 @@ const Watchlist: React.FC<WatchlistListProps> = ({ cursorPosition, movieid}) => 
         <div className="absolute w-[200px] bg-[#212121] border p-2 rounded flex flex-col gap-1 z-20" style={{ left: `${cursorPosition.x}px`, top: `${cursorPosition.y}px`, height: 'auto'}}>
             <CreateWatchlistBtn />
             { playlists.map((playlist) => (
-                <button key={playlist.playlistid} className="w-full font-robotomono bg-transparent text-pearl-white rounded p-2 cursor-pointer text-start z-20"
+                <button key={playlist.playlistid} className="w-full font-robotomono bg-transparent text-pearl-white rounded p-2 cursor-pointer text-start"
                         type="submit" onClick={addPlaylist} value={`${playlist.playlistid},${movieid}`}>
                     {playlist.playlist_name}
                 </button>

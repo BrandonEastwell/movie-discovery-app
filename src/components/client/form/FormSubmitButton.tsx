@@ -19,7 +19,7 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, 
     }
 
     return (
-        <button className="submit w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
+        <button className="w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
             {text}
         </button>
     )

@@ -14,8 +14,7 @@ const AuthForm = ((props: formProps) => {
         <form className="flex flex-col text-center gap-4 px-20 py-10 place-self-center font-iconsolata">
             <h1 className="text-center mb-2 text-4xl text-pearl-white font-bold">{form === "login" ? "Sign in to Sivter" : "Join Sivter Today"}</h1>
             <div className="rounded bg-[#121212] py-3 px-3 overflow-hidden">
-                <input
-                    className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
+                <input className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
                     type="username"
                     id="username"
                     placeholder="username"
@@ -27,8 +26,7 @@ const AuthForm = ((props: formProps) => {
                 {usernameError && <p className="font-iconsolata text-Purple text-lg m-1">{usernameError}</p>}
             </div>
             <div className="rounded bg-[#121212] py-3 px-3 overflow-hidden">
-                <input
-                    className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
+                <input className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
                     type="password"
                     id="password"
                     placeholder="password"

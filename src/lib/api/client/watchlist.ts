@@ -21,8 +21,9 @@ const getPlaylists = async () => {
     }
 };
 
-const addPlaylist = async (e : any) => {
-    const values = e.currentTarget.value;
+const addPlaylist = async (event : any) => {
+    event.stopPropagation();
+    const values = event.currentTarget.value;
     const [playlistid, movieid] = values.split(',');
 
     try {
