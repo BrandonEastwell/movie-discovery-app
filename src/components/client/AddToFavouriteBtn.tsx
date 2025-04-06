@@ -3,7 +3,7 @@ import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function AddFavouriteBtn({isFavourite, toggleFavourite} : {isFavourite: boolean, toggleFavourite: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void}) {
+export default function AddToFavouriteBtn({isFavourite, toggleFavourite} : {isFavourite: boolean, toggleFavourite: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void}) {
 
     return (
         <motion.button onClick={(event) => toggleFavourite(event)} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}

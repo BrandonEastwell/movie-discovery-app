@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, {useState} from "react";
-import AddToPlaylistBtn from "./AddPlaylistBtn";
-import AddFavouriteBtn from "./AddFavouriteBtn";
+import AddToWatchlistBtn from "./AddToWatchlistBtn";
+import AddToFavouriteBtn from "./AddToFavouriteBtn";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import useFavourite from "../../lib/hooks/useFavourite";
@@ -66,11 +66,18 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                             exit="hidden"
                         >
                             <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" animate={{ scale: hover ? 1 : 0 }}>
-                                <AddFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
-                                <AddToPlaylistBtn movieID={movie.id} />
+                                <AddToWatchlistBtn movieID={movie.id} isLoggedIn={isLoggedIn} />
+                                <AddToFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
                             </motion.div>
                         </motion.div>
                     </AnimatePresence>
+                    {!hover && favouriteState.favourite &&
+                        <div className="absolute flex flex-col w-full h-full place-items-end justify-end">
+                            <div className="flex flex-row gap-2 max-w-[80px] p-2">
+                                <AddToFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
+                            </div>
+                        </div>
+                    }
                     {movie.poster_path
                         && (
                             <Image

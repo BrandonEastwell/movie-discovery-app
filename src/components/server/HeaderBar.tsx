@@ -1,4 +1,4 @@
-import HeaderMenu from "../client/header-menu";
+import HeaderMenu from "../client/HeaderMenu";
 import React from "react";
 import Link from "next/link";
 

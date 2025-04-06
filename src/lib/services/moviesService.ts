@@ -17,7 +17,7 @@ interface Genre {
 }
 
 export class MoviesService {
-    async getListsOfMoviesByCategory() {
+    static async getListsOfMoviesByCategory() {
         const trending = await getTrendingWeekMovie()
         const topRated = await getTopRated()
         const popular = await getPopular()
@@ -31,7 +31,7 @@ export class MoviesService {
         }
     }
 
-    async getDetailsFromMovies (movies: any) {
+    static async getDetailsFromMovies (movies: any) {
         // Fetch movie details from TMDB API and extract genres from each users favorite movie
         let genreIds : Genre[] = [];
         let castIds : Cast[] = [];

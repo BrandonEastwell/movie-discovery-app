@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from "../../../../../lib/services/prisma";
 import {AuthService} from "../../../../../lib/services/authService";
+import WatchlistService from "../../../../../lib/services/watchlistService";
 
 export async function POST(req: NextRequest) {
     try {
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
         }
     } catch (error) {
         console.error('Error: ', error);
-        return NextResponse.json({ success: false, error: error }, {status: 500});
+        return NextResponse.json({ success: false, error: 'Internal Server Error' }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }
@@ -52,12 +53,8 @@ export async function GET(req: NextRequest) {
         const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
 
         if (isLoggedIn && userData?.userid) {
-            //add or remove movie id to favourite database process
-            const playlists = await prisma.userplaylist.findMany({
-                where: {
-                    userid: userData.userid
-                },
-            });
+            // Get all user playlists
+            const playlists = await WatchlistService.getAllUserWatchlists(userData.userid);
 
             return NextResponse.json({success: true, result: playlists }, {status: 200});
         } else {
@@ -65,8 +62,8 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({success: false, error: 'Error Authenticating' }, {status: 400});
         }
     } catch (error) {
-        console.error('Error:', error);
-        return NextResponse.json({ success: false, error: error }, {status: 500});
+        console.error(error);
+        return NextResponse.json({ success: false, error: 'Internal Server Error' }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }

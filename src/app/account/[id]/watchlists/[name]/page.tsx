@@ -1,10 +1,9 @@
-'use client'
-import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import {usePathname, useSearchParams} from "next/navigation";
 import Image from "next/image";
+import WatchlistService from "../../../../../lib/services/watchlistService";
+import {getMovieDetails} from "../../../../../lib/api/server/movieDetails";
 
-interface PlaylistProps {
+interface WatchlistMovie {
     movieid: number, position: number
 }
 
@@ -15,73 +14,86 @@ interface Movie {
     backdrop_path: string;
 }
 
-export default function Page() {
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [playlists, setPlaylists] = useState<PlaylistProps[]>([]);
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const playlistid = searchParams.get('id')
-    const pathSegments = pathname.split('/');
-    const playlistName = pathSegments[pathSegments.length - 1];
+type Props = {
+    params: { id: string; name: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
 
-    useEffect(() => {
-        const fetchMovies = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/watchlist-movies?id=${playlistid}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to fetch playlist movies');
-                }
-                const data = await response.json();
-                setPlaylists(data.result.movies);
-                setMovies(data.result.movieData);
-            } catch (error) {
-                console.error('Error fetching favourite movies:', error);
-                // Handle error, maybe display an error message to the user
-            }
-        };
+export default async function Page({ params, searchParams }: Props) {
+    const userid = params.id;
+    const watchlistName = params.name;
+    const watchlistID = searchParams.id;
 
-        fetchMovies();
-    }, [playlistid]);
+    let movies : Movie[] = [];
+    let watchlistDesc;
+    let moviesInWatchlist : WatchlistMovie[] = [];
+
+    if (typeof watchlistID === "string") {
+        watchlistDesc = await WatchlistService.getWatchlistDetails(parseInt(watchlistID)).then((res) => {
+            if (res) return res.playlist_desc
+        });
+        moviesInWatchlist = await WatchlistService.getAllWatchlistMovies(parseInt(watchlistID));
+    }
+
+    if (moviesInWatchlist.length != 0) {
+        const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieid);
+
+        for (const id of watchlistMovieIds) {
+            const movieDetails : Movie = await getMovieDetails(id);
+            movies.push(movieDetails);
+        }
+    }
+
+    const findPositionByMovieId = (movieid: number): number | undefined => {
+        const movie = moviesInWatchlist.find(item => item.movieid === movieid);
+        return movie?.position;
+    };
 
     if (!movies || movies.length === 0) {
         return <p>No movies found.</p>;
     }
 
-    const imageLoader = ({src}: any) => {
-        return `https://image.tmdb.org/t/p/w500${src}`
-    }
-
-    const findPositionByMovieId = (movieid: number): number | undefined => {
-        const playlist = playlists.find(item => item.movieid === movieid);
-        return playlist?.position;
-    };
-
     return (
         <div className="wrapper w-full h-full flex flex-col gap-10 items-start justify-start flex-nowrap">
-            <b className="flex items-center text-[3rem] font-vt323 text-pearl-white mt-4 ml-2 font-medium">
-                {playlistName}
-            </b>
-            <div className="flex flex-col flex-wrap gap-5"> {
-                movies.map((movie, index) => (
-                    <Link key={movie.id} href={`http://localhost:3000/title/${movie.id}`} className="no-underline">
+            <div className="flex flex-row w-full max-h-[200px] mt-7 gap-5">
+                <div className="relative w-full h-full max-w-[200px] aspect-square rounded overflow-hidden">
+                    {movies[0].backdrop_path
+                        && (
+                            <Image className="object-cover"
+                                   src={`https://image.tmdb.org/t/p/w500${movies[0]?.backdrop_path}`}
+                                   alt={`${movies[0]?.title} Poster`}
+                                   fill
+                            />
+                        )}
+                </div>
+                <div className="flex flex-col gap-2">
+                    <p className="text-base font-iconsolata text-pearl-white m-0 ml-2">
+                        Private Watchlist
+                    </p>
+                    <h1 className="text-8xl font-vt323 text-pearl-white ml-2 font-extrabold">
+                        {watchlistName}
+                    </h1>
+                    <p className="text-xl font-vt323 text-pearl-white/80 m-0 ml-2">
+                        {watchlistDesc}
+                    </p>
+                </div>
+            </div>
+            <div className="w-full flex flex-col flex-wrap gap-5"> {
+                movies.map((movie) => (
+                    <Link key={movie.id} href={`/title/${movie.id}`} className="no-underline">
                         <div className="flex flex-row max-h-[50px] max-w-full w-auto justify-start items-center gap-1">
-                            <p className="w-auto text-left font-michroma text-silver opacity-75 text-[0.8rem] overflow-hidden m-0 p-2">{findPositionByMovieId(movie.id)}</p>
-                            {movie.backdrop_path
-                                && (
-                                    <Image className="w-[50px] h-[50px] dark:shadow-gray-800 object-cover object-center"
-                                           loader={imageLoader}
-                                           src={`${movie?.backdrop_path}`}
-                                           alt={`${movie?.title} Poster`}
-                                           width={50}
-                                           height={50}
-                                    />
-                                )}
-                            <p className="w-full text-left font-michroma text-pearl-white text-[1rem] m-0 p-2">{movie.title}</p>
+                            <p className="w-auto text-left font-iconsolata text-silver opacity-75 text-lg font-bold overflow-hidden m-0 p-2">{findPositionByMovieId(movie.id)}</p>
+                            <div className="relative w-full max-w-[50px] aspect-square rounded overflow-hidden">
+                                {movie.backdrop_path
+                                    && (
+                                        <Image className="object-cover"
+                                               src={`https://image.tmdb.org/t/p/w500${movie?.backdrop_path}`}
+                                               alt={`${movie?.title} Poster`}
+                                               fill
+                                        />
+                                    )}
+                            </div>
+                            <p className="w-full text-left font-iconsolata text-white text-base m-0 p-2">{movie.title}</p>
                         </div>
                     </Link>
                 ))}

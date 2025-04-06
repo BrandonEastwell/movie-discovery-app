@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderBar from "../../components/server/header-bar";
-import SearchBar from "../../components/client/search-bar";
+import HeaderBar from "../../components/server/HeaderBar";
+import SearchBar from "../../components/client/SearchBar";
 import UserNavigation from "../../components/client/UserNavigation";
 import {AuthService} from "../../lib/services/authService";
 

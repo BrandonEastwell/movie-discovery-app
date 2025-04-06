@@ -1,5 +1,5 @@
-import HeaderBar from "../../../components/server/header-bar";
-import SearchBar from "../../../components/client/search-bar";
+import HeaderBar from "../../../components/server/HeaderBar";
+import SearchBar from "../../../components/client/SearchBar";
 import React, {Suspense} from "react";
 import AccountNavigation from "../../../components/client/AccountNavigation";
 import {AuthService} from "../../../lib/services/authService";

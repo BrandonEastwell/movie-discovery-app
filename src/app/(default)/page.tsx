@@ -18,7 +18,7 @@ interface Movie {
 
 export default async function Page() {
     const movieService = new MoviesService();
-    const { trending, topRated, popular, upcoming } = await movieService.getListsOfMoviesByCategory();
+    const { trending, topRated, popular, upcoming } = await MoviesService.getListsOfMoviesByCategory();
     const { isLoggedIn, userData } = (await AuthService.getAuthState());
 
     let favourites : Movie[] = [];
