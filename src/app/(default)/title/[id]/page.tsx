@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/server/movieDetails";
+import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/TMDB/movieDetails";
 import LocalStorage from "../../../../components/client/LocalStorage";
 
 interface Movie {

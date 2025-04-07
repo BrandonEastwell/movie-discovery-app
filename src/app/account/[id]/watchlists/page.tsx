@@ -14,7 +14,7 @@ export default async function Page() {
     let watchlists : Playlists[] = [];
 
     if (isLoggedIn && userData?.userid) {
-        watchlists = await WatchlistService.getAllUserWatchlists(userData?.userid)
+        watchlists = await WatchlistService.getAllWatchlistsByUserId(userData?.userid)
     }
 
     return (

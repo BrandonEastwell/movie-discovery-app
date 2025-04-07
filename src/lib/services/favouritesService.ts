@@ -1,5 +1,5 @@
 import {prisma} from "./prisma";
-import {getMovieDetails} from "../api/server/movieDetails";
+import {getMovieDetails} from "../api/TMDB/movieDetails";
 
 interface Movie {
     id: number;

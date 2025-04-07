@@ -1,6 +1,6 @@
 "use client"
 import CreateWatchlistBtn from "../../../../components/client/CreateWatchlistBtn";
-import Watchlists from "./Watchlists";
+import UserWatchlists from "./UserWatchlists";
 import React, {useState} from "react";
 
 interface Watchlists {
@@ -9,14 +9,14 @@ interface Watchlists {
     playlist_desc: string | null;
 }
 
-export default function WatchlistSection({initWatchlists}: {initWatchlists: Watchlists[]}) {
-    const [watchlists, setWatchlists] = useState<Watchlists[]>(initWatchlists);
+export default function WatchlistSection({initWatchlists}: {initWatchlists: UserWatchlists[]}) {
+    const [watchlists, setWatchlists] = useState<UserWatchlists[]>(initWatchlists);
 
     return (
         <>
             <CreateWatchlistBtn setWatchlists={setWatchlists} />
             <div className="flex flex-row flex-wrap mt-10 gap-10">
-                <Watchlists watchlists={watchlists} />
+                <UserWatchlists watchlists={watchlists} />
             </div>
         </>
     )

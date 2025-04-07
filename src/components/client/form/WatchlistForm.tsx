@@ -3,13 +3,8 @@ import React, {useState} from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AnimatePresence, motion} from "framer-motion";
-import {createWatchlist} from "../../../lib/api/client/watchlist";
-
-interface Watchlists {
-    playlistid: number;
-    playlist_name: string;
-    playlist_desc: string | null;
-}
+import {createWatchlist} from "../../../lib/api/client_requests/watchlist";
+import {Watchlists} from "../../../lib/utils/types/watchlist";
 
 const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFormVisible: boolean, setIsFormVisible: (visible : boolean) => void, setWatchlists?: React.Dispatch<React.SetStateAction<Watchlists[]>>}) => {
     const [message, setMessage] = useState<string | null>(null);
@@ -53,10 +48,10 @@ const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFo
                             </button>
                         </div>
                         <h1 className="text-center mx-2 text-4xl text-pearl-white font-bold">Create Watchlist</h1>
-                        <form onClick={(e) => e.stopPropagation()} className="w-3/4 flex flex-col gap-4 pb-5 place-self-center font-iconsolata">
+                        <form onSubmit={handleCreatePlaylist} onClick={(e) => e.stopPropagation()} className="w-3/4 flex flex-col gap-4 pb-5 place-self-center font-iconsolata">
                             <p className="text-left mb-0 text-xl text-pearl-white font-bold">watchlist name</p>
                             <div className="rounded bg-[#121212] py-3 px-3 overflow-hidden">
-                                <input className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
+                                <input className="w-full border-none outline-none font-iconsolata text-lg text-white bg-transparent"
                                        type="text"
                                        id="name"
                                        placeholder=""
@@ -70,18 +65,18 @@ const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFo
                             </div>
                             <p className="text-left mb-0 text-xl text-pearl-white font-bold">watchlist description</p>
                             <div className="rounded bg-[#121212] py-3 px-3 overflow-hidden">
-                                <textarea className="w-full border-none outline-none font-iconsolata text-lg text-silver bg-transparent"
+                                <textarea className="w-full border-none outline-none font-iconsolata text-lg text-white bg-transparent"
                                           id="desc"
                                           value={description}
                                           onChange={handleDescChange}
                                           onClick={(e) => e.stopPropagation()}
                                           onFocus={(e) => e.stopPropagation()}
-                                          required
                                           cols={5}
+                                          maxLength={30}
                                 />
                             </div>
                             <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} className="font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
-                                type="submit" onClick={handleCreatePlaylist}>Create Watchlist
+                                type="submit">Create Watchlist
                             </motion.button>
                             <div className="w-full flex flex-col">
                                 {message && <p className="font-iconsolata text-center text-green-500 m-1">{message}</p>}

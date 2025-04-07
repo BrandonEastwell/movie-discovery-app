@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useRouter} from "next/navigation";
-import {toggleFavouriteMovie} from "../../../lib/api/client/favourites";
+import {toggleFavouriteMovie} from "../../../lib/api/client_requests/favourites";
 import {AnimatePresence, motion} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";

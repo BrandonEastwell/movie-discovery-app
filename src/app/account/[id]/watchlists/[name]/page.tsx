@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import WatchlistService from "../../../../../lib/services/watchlistService";
-import {getMovieDetails} from "../../../../../lib/api/server/movieDetails";
+import {getMovieDetails} from "../../../../../lib/api/TMDB/movieDetails";
 
 interface WatchlistMovie {
     movieid: number, position: number
@@ -29,10 +29,10 @@ export default async function Page({ params, searchParams }: Props) {
     let moviesInWatchlist : WatchlistMovie[] = [];
 
     if (typeof watchlistID === "string") {
-        watchlistDesc = await WatchlistService.getWatchlistDetails(parseInt(watchlistID)).then((res) => {
+        watchlistDesc = await WatchlistService.getWatchlistDetailsByWatchlistId(parseInt(watchlistID)).then((res) => {
             if (res) return res.playlist_desc
         });
-        moviesInWatchlist = await WatchlistService.getAllWatchlistMovies(parseInt(watchlistID));
+        moviesInWatchlist = await WatchlistService.getWatchlistsMoviesByWatchlistId(parseInt(watchlistID));
     }
 
     if (moviesInWatchlist.length != 0) {

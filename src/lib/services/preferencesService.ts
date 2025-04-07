@@ -1,6 +1,6 @@
 import {prisma} from "./prisma";
-import {getPersonDetails} from "../api/server/personDetails";
-import {getMoviesByDiscoveryCast, getMoviesByDiscoveryCrew, getMoviesByDiscoveryGenre} from "../api/server/movieLists";
+import {getPersonDetails} from "../api/TMDB/personDetails";
+import {getMoviesByDiscoveryCast, getMoviesByDiscoveryCrew, getMoviesByDiscoveryGenre} from "../api/TMDB/movieLists";
 import {MoviesService} from "./moviesService";
 
 interface Cast {

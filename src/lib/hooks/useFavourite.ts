@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useRouter} from "next/navigation";
-import {toggleFavouriteMovie} from "../api/client/favourites";
+import {toggleFavouriteMovie} from "../api/client_requests/favourites";
 
 const useFavourite = (isFavourite : boolean, movieid : number, isLoggedIn : boolean) => {
     const [favourite, setFavourite] = useState<boolean>(isFavourite);

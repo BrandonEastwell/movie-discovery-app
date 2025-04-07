@@ -3,12 +3,7 @@ import React, {useState} from "react";
 import WatchlistForm from "./form/WatchlistForm";
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
-
-interface Watchlists {
-    playlistid: number;
-    playlist_name: string;
-    playlist_desc: string | null;
-}
+import {Watchlists} from "../../lib/utils/types/watchlist";
 
 export default function CreateWatchlistBtn({setWatchlists} : {setWatchlists?: React.Dispatch<React.SetStateAction<Watchlists[]>>}) {
     const [isFormVisible, setIsFormVisible] = useState<boolean>(false);

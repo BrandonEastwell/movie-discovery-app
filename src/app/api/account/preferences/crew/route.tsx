@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMoviesByDiscoveryGenre} from "../../../../../lib/api/server/movieLists";
+import {getMoviesByDiscoveryCrew} from "../../../../../lib/api/TMDB/movieLists";
 import { prisma } from "../../../../../lib/services/prisma";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 import {AuthService} from "../../../../../lib/services/authService";
@@ -10,15 +10,15 @@ export async function GET(req: NextRequest) {
         if (authState.userData && authState.userData.userid) {
             const preferences = await PreferencesService.getAllUserPreferenceIDs(authState.userData.userid);
 
-            if (preferences != null && preferences.preferredGenre != null) {
-                const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
-                const preferredGenreList = preferences.preferredGenre.split(","); // Split comma-separated genres
+            if (preferences != null && preferences.preferredCrew != null) {
+                const preferredCrew = preferences.preferredCrew.replace(/,/g, '|');
+                const preferredCrewList = preferences.preferredCrew.split(","); // Split comma-separated genres
 
-                const listOfGenreNames = await PreferencesService.genreIdToString(preferredGenreList);
+                const listOfCrewMembers = PreferencesService.getPeopleData(preferredCrewList);
 
-                const preferredMoviesByGenre = await getMoviesByDiscoveryGenre(preferredGenre, "popularity.desc");
+                const preferredMoviesByCrew = await getMoviesByDiscoveryCrew("popularity.desc", preferredCrew);
 
-                return NextResponse.json({result: true, movies: preferredMoviesByGenre.results, strings: listOfGenreNames}, {status: 200})
+                return NextResponse.json({result: true, movies: preferredMoviesByCrew.results, strings: listOfCrewMembers}, {status: 200})
             } else {
                 return NextResponse.json({result: false}, {status: 404})
             }

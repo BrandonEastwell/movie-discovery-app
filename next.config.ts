@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
             runtime: "nodejs",
         },
     },
+    webpack(config) {
+        config.module.rules.push({
+            test: /\.svg$/,
+            use: ["@svgr/webpack"]
+        });
+        return config
+    }
 };
 
 export default nextConfig;

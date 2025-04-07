@@ -1,6 +1,6 @@
 import React from "react";
 import MoviesSearchList from "../../../components/client/MoviesSearchList";
-import {getMediaBySearch} from "../../../lib/api/server/movieLists";
+import {getMediaBySearch} from "../../../lib/api/TMDB/movieLists";
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
     const query = (await searchParams)?.q || '';

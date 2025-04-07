@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMovieDetails} from "../../../../../lib/api/server/movieDetails";
-import { prisma } from "../../../../../lib/services/prisma";
-import WatchlistService from "../../../../../lib/services/watchlistService";
+import {getMovieDetails} from "../../../../../../lib/api/TMDB/movieDetails";
+import { prisma } from "../../../../../../lib/services/prisma";
+import WatchlistService from "../../../../../../lib/services/watchlistService";
 
 export async function POST(req: NextRequest) {
     try {
@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
         const watchlistID : number = parseInt(body.watchlistID);
 
         if (watchlistID) {
-            const moviesInWatchlist = await WatchlistService.getAllWatchlistMovies(watchlistID)
+            const moviesInWatchlist = await WatchlistService.getWatchlistsMoviesByWatchlistId(watchlistID)
 
             if (moviesInWatchlist.length != 0) {
                 const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieid);

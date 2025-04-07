@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getMoviesByDiscoveryCrew} from "../../../../../lib/api/server/movieLists";
 import { prisma } from "../../../../../lib/services/prisma";
+import {getMoviesByDiscoveryCast} from "../../../../../lib/api/TMDB/movieLists";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 import {AuthService} from "../../../../../lib/services/authService";
 
@@ -10,15 +10,15 @@ export async function GET(req: NextRequest) {
         if (authState.userData && authState.userData.userid) {
             const preferences = await PreferencesService.getAllUserPreferenceIDs(authState.userData.userid);
 
-            if (preferences != null && preferences.preferredCrew != null) {
-                const preferredCrew = preferences.preferredCrew.replace(/,/g, '|');
-                const preferredCrewList = preferences.preferredCrew.split(","); // Split comma-separated genres
+            if (preferences != null && preferences.preferredCast != null) {
+                const preferredCast = preferences.preferredCast.replace(/,/g, '|');
+                const preferredCastList = preferences.preferredCast.split(","); // Split comma-separated genres
 
-                const listOfCrewMembers = PreferencesService.getPeopleData(preferredCrewList);
+                const listOfCastMembers = PreferencesService.getPeopleData(preferredCastList);
 
-                const preferredMoviesByCrew = await getMoviesByDiscoveryCrew("popularity.desc", preferredCrew);
+                const preferredMoviesByCast = await getMoviesByDiscoveryCast("popularity.desc", preferredCast);
 
-                return NextResponse.json({result: true, movies: preferredMoviesByCrew.results, strings: listOfCrewMembers}, {status: 200})
+                return NextResponse.json({result: true, movies: preferredMoviesByCast.results, strings: listOfCastMembers}, {status: 200})
             } else {
                 return NextResponse.json({result: false}, {status: 404})
             }
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
         }
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ error: `Error: ${error}` }, {status: 500});
+        return NextResponse.json({ error: `Error: ${error}`, }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }

@@ -1,5 +1,5 @@
-import {getPopular, getTopRated, getTrendingWeekMovie, getUpcoming} from "../api/server/movieLists";
-import {getMovieCredits, getMovieDetails} from "../api/server/movieDetails";
+import {getPopular, getTopRated, getTrendingWeekMovie, getUpcoming} from "../api/TMDB/movieLists";
+import {getMovieCredits, getMovieDetails} from "../api/TMDB/movieDetails";
 
 interface Cast {
     id: number

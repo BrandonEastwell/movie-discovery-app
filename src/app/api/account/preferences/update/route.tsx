@@ -1,8 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
-import { prisma } from "../../../../lib/services/prisma";
-import {PreferencesService} from "../../../../lib/services/preferencesService";
-import {AuthService} from "../../../../lib/services/authService";
-import {FavouritesService} from "../../../../lib/services/favouritesService";
+import { prisma } from "../../../../../lib/services/prisma";
+import {PreferencesService} from "../../../../../lib/services/preferencesService";
+import {AuthService} from "../../../../../lib/services/authService";
+import {FavouritesService} from "../../../../../lib/services/favouritesService";
 
 
 export async function POST(req: NextRequest) {

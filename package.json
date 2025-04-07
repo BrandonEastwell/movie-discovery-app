@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@prisma/client": "^6.4.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",

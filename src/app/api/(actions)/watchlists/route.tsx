@@ -1,7 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from "../../../../../lib/services/prisma";
-import {AuthService} from "../../../../../lib/services/authService";
-import WatchlistService from "../../../../../lib/services/watchlistService";
+import { prisma } from "../../../../lib/services/prisma";
+import {AuthService} from "../../../../lib/services/authService";
+import WatchlistService from "../../../../lib/services/watchlistService";
+
+export async function GET(req: NextRequest) {
+    try {
+        const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
+
+        if (isLoggedIn && userData?.userid) {
+            // Get all user playlists
+            const playlists = await WatchlistService.getAllWatchlistsByUserId(userData.userid);
+
+            return NextResponse.json({success: true, result: playlists }, {status: 200});
+        } else {
+            // If authentication fails, handle the error
+            return NextResponse.json({success: false, error: 'Error Authenticating' }, {status: 400});
+        }
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ success: false, error: 'Internal Server Error' }, {status: 500});
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -42,27 +63,6 @@ export async function POST(req: NextRequest) {
         }
     } catch (error) {
         console.error('Error: ', error);
-        return NextResponse.json({ success: false, error: 'Internal Server Error' }, {status: 500});
-    } finally {
-        await prisma.$disconnect();
-    }
-}
-
-export async function GET(req: NextRequest) {
-    try {
-        const {isLoggedIn, userData} = await AuthService.getAuthStateFromRequestHeader(req);
-
-        if (isLoggedIn && userData?.userid) {
-            // Get all user playlists
-            const playlists = await WatchlistService.getAllUserWatchlists(userData.userid);
-
-            return NextResponse.json({success: true, result: playlists }, {status: 200});
-        } else {
-            // If authentication fails, handle the error
-            return NextResponse.json({success: false, error: 'Error Authenticating' }, {status: 400});
-        }
-    } catch (error) {
-        console.error(error);
         return NextResponse.json({ success: false, error: 'Internal Server Error' }, {status: 500});
     } finally {
         await prisma.$disconnect();
