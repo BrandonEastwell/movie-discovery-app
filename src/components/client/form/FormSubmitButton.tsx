@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import {handleAuthenticationReq} from "../../../lib/api/client/authentication";
 import {useRouter} from "next/navigation";
+import { motion } from "framer-motion";
 
 interface FormSubmitButtonProps {
     username: string;
@@ -19,9 +21,9 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, 
     }
 
     return (
-        <button className="w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
+        <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} className="w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
             {text}
-        </button>
+        </motion.button>
     )
 }
 

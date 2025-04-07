@@ -3,9 +3,15 @@ import React, {useState} from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AnimatePresence, motion} from "framer-motion";
-import {createWatchlist} from "../../lib/api/client/watchlist";
+import {createWatchlist} from "../../../lib/api/client/watchlist";
 
-const WatchlistForm = (({isFormVisible, setIsFormVisible} : {isFormVisible: boolean, setIsFormVisible: (visible : boolean) => void}) => {
+interface Watchlists {
+    playlistid: number;
+    playlist_name: string;
+    playlist_desc: string | null;
+}
+
+const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFormVisible: boolean, setIsFormVisible: (visible : boolean) => void, setWatchlists?: React.Dispatch<React.SetStateAction<Watchlists[]>>}) => {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState<string>('');
@@ -27,7 +33,10 @@ const WatchlistForm = (({isFormVisible, setIsFormVisible} : {isFormVisible: bool
 
         const response = await createWatchlist(name, description);
         if (response) {
-            if (response.success) setMessage(response.result);
+            if (response.success) {
+                setMessage(`Playlist ${name} created`);
+                setWatchlists ? setWatchlists(prevState => [...prevState, response.result]) : null
+            }
             else setError(response.error);
         }
     };
@@ -71,12 +80,12 @@ const WatchlistForm = (({isFormVisible, setIsFormVisible} : {isFormVisible: bool
                                           cols={5}
                                 />
                             </div>
-                            <button className="font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
-                                type="submit" onClick={handleCreatePlaylist}>create watchlist
-                            </button>
-                            <div className="message-handle w-full flex flex-col">
-                                {message && <p className="font-michroma text-Purple text-[1rem] m-1">{message}</p>}
-                                {error && <p className="font-michroma text-red-800 text-[1rem] m-1">{error}</p>}
+                            <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} className="font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer"
+                                type="submit" onClick={handleCreatePlaylist}>Create Watchlist
+                            </motion.button>
+                            <div className="w-full flex flex-col">
+                                {message && <p className="font-iconsolata text-center text-green-500 m-1">{message}</p>}
+                                {error && <p className="font-iconsolata text-center text-red-500 m-1">{error}</p>}
                             </div>
                         </form>
                     </div>

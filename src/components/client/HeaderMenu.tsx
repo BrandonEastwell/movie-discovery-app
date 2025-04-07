@@ -65,11 +65,11 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({isLoggedIn, userData}) => {
     return (
         <div className="flex justify-end gap-5 text-lg place-items-center">
             <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
-                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/watchlists` : '/login')}>
+                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/watchlists` : 'auth/login')}>
                 watchlist
             </motion.button>
             <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"
-                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/favourites` : '/login')}>
+                    onClick={() => handleLinkClick(isLoggedIn ? `/account/${userid}/favourites` : 'auth/login')}>
                 favourites
             </motion.button>
             <motion.button variants={variants} initial={"initial"} whileHover={"hover"} whileTap={{scale: 0.9}} className="cursor-pointer border:none p-0 bg-[transparent] font-iconsolata text-lg text-gray-100"

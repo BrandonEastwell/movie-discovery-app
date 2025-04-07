@@ -24,14 +24,14 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ success: false, error: "playlist already exists" }, {status: 400});
             } else {
                 if (name != null) {
-                    await prisma.userplaylist.create({
+                    const watchlist = await prisma.userplaylist.create({
                         data: {
                             userid: userData.userid,
                             playlist_name: name,
                             playlist_desc: desc
                         },
                     });
-                    return NextResponse.json({ success: true, result: "playlist created" }, {status: 200});
+                    return NextResponse.json({ success: true, result: watchlist }, {status: 200});
                 } else {
                     return NextResponse.json({ success: false, error: "playlist name not provided" }, {status: 400});
                 }

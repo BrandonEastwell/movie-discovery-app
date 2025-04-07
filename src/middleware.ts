@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
     let res = NextResponse;
     const protectedPaths = ['/account'];
     const isProtectedPath = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
-    const isAuthPath = req.nextUrl.pathname.startsWith('/login');
+    const isAuthPath = req.nextUrl.pathname.startsWith('/auth');
 
     try {
         const { isLoggedIn } = await AuthService.getAuthStateFromRequestHeader(req);
@@ -30,12 +30,12 @@ export async function middleware(req: NextRequest) {
     } catch (error) {
         if (isProtectedPath) {
             if (error instanceof TokenExpiredError) {
-                return res.redirect(new URL(`${origin}/login?expired=true`));
+                return res.redirect(new URL(`${origin}/auth/login?expired=true`));
             } else {
                 // If JWT verification fails, redirect to the login.tsx
                 console.error('Error verifying token: ', error);
-                console.log('MIDDLEWARE: REDIRECTING TO ' + `${origin}/login`);
-                return res.redirect(new URL(`${origin}/login`));
+                console.log('MIDDLEWARE: REDIRECTING TO ' + `${origin}/auth/login`);
+                return res.redirect(new URL(`${origin}/auth/login`));
             }
         }
     }
