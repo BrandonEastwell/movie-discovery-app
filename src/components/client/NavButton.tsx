@@ -44,8 +44,7 @@ export default function NavButton({ params } : { params: { name: string, symbol:
             <Link href={href}>
                 <motion.span variants={textVariants} className="material-symbols-outlined text-sm text-pearl-white">{symbol}</motion.span>
             </Link>
-            <motion.button variants={textVariants}
-                           onClick={onNavClick}
+            <motion.button variants={textVariants} onClick={onNavClick}
                            className="cursor-pointer no-underline bg-transparent p-0 font-iconsolata text-base font-bold text-pearl-white">{name}</motion.button>
         </motion.div>
     )

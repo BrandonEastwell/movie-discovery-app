@@ -22,6 +22,13 @@ interface Person {
     name: string;
 }
 
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    backdrop_path: string;
+}
+
 export class PreferencesService {
     static async setPreferences({genre, cast, crew} : {genre: Genre[], cast: Cast[], crew: Crew[]}, userid : number) {
         //sort crew and cast by count descending order
@@ -54,13 +61,12 @@ export class PreferencesService {
         });
     }
 
-    static async updateAllPreferences(userid: number, favouriteMovies : Movie[]) {
+    static async updateAllPreferences(userid: number, favouriteMovies : number[]) {
         if (favouriteMovies.length < 5) {
             throw new Error('Action Failed: Not enough data to generate preferences')
         }
 
-        const movieService = new MoviesService();
-        const moviesData = await movieService.getDetailsFromMovies(favouriteMovies);
+        const moviesData = await MoviesService.getDetailsFromMovies(favouriteMovies);
 
         await PreferencesService.setPreferences({genre: moviesData.genreIds, crew: moviesData.crewIds, cast: moviesData.castIds}, userid);
     }

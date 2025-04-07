@@ -40,7 +40,7 @@ export default async function Page() {
         if (favourites) {
             if (favourites.length % 5 && favourites.length >= 5) {
                 try {
-                    await PreferencesService.updateAllPreferences(userData.userid, favourites)
+                    await PreferencesService.updateAllPreferences(userData.userid, favouriteIds)
                     preferences = await PreferencesService.getListOfAllPreferences(userData.userid);
                 } catch (error) {
                     console.log("Error: ", error)

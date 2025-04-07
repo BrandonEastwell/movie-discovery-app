@@ -31,14 +31,14 @@ export class MoviesService {
         }
     }
 
-    static async getDetailsFromMovies (movies: any) {
+    static async getDetailsFromMovies (movies: number[]) {
         // Fetch movie details from TMDB API and extract genres from each users favorite movie
         let genreIds : Genre[] = [];
         let castIds : Cast[] = [];
         let crewIds : Crew[] = [];
         for (const movie of movies) {
-            let movieCredits = await getMovieCredits(movie.id)
-            let movieDetails = await getMovieDetails(movie.id)
+            let movieCredits = await getMovieCredits(movie)
+            let movieDetails = await getMovieDetails(movie)
 
             if (movieCredits) {
                 // Loop through the cast array and push each cast member ID into the castIds array

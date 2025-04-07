@@ -76,6 +76,11 @@ export class AuthService {
         }
     }
 
+    static async deleteToken() {
+        const cookiesStore = await cookies();
+        return cookiesStore.delete('token');
+    }
+
     static async getAuthState() {
         const cookieStore = await cookies();
         const token = cookieStore.get('token')?.value;

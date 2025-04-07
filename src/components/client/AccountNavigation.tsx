@@ -1,9 +1,9 @@
-'use client'
 import React from "react";
 import "../../app/styles/globals.css"
 import NavButton from "./NavButton";
+import LogoutBtn from "./LogoutBtn";
 
-function AccountNavigation({userid} : {userid: number}) {
+async function AccountNavigation({userid} : {userid: number}) {
 
     return (
         <div className="min-w-[200px] flex flex-col place-items-start font-semibold text-gray-100">
@@ -12,6 +12,7 @@ function AccountNavigation({userid} : {userid: number}) {
                 <NavButton params={{name: "profile", symbol: "person", href: `/account/${userid}`}} />
                 <NavButton params={{name: "watchlists", symbol: "playlist_play", href: `/account/${userid}/watchlists`}} />
                 <NavButton params={{name: "favourites", symbol: "favorite", href: `/account/${userid}/favourites`}} />
+                <LogoutBtn />
             </nav>
         </div>
     );

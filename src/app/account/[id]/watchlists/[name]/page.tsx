@@ -78,12 +78,19 @@ export default async function Page({ params, searchParams }: Props) {
                     </p>
                 </div>
             </div>
-            <div className="w-full flex flex-col flex-wrap gap-5"> {
-                movies.map((movie) => (
+            <div className="w-full grid grid-rows-[repeat(auto-fill,50px)] justify-start items-center gap-3">
+                <div className="w-full grid grid-cols-[40px_50px_1fr_150px_100px_100px_100px] justify-start items-center gap-1 border-solid border-b border-pearl-white/10">
+                    <p className="col-start-1 w-auto text-left font-iconsolata text-pearl-white/50 overflow-hidden m-0 p-2">#</p>
+                    <p className="col-start-2 col-end-4 w-auto text-left font-iconsolata text-pearl-white/50 overflow-hidden m-0">Title</p>
+                    <p className="col-start-4 col-end-5 w-auto text-left font-iconsolata text-pearl-white/50 overflow-hidden m-0">Genre</p>
+                    <p className="col-start-5 col-end-6 w-auto text-left font-iconsolata text-pearl-white/50 overflow-hidden m-0">Date Added</p>
+                    <p className="col-start-7 col-end-8 w-auto text-left font-iconsolata text-pearl-white/50 overflow-hidden m-0">Runtime</p>
+                </div>
+                { movies.map((movie) => (
                     <Link key={movie.id} href={`/title/${movie.id}`} className="no-underline">
-                        <div className="flex flex-row max-h-[50px] max-w-full w-auto justify-start items-center gap-1">
-                            <p className="w-auto text-left font-iconsolata text-silver opacity-75 text-lg font-bold overflow-hidden m-0 p-2">{findPositionByMovieId(movie.id)}</p>
-                            <div className="relative w-full max-w-[50px] aspect-square rounded overflow-hidden">
+                        <div className="w-full grid grid-cols-[40px_50px_1fr_150px_100px_100px_100px] justify-start items-center gap-1">
+                            <p className="col-start-1 w-auto text-left font-iconsolata text-pearl-white/75 text-lg font-bold overflow-hidden m-0 p-2">{findPositionByMovieId(movie.id)}</p>
+                            <div className="col-start-2 relative w-full max-w-[50px] aspect-square rounded overflow-hidden">
                                 {movie.backdrop_path
                                     && (
                                         <Image className="object-cover"
@@ -93,7 +100,7 @@ export default async function Page({ params, searchParams }: Props) {
                                         />
                                     )}
                             </div>
-                            <p className="w-full text-left font-iconsolata text-white text-base m-0 p-2">{movie.title}</p>
+                            <p className="col-start-3 w-full text-left font-iconsolata text-white text-base m-0 p-2">{movie.title}</p>
                         </div>
                     </Link>
                 ))}
