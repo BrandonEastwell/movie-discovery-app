@@ -3,7 +3,7 @@ import {AuthService} from "../../../../../lib/services/authService";
 import {PreferencesService} from "../../../../../lib/services/preferencesService";
 import {prisma} from "../../../../../lib/services/prisma";
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
         const authState = await AuthService.getAuthStateFromRequestHeader(req);
         if (authState.isLoggedIn && authState.userData?.userid) {
@@ -14,7 +14,7 @@ export default async function GET(req: NextRequest) {
         }
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ error: `Error: ${error}`, }, {status: 500});
+        return NextResponse.json({ error: `Internal Server Error` }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }

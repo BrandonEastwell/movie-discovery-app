@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
         }
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ error: `Error: ${error}` }, {status: 500});
+        return NextResponse.json({ error: `Internal Server Error` }, {status: 500});
     } finally {
         await prisma.$disconnect();
     }
