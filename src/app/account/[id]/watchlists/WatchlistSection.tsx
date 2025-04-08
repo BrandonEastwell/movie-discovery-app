@@ -2,15 +2,10 @@
 import CreateWatchlistBtn from "../../../../components/client/CreateWatchlistBtn";
 import UserWatchlists from "./UserWatchlists";
 import React, {useState} from "react";
+import {Watchlists} from "../../../../lib/utils/types/watchlist";
 
-interface Watchlists {
-    playlistid: number;
-    playlist_name: string;
-    playlist_desc: string | null;
-}
-
-export default function WatchlistSection({initWatchlists}: {initWatchlists: UserWatchlists[]}) {
-    const [watchlists, setWatchlists] = useState<UserWatchlists[]>(initWatchlists);
+export default function WatchlistSection({initWatchlists}: {initWatchlists: Watchlists[]}) {
+    const [watchlists, setWatchlists] = useState<Watchlists[]>(initWatchlists);
 
     return (
         <>
