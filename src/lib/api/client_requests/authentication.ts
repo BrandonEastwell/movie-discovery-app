@@ -2,7 +2,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 const handleAuthenticationReq = async (router: AppRouterInstance, action: "login" | "signup", username: string, password: string) => {
     try {
-        const response = await fetch(`/api/${action}`, {
+        const response = await fetch(`/api/auth/${action}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

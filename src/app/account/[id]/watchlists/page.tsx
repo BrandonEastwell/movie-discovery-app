@@ -2,16 +2,11 @@ import React from "react";
 import {AuthService} from "../../../../lib/services/authService";
 import WatchlistService from "../../../../lib/services/watchlistService";
 import WatchlistSection from "./WatchlistSection";
-
-interface Playlists {
-    playlistid: number;
-    playlist_name: string;
-    playlist_desc: string | null;
-}
+import {Watchlists} from "../../../../lib/utils/types/watchlist";
 
 export default async function Page() {
     const {isLoggedIn, userData} = await AuthService.getAuthState();
-    let watchlists : Playlists[] = [];
+    let watchlists : Watchlists[] = [];
 
     if (isLoggedIn && userData?.userid) {
         watchlists = await WatchlistService.getAllWatchlistsByUserId(userData?.userid)
