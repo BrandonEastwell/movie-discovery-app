@@ -44,7 +44,7 @@ const AuthForm = ((props: formProps) => {
                 { form === "login" &&
                     <>
                         <button className="font-iconsolata cursor-pointer text-pearl-white bg-transparent text-lg no-underline">Forgot password?</button>
-                        <p className="font-iconsolata bg-transparent text-silver text-lg no-underline">Don't have an account? <button onClick={formActionSignup} className="font-iconsolata cursor-pointer bg-transparent text-pearl-white text-lg no-underline">Create account</button></p>
+                        <p className="font-iconsolata bg-transparent text-silver text-lg no-underline">Dont have an account? <button onClick={formActionSignup} className="font-iconsolata cursor-pointer bg-transparent text-pearl-white text-lg no-underline">Create account</button></p>
                     </>
                 }
                 { form === "signup" &&

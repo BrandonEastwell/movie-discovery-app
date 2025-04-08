@@ -62,5 +62,5 @@ export default function WatchlistPopup({ cursorPosition, movieid} : {cursorPosit
                 ))}
             </motion.div>
         </AnimatePresence>
-    );
-};
+    )
+}

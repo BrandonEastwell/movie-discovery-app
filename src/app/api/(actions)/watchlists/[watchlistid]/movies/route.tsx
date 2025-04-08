@@ -56,8 +56,15 @@ export async function POST(req: NextRequest) {
     }
 }
 
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    backdrop_path: string;
+}
+
 export async function GET(req: NextRequest) {
-    let moviesData : Movie[] = []
+    let moviesData: Movie[] = []
 
     try {
         const body = await req.json();
@@ -70,7 +77,7 @@ export async function GET(req: NextRequest) {
                 const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieid);
 
                 for (const id of watchlistMovieIds) {
-                    const movieDetails : Movie = await getMovieDetails(id);
+                    const movieDetails: Movie = await getMovieDetails(id);
                     moviesData.push(movieDetails);
                 }
 

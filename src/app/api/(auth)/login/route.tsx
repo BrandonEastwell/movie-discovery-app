@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const password = body.password;
     const username = body.username;
+
     try {
         // Find user by username
         const user = await AuthService.getFirstUserByUsername(username);

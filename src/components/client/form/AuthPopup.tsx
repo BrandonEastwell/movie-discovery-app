@@ -26,4 +26,4 @@ const AuthPopup = forwardRef<HTMLDivElement, formProps>((props, ref) => {
         ))
 });
 
-export default AuthPopup;
+export {AuthPopup};

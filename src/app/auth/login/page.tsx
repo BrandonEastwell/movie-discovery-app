@@ -10,7 +10,7 @@ export default function Page(){
         serverError, usernameError, passwordError, username, password, form} = useAuthForm('login');
 
     const navigateToSignup = (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent form submission
+        e.preventDefault();
         router.push('/auth/signup');
     };
 
@@ -56,4 +56,4 @@ export default function Page(){
             </div>
         </div>
     )
-};
+}

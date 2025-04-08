@@ -26,4 +26,4 @@ export default function LoadingBar() {
     }, [pathname, searchParams])
 
     return null
-};
+}

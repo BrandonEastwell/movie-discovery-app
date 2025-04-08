@@ -35,10 +35,9 @@ const MoviesList: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) =>
             className="mySwiper"
         >
             {movies.map((movie) => (
-                <SwiperSlide className="flex flex-col w-full max-h-[325px] max-w-[250px]">
-                    <MovieCard key={movie.id}
-                               movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
-                                   backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
+                <SwiperSlide key={movie.id} className="flex flex-col w-full max-h-[325px] max-w-[250px]">
+                    <MovieCard movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
+                        backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
                                isLoggedIn={isLoggedIn}
                     />
                 </SwiperSlide>

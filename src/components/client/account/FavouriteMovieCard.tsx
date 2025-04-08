@@ -5,6 +5,8 @@ import {AnimatePresence, motion} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import {Movie} from "../../../lib/utils/types/movies";
+
 
 export default function FavouriteMovieCard({favouriteMovie, setMovie, movies} : {favouriteMovie: Movie, setMovie: (movies: Movie[]) => void, movies: Movie[]}) {
     const [hover, setHover] = useState<boolean>(false);
