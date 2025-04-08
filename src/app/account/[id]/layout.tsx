@@ -14,7 +14,7 @@ export default async function AccountLayout({children}: { children: React.ReactN
                 <div className="col-start-1 col-end-3 row-start-1 z-10 px-6">
                     <HeaderBar isLoggedIn={isLoggedIn} userData={userData}/>
                 </div>
-                <div className="col-start-1 col-end-3 row-start-2 z-10 px-6 py-2">
+                <div className="col-start-1 col-end-3 row-start-2 z-10 px-6 py-4">
                     <SearchBar/>
                 </div>
                 <div className="col-start-1 col-end-2 row-start-3 z-10 px-6">

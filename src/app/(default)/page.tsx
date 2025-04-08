@@ -1,5 +1,4 @@
 import "../styles/globals.css"
-import {MoviesList} from '../../components/client/MoviesList';
 import React, {Suspense} from "react";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
@@ -8,13 +7,10 @@ import {AuthService} from "../../lib/services/authService";
 import {MoviesRecommendedByGenre} from "../../components/client/MoviesRecommendedByGenre";
 import {MoviesRecommendedByCast} from "../../components/client/MoviesRecommendedByCast";
 import {MoviesRecommendedByCrew} from "../../components/client/MoviesRecommendedByCrew";
+import dynamic from "next/dynamic";
+import {Movie} from "../../lib/utils/types/movies";
 
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
+const MoviesList = dynamic(() => import('../../components/client/MoviesList').then(mod => mod.MoviesList))
 
 export default async function Page() {
     const { trending, topRated, popular, upcoming } = await MoviesService.getListsOfMoviesByCategory();
@@ -62,11 +58,11 @@ export default async function Page() {
             <b className="flex items-center text-[3rem] text-pearl-white ml-2 font-medium">
                 TRENDING FILM
             </b>
-            <Suspense fallback={<p>loading..</p>}>
-                <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
+            <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
+                <Suspense fallback={<p>loading..</p>}>
                     <MoviesList movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
-                </div>
-            </Suspense>
+                </Suspense>
+            </div>
 
             {isLoggedIn && preferences &&
                 <>

@@ -8,10 +8,9 @@
     "node": "^20.18.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "next:dev": "nodemon",
-    "next:build": "next build",
-    "next:start": "next start"
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
