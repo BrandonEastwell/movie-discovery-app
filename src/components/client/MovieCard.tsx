@@ -47,7 +47,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
     }
 
     return (
-        <div className="flex flex-col w-full max-h-[325px] max-w-[250px]">
+        <>
             <div className="flex h-full w-full flex-row max-h-[250px] align-middle">
                 <div className="flex flex-col max-w-[10px] justify-end gap-16 whitespace-nowrap mr-1">
                     <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK
@@ -92,6 +92,6 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                 </motion.div>
             </div>
             <p className="px-3 m-0 text-3xl uppercase text-pearl-white font-vt323">{movie.title}</p>
-        </div>
+        </>
     );
 }

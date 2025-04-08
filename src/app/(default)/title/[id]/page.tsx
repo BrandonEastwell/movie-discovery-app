@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/TMDB/movieDetails";
 import LocalStorage from "../../../../components/client/LocalStorage";
+import {redirect} from "next/navigation";
 
 interface Movie {
     id: number;
@@ -66,12 +67,19 @@ function getOfficialTrailers(data: { results: any[] }): Trailer[] {
     return trailers;
 }
 
-export default async function Page({ params }: { params: Promise<{ id: number }> }) {
-    const movie: Movie = await getMovieDetails((await params).id);
-    const providers: Providers = await getMovieWatchProviders((await params).id);
-    const videos: VideosResponse = await getMovieVideos((await params).id);
+export default async function Page({ params }: { params: Promise<{ id: number | undefined }> }) {
+    const { id: movieid } = await params;
+
+    // Check if movieid is undefined and redirect if so
+    if (!movieid) {
+        redirect('/')
+    }
+
+    const movie: Movie = await getMovieDetails(movieid);
+    const providers: Providers = await getMovieWatchProviders(movieid);
+    const videos: VideosResponse = await getMovieVideos(movieid);
     const trailers: Trailer[] = getOfficialTrailers(videos);
-    const youtubeId = trailers[0].id;
+    const youtubeId = trailers[0]?.id;
     let showVideo = false;
     const gbProvider = providers.results["GB"];
 

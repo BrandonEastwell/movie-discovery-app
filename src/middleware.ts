@@ -18,15 +18,12 @@ export async function middleware(req: NextRequest) {
 
         if (isProtectedPath && !isLoggedIn) {
             res.json({error: 'User must be login to access this path'}, {status: 400});
-            return res.redirect(new URL(`${origin}/login`));
+            return res.redirect(new URL(`${origin}/auth/login`));
         }
 
         if (isAuthPath) {
             return res.redirect(new URL(`/`, req.url));
         }
-
-        console.log('MIDDLEWARE: Authentication Successful');
-
     } catch (error) {
         if (isProtectedPath) {
             if (error instanceof TokenExpiredError) {

@@ -16,6 +16,12 @@ async function UserNavigation() {
         )
     }
 
+    /*
+      <NavButton params={{name: "Suggest me", symbol: "psychology", href: ""}} />
+      <NavButton params={{name: "Discovery queue", symbol: "layers", href: ""}} />
+      <NavButton params={{name: "Trending", symbol: "local_fire_department", href: "../.."}} />
+    */
+
     return (
         <div className="min-w-[200px] max-w-[200px] gap-6 flex flex-col place-items-start font-semibold text-gray-100">
             <nav className="grid grid-cols-1 grid-rows-4 place-items-start font-semibold">

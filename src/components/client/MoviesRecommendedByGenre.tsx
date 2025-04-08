@@ -1,4 +1,4 @@
-import {Movies} from "./MoviesList";
+import {MoviesList} from "./MoviesList";
 import React from "react";
 
 interface Movie {
@@ -24,7 +24,7 @@ const MoviesRecommendedByGenre: React.FC<RecommendedProps> = ({ favouriteMoviesI
                 because you like {genreNames && ` ${genreNames}`}
             </b>
             <div className="flex w-full h-auto flex-row gap-[3rem] overflow-hidden overflow-x-auto no-scrollbar">
-                <Movies movies={recommendedGenreMovies} favouriteMovieIds={favouriteMoviesIds} isLoggedIn={true}/>
+                <MoviesList movies={recommendedGenreMovies} favouriteMovieIds={favouriteMoviesIds} isLoggedIn={true}/>
             </div>
         </>
     )

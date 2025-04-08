@@ -1,5 +1,5 @@
 import "../styles/globals.css"
-import {Movies} from '../../components/client/MoviesList';
+import {MoviesList} from '../../components/client/MoviesList';
 import React, {Suspense} from "react";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
@@ -17,7 +17,6 @@ interface Movie {
 }
 
 export default async function Page() {
-    const movieService = new MoviesService();
     const { trending, topRated, popular, upcoming } = await MoviesService.getListsOfMoviesByCategory();
     const { isLoggedIn, userData } = (await AuthService.getAuthState());
 
@@ -38,10 +37,12 @@ export default async function Page() {
         }
 
         if (favourites) {
-            if (favourites.length % 5 && favourites.length >= 5) {
+            if (favourites.length >= 5) {
                 try {
-                    await PreferencesService.updateAllPreferences(userData.userid, favouriteIds)
                     preferences = await PreferencesService.getListOfAllPreferences(userData.userid);
+                    if (favourites.length % 5) {
+                        await PreferencesService.updateAllPreferences(userData.userid, favouriteIds)
+                    }
                 } catch (error) {
                     console.log("Error: ", error)
                 }
@@ -63,7 +64,7 @@ export default async function Page() {
             </b>
             <Suspense fallback={<p>loading..</p>}>
                 <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
-                    <Movies movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
+                    <MoviesList movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
                 </div>
             </Suspense>
 
@@ -82,19 +83,19 @@ export default async function Page() {
                 POPULAR FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
-                <Movies movies={popular.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
+                <MoviesList movies={popular.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 CRITICALLY ACCLAIMED FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
-                <Movies movies={topRated.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
+                <MoviesList movies={topRated.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
             <b className="flex items-center text-[3rem] text-pearl-white mt-4 ml-2 font-medium">
                 UPCOMING FILM
             </b>
             <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
-                <Movies movies={upcoming.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
+                <MoviesList movies={upcoming.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
         </div>
     )

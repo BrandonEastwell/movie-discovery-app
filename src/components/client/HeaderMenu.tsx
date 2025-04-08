@@ -1,6 +1,5 @@
 'use client'
 import React, {useEffect, useRef, useState} from 'react';
-import Link from "next/link";
 import ReactDOM from "react-dom";
 import {useRouter} from "next/navigation";
 import AuthPopup from "./form/AuthPopup";

@@ -15,14 +15,13 @@ interface Movie {
 }
 
 type Props = {
-    params: { id: string; name: string };
-    searchParams: { [key: string]: string | string[] | undefined };
+    params: Promise<{ id: string; name: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function Page({ params, searchParams }: Props) {
-    const userid = params.id;
-    const watchlistName = params.name;
-    const watchlistID = searchParams.id;
+    const watchlistName = (await params).name;
+    const watchlistID = (await searchParams).id;
 
     let movies : Movie[] = [];
     let watchlistDesc;

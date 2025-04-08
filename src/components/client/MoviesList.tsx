@@ -21,21 +21,21 @@ interface props {
     isLoggedIn : boolean;
 }
 
-const Movies: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) => {
+const MoviesList: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) => {
     const isFavourite = (idToCheck: number) => {
         return favouriteMovieIds != null && favouriteMovieIds.includes(idToCheck);
     }
 
     return (
         <Swiper
-            slidesPerView={4}
-            spaceBetween={30}
+            slidesPerView={"auto"}
+            spaceBetween={50}
             freeMode={true}
             modules={[FreeMode]}
             className="mySwiper"
         >
             {movies.map((movie) => (
-                <SwiperSlide>
+                <SwiperSlide className="flex flex-col w-full max-h-[325px] max-w-[250px]">
                     <MovieCard key={movie.id}
                                movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
                                    backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
@@ -47,4 +47,4 @@ const Movies: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) => {
     );
 }
 
-export {Movies}
+export {MoviesList}
