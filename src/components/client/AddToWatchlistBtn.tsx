@@ -30,7 +30,7 @@ export default function AddToWatchlistBtn({ movieID, isLoggedIn } : { movieID: n
                 <FontAwesomeIcon className="text-pearl-white opacity-75" icon={faCirclePlus} size="xl"/>
             </motion.button>
             {isVisible && ReactDOM.createPortal(
-                <motion.div animate={{ scale: isVisible ? 1 : 0 }} onClick={(event) => { event.stopPropagation(); setIsVisible(false); }} className="absolute left-0 top-0 w-screen h-screen bg-transparent z-10">
+                <motion.div animate={{ scale: isVisible ? 1 : 0 }}  onClick={(event) => { event.stopPropagation(); setIsVisible(false); }} className="absolute left-0 top-0 w-screen h-screen bg-transparent z-10">
                     <WatchlistPopup cursorPosition={cursorPosition} movieid={movieID} />
                 </motion.div>, document.body
             )}

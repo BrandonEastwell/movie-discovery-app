@@ -28,7 +28,7 @@ const MoviesSearchList: React.FC<MovieListProps> = ({ movies }) => {
         movies.map((movie) => (
             movie.poster_path && (
                     <Suspense key={movie.id} fallback={<p>loading..</p>}>
-                        <div className="max-w-[250px] rounded p-4 bg-[#121212]">
+                        <div className="max-w-[250px] rounded-xl p-4 bg-[#181818]">
                             <div className="flex flex-col justify-start gap-1 align-middle">
                                 <Link href={`/title/${movie.id}`} className="cursor-pointer no-underline bg-transparent">
                                     <Image className="w-full object-cover object-center"

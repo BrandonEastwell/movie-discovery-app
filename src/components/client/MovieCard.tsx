@@ -6,6 +6,7 @@ import AddToFavouriteBtn from "./AddToFavouriteBtn";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import useFavourite from "../../lib/hooks/useFavourite";
+import {movieCardHover} from "../../lib/utils/framer/varients";
 
 interface Movie {
     id: number;
@@ -22,23 +23,6 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
 
     const imageLoader = ({src}: any) => {
         return `https://image.tmdb.org/t/p/w500${src}`;
-    }
-
-    const cardHoverVarients = {
-        visible: {
-            opacity: 1,
-            transition: {
-                duration: 0.2,
-                ease: "easeInOut"
-            }
-        },
-        hidden: {
-            opacity: 0,
-            transition: {
-                duration: 0.2,
-                ease: "easeInOut"
-            }
-        }
     }
 
     const navigateToMovie = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -60,7 +44,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                     <AnimatePresence>
                         <motion.div
                             className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end"
-                            variants={cardHoverVarients}
+                            variants={movieCardHover}
                             animate={hover ? "visible" : "hidden"}
                             initial="hidden"
                             exit="hidden"
