@@ -19,8 +19,8 @@ const SearchBar: React.FC = () => {
     useEffect(() => {
         triggerFilter(false)
         setLoading(true);
-        setTimeout(() => setLoading(false), 400)
-    },[pathname])
+        setTimeout(() => setLoading(false), 5000)
+    },[pathname]);
 
     const handleSearch = () => {
         const params = new URLSearchParams();
@@ -48,9 +48,25 @@ const SearchBar: React.FC = () => {
 
     return (
         <div className="relative flex flex-row items-start gap-2">
-            <motion.div animate={filterActive ? {left: -30} : {left: 0}} className="relative h-full">
+            <motion.div animate={filterActive ? {left: -30} : {left: 0}} className="relative h-full rounded-xl p-[1px] overflow-hidden">
+                <AnimatePresence>
+                    {loading && (
+                        <motion.div
+                            initial={{ opacity: 0, rotate: 0 }}
+                            animate={{ opacity: 1, rotate: 360 }}
+                            exit={{ opacity: 0 }}
+                            transition={{
+                                rotate: { repeat: Infinity, ease: "linear", duration: 5 }
+                            }}
+                            className="absolute top-[-400px] left-[-400px] w-screen h-screen z-0"
+                            style={{
+                                background: 'conic-gradient(from 0deg, #8566e0, #121212, #5F43B2, #8566e0)',
+                            }}
+                        />
+                    )}
+                </AnimatePresence>
                 <motion.div
-                    className="relative h-full flex flex-row items-start justify-between bg-[#282828]/60 border-solid border border-[#3E3E3E]/20 px-2.5 rounded-xl overflow-hidden">
+                    className="relative h-full flex flex-row items-start justify-between bg-[#282828] px-2.5 rounded-xl overflow-hidden">
                     <input
                         id="search"
                         className="justify-start self-center p-0 font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-400 text-pearl-white"
