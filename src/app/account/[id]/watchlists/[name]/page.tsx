@@ -4,7 +4,7 @@ import WatchlistService from "../../../../../lib/services/watchlistService";
 import {getMovieDetails} from "../../../../../lib/api/TMDB/movieDetails";
 
 interface WatchlistMovie {
-    movieid: number, position: number
+    movieId: number, position: number
 }
 
 interface Movie {
@@ -21,21 +21,21 @@ type Props = {
 
 export default async function Page({ params, searchParams }: Props) {
     const watchlistName = (await params).name;
-    const watchlistID = (await searchParams).id;
+    const watchlistId = (await searchParams).id;
 
     let movies : Movie[] = [];
     let watchlistDesc;
     let moviesInWatchlist : WatchlistMovie[] = [];
 
-    if (typeof watchlistID === "string") {
-        watchlistDesc = await WatchlistService.getWatchlistDetailsByWatchlistId(parseInt(watchlistID)).then((res) => {
-            if (res) return res.playlist_desc
+    if (typeof watchlistId === "string") {
+        watchlistDesc = await WatchlistService.getWatchlistDetailsByWatchlistId(parseInt(watchlistId)).then((res) => {
+            if (res) return res.watchlistDesc
         });
-        moviesInWatchlist = await WatchlistService.getWatchlistsMoviesByWatchlistId(parseInt(watchlistID));
+        moviesInWatchlist = await WatchlistService.getWatchlistMoviesByWatchlistId(parseInt(watchlistId));
     }
 
     if (moviesInWatchlist.length != 0) {
-        const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieid);
+        const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieId);
 
         for (const id of watchlistMovieIds) {
             const movieDetails : Movie = await getMovieDetails(id);
@@ -44,7 +44,7 @@ export default async function Page({ params, searchParams }: Props) {
     }
 
     const findPositionByMovieId = (movieid: number): number | undefined => {
-        const movie = moviesInWatchlist.find(item => item.movieid === movieid);
+        const movie = moviesInWatchlist.find(item => item.movieId === movieid);
         return movie?.position;
     };
 

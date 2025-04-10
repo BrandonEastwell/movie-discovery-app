@@ -1,8 +1,8 @@
 export interface Watchlists {
-    playlistid: number;
-    playlist_name: string;
-    playlist_desc: string | null;
-    playlistMovies: {
-        movieid: number
+    id: number;
+    watchlistName: string;
+    watchlistDesc: string | null;
+    watchlistMovies: {
+        movieId: number
     }[]
 }

@@ -17,19 +17,19 @@ export async function POST(req: NextRequest) {
         }
 
         // Compare passwords
-        const passwordMatch = await AuthService.comparePasswords(password, user.encryptedpassword);
+        const passwordMatch = await AuthService.comparePasswords(password, user.password);
         if (!passwordMatch) {
             return NextResponse.json({ success: false, error: 'Password is incorrect', errorType: 'password' }, {status: 401});
         }
 
         // Generate JWT token
-        const token = await AuthService.signToken(user.userid, user.username);
+        const token = await AuthService.signToken(user.id, user.username);
 
         if ((await cookies()).has('token')) {
             (await cookies()).delete("token");
         }
 
-        let response = NextResponse.json({ success: true, error: '', errorType: '', userid: user.userid }, {status: 201});
+        let response = NextResponse.json({ success: true, error: '', errorType: '', userid: user.id }, {status: 201});
 
         AuthService.setAuthCookieToResponse(response, token);
 

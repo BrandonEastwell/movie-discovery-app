@@ -1,19 +1,13 @@
 import {prisma} from "./prisma";
 import {getMovieDetails} from "../api/TMDB/movieDetails";
-
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
+import {Movie} from "../utils/types/movies";
 
 export class FavouritesService {
 
     static async getFavouriteMovieIDs(userid: number) {
-        return prisma.favouritemovies.findMany({
+        return prisma.favouriteMovies.findMany({
             where: {
-                userid: userid,
+                userId: userid,
             },
         });
     }
@@ -24,7 +18,7 @@ export class FavouritesService {
 
         // Extracting only movieids from the favorites array
         if (favourites.length != 0) {
-            const movieIds = favourites.map(favorite => favorite.movieid);
+            const movieIds = favourites.map(favorite => favorite.movieId);
             for (const id of movieIds) {
                 const movieData = await this.getMovie(id)
                 movies.push(movieData as Movie)
@@ -34,28 +28,30 @@ export class FavouritesService {
     }
 
     static async toggleFavourite(userid: number, movieid: number) {
-        const existingFavorite= await prisma.favouritemovies.findFirst({
+        const existingFavorite= await prisma.favouriteMovies.findUnique({
             where: {
-                userid: userid,
-                movieid: movieid,
-            },
+                userId_movieId: {
+                    userId: userid,
+                    movieId: movieid,
+                }
+            }
         });
 
         // remove the movie from user's favourites
         if (existingFavorite) {
-            await prisma.favouritemovies.delete({
+            await prisma.favouriteMovies.delete({
                 where: {
-                    favouriteid: existingFavorite.favouriteid,
+                    favouriteId: existingFavorite.favouriteId,
                 },
             })
             return {action: 'removed'}
         }
 
         // Add the movie to user's favorites
-        await prisma.favouritemovies.create({
+        await prisma.favouriteMovies.create({
             data: {
-                userid: userid,
-                movieid: movieid,
+                userId: userid,
+                movieId: movieid,
             },
         });
 

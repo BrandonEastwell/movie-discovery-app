@@ -50,7 +50,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                             exit="hidden"
                         >
                             <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" animate={{ scale: hover ? 1 : 0 }}>
-                                <AddToWatchlistBtn movieID={movie.id} isLoggedIn={isLoggedIn} />
+                                <AddToWatchlistBtn movieId={movie.id} isLoggedIn={isLoggedIn} />
                                 <AddToFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
                             </motion.div>
                         </motion.div>

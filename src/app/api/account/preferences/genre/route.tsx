@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
         if (authState.userData && authState.userData.userid) {
             const preferences = await PreferencesService.getAllUserPreferenceIDs(authState.userData.userid);
 
-            if (preferences != null && preferences.preferredGenre != null) {
-                const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
-                const preferredGenreList = preferences.preferredGenre.split(","); // Split comma-separated genres
+            if (preferences != null && preferences.genres != null) {
+                const preferredGenre = preferences.genres.replace(/,/g, '|');
+                const preferredGenreList = preferences.genres.split(","); // Split comma-separated genres
 
                 const listOfGenreNames = await PreferencesService.genreIdToString(preferredGenreList);
 

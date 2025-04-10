@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
         if (authState.userData && authState.userData.userid) {
             const preferences = await PreferencesService.getAllUserPreferenceIDs(authState.userData.userid);
 
-            if (preferences != null && preferences.preferredCrew != null) {
-                const preferredCrew = preferences.preferredCrew.replace(/,/g, '|');
-                const preferredCrewList = preferences.preferredCrew.split(","); // Split comma-separated genres
+            if (preferences != null && preferences.crew != null) {
+                const preferredCrew = preferences.crew.replace(/,/g, '|');
+                const preferredCrewList = preferences.crew.split(","); // Split comma-separated genres
 
                 const listOfCrewMembers = PreferencesService.getPeopleData(preferredCrewList);
 

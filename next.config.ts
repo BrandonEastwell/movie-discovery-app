@@ -7,12 +7,6 @@ const nextConfig: NextConfig = {
     },
     experimental: {
     },
-    // Configure all API routes to use Node.js runtime by default
-    functions: {
-        "api/*": {
-            runtime: "nodejs",
-        },
-    },
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,

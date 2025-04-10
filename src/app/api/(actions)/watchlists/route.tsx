@@ -9,9 +9,9 @@ export async function GET(req: NextRequest) {
 
         if (isLoggedIn && userData?.userid) {
             // Get all user playlists
-            const playlists = await WatchlistService.getAllWatchlistsByUserId(userData.userid);
+            const watchlists = await WatchlistService.getAllWatchlistsByUserId(userData.userid);
 
-            return NextResponse.json({success: true, result: playlists }, {status: 200});
+            return NextResponse.json({success: true, result: watchlists }, {status: 200});
         } else {
             // If authentication fails, handle the error
             return NextResponse.json({success: false, error: 'Error Authenticating' }, {status: 400});
@@ -34,27 +34,27 @@ export async function POST(req: NextRequest) {
             const name : string = body.name;
             const desc : string = body.desc;
 
-            const existingPlaylist = await prisma.userplaylist.findFirst({
+            const existingPlaylist = await prisma.watchlist.findFirst({
                 where: {
-                    userid: userData.userid,
-                    playlist_name: name,
+                    userId: userData.userid,
+                    watchlistName: name,
                 },
             });
 
             if (existingPlaylist) {
-                return NextResponse.json({ success: false, error: "playlist already exists" }, {status: 400});
+                return NextResponse.json({ success: false, error: "watchlist already exists" }, {status: 400});
             } else {
                 if (name != null) {
-                    const watchlist = await prisma.userplaylist.create({
+                    const watchlist = await prisma.watchlist.create({
                         data: {
-                            userid: userData.userid,
-                            playlist_name: name,
-                            playlist_desc: desc
+                            userId: userData.userid,
+                            watchlistName: name,
+                            watchlistDesc: desc
                         },
                     });
                     return NextResponse.json({ success: true, result: watchlist }, {status: 200});
                 } else {
-                    return NextResponse.json({ success: false, error: "playlist name not provided" }, {status: 400});
+                    return NextResponse.json({ success: false, error: "watchlist name not provided" }, {status: 400});
                 }
             }
 

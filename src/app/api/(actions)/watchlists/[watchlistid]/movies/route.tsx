@@ -2,49 +2,66 @@ import {NextRequest, NextResponse} from "next/server";
 import {getMovieDetails} from "../../../../../../lib/api/TMDB/movieDetails";
 import { prisma } from "../../../../../../lib/services/prisma";
 import WatchlistService from "../../../../../../lib/services/watchlistService";
+import {Movie} from "../../../../../../lib/utils/types/movies";
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const watchlistID : number = parseInt(body.watchlistID);
-        const movieID : number = parseInt(body.movieID);
+        const watchlistId : number = parseInt(body.watchlistID);
+        const movieId : number = parseInt(body.movieID);
 
         // Add or remove movie id to favourite database process
-        if (watchlistID) {
+        if (watchlistId) {
             // Finds if the movie exists in DB already
-            const existingMovie = await prisma.playlistmovies.findFirst({
-                where: {
-                    playlistid: watchlistID,
-                    movieid: movieID,
-                },
-            });
-
-            if (existingMovie) {
-                await prisma.playlistmovies.delete({
+            const transaction = await prisma.$transaction(async (tx) => {
+                const existingMovie = await tx.watchlistMovies.findUnique({
                     where: {
-                        id: existingMovie.id
-                    }
-                })
-
-                return NextResponse.json({ success: true, result: "movie removed from watchlist" }, {status: 200});
-            } else {
-                const maxPosition = await prisma.playlistmovies.aggregate({
-                    where: { playlistid: watchlistID },
-                    _max: { position: true }
+                        watchlistId_movieId: {
+                            watchlistId,
+                            movieId,
+                        },
+                    },
                 });
 
-                const nextPosition = (maxPosition._max.position ?? -1) + 1;
+                if (!existingMovie) {
+                    return null;
+                }
 
-                await prisma.playlistmovies.create({
-                    data: {
-                        playlistid: watchlistID,
-                        position: nextPosition,
-                        movieid: movieID,
-                    }
-                })
+                await tx.watchlistMovies.delete({
+                    where: {
+                        watchlistId_movieId: {
+                            watchlistId,
+                            movieId,
+                        },
+                    },
+                });
 
-                return NextResponse.json({ success: true, result: "movie added to watchlist" }, {status: 200});
+                return existingMovie;
+            });
+
+            if (transaction) {
+                return NextResponse.json(
+                    { success: true, result: "movie removed from watchlist" },
+                    { status: 200 }
+                );
             }
+
+            const maxPosition = await prisma.watchlistMovies.aggregate({
+                where: { watchlistId: watchlistId },
+                _max: { position: true }
+            });
+
+            const nextPosition = (maxPosition._max.position ?? -1) + 1;
+
+            await prisma.watchlistMovies.create({
+                data: {
+                    watchlistId: watchlistId,
+                    position: nextPosition,
+                    movieId: movieId,
+                }
+            })
+
+            return NextResponse.json({ success: true, result: "movie added to watchlist" }, {status: 200});
         } else {
             return NextResponse.json({ success: false, error: "watchlist ID is null or undefined" }, {status: 200});
         }
@@ -56,13 +73,6 @@ export async function POST(req: NextRequest) {
     }
 }
 
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
-
 export async function GET(req: NextRequest) {
     let moviesData: Movie[] = []
 
@@ -71,10 +81,10 @@ export async function GET(req: NextRequest) {
         const watchlistID : number = parseInt(body.watchlistID);
 
         if (watchlistID) {
-            const moviesInWatchlist = await WatchlistService.getWatchlistsMoviesByWatchlistId(watchlistID)
+            const moviesInWatchlist = await WatchlistService.getWatchlistMoviesByWatchlistId(watchlistID)
 
             if (moviesInWatchlist.length != 0) {
-                const watchlistMovieIds = moviesInWatchlist.map(movie => movie.movieid);
+                const watchlistMovieIds = moviesInWatchlist.map((movie) => movie.movieId);
 
                 for (const id of watchlistMovieIds) {
                     const movieDetails: Movie = await getMovieDetails(id);

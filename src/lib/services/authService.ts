@@ -18,7 +18,7 @@ if (!JWT_SECRET) {
 
 export class AuthService {
     static getFirstUserByUsername(username: string) {
-        return prisma.accounts.findFirst({
+        return prisma.user.findFirst({
             where: {
                 username,
             },
@@ -26,10 +26,10 @@ export class AuthService {
     }
 
     static addUserToDB(username: string, hashedPassword: string) {
-        return prisma.accounts.create({
+        return prisma.user.create({
             data: {
                 username,
-                encryptedpassword: hashedPassword,
+                password: hashedPassword,
             },
         });
     }

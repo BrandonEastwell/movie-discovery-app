@@ -5,22 +5,26 @@ import { prisma } from "../../../lib/services/prisma";
 export default async function Page({ params }: { params: Promise<{ id: string }> })  {
     const { id } = await params;
 
-    const favouriteMovies= await prisma.favouritemovies.findMany({
+    const favourites= await prisma.favouriteMovies.count({
         where: {
-            userid: parseInt(id)
-        },
+            userId: parseInt(id)
+        }
     });
 
-    const watchlistMovies= await prisma.userplaylist.findMany({
+    const watchlists= await prisma.watchlist.count({
         where: {
-            userid: parseInt(id)
-        },
+            userId: parseInt(id)
+        }
     });
 
-    const accountDetails = await prisma.accounts.findFirst({
+    const accountDetails = await prisma.user.findFirst({
         where: {
-            userid: parseInt(id)
+            id: parseInt(id)
         },
+        select: {
+            createdAt: true,
+            username: true
+        }
     });
 
     const monthNames = [
@@ -28,9 +32,9 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         "July", "August", "September", "October", "November", "December"
     ];
 
-    const month = monthNames[accountDetails?.createdat?.getMonth() || 0];
+    const month = monthNames[accountDetails?.createdAt.getMonth() || 0];
 
-    const formattedDate = `Member since ${accountDetails?.createdat?.getDate()} ${month} ${accountDetails?.createdat?.getFullYear()}`;
+    const formattedDate = `Member since ${accountDetails?.createdAt.getDate()} ${month} ${accountDetails?.createdAt?.getFullYear()}`;
 
     return (
         <div className="w-full h-100 flex flex-col justify-start overflow-auto no-scrollbar">
@@ -48,7 +52,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         FAVOURITES
                     </p>
                     <p className="text-center text-6xl m-0 font-vt323 text-Purple font-bold">
-                        {favouriteMovies.length}
+                        {favourites}
                     </p>
                 </div>
                 <div className="flex flex-col overflow-hidden">
@@ -56,7 +60,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         WATCHLISTS
                     </p>
                     <p className="text-center text-6xl m-0 font-vt323 text-Purple font-bold">
-                        {watchlistMovies.length}
+                        {watchlists}
                     </p>
                 </div>
             </div>

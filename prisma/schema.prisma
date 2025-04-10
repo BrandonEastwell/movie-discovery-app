@@ -9,91 +9,56 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model accounts {
-  userid            Int               @id @default(autoincrement())
-  username          String            @unique @db.VarChar(50)
-  encryptedpassword String            @db.VarChar(60)
-  createdat         DateTime?         @default(now()) @db.Timestamp(6)
-  discoveryqueue    discoveryqueue[]
-  favouritemovies   favouritemovies[]
-  likedmovies       likedmovies[]
-  playlist          userplaylist[]
-  userpreferences   userpreferences?
-  watchhistory      watchhistory[]
+model User {
+  id              Int               @id @default(autoincrement())
+  username        String            @unique @db.VarChar(50)
+  password        String            @db.VarChar(60)
+  createdAt       DateTime          @default(now()) @db.Timestamp(6)
+  favouritemovies FavouriteMovies[]
+  watchlist       Watchlist[]
+  preferences     Preferences[]
 }
 
-model discoveryqueue {
-  queueid    Int       @id @default(autoincrement())
-  userid     Int
-  movieid    Int
-  ranking    Int
-  updatedate DateTime? @db.Date
-  accounts   accounts  @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+model FavouriteMovies {
+  favouriteId Int   @id @default(autoincrement())
+  userId      Int?
+  movieId     Int
+  user        User? @relation(fields: [userId], references: [id])
 
-  @@unique([userid, movieid])
+  @@unique([userId, movieId])
 }
 
-model favouritemovies {
-  favouriteid Int       @id @default(autoincrement())
-  userid      Int?
-  movieid     Int
-  accounts    accounts? @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+// Define the Watchlist model
+model Watchlist {
+  id              Int               @id @default(autoincrement())
+  watchlistName   String            @db.VarChar(255)
+  watchlistDesc   String?           @db.VarChar(255)
+  watchlistMovies WatchlistMovies[]
+  // Define foreign key relationship with the User model
+  user            User              @relation(fields: [userId], references: [id])
+  userId          Int
 
-  @@unique([userid, movieid])
+  // Ensure uniqueness of the combination of userid and watchlistid
+  @@unique([userId, watchlistName])
 }
 
-model likedmovies {
-  likeid   Int      @id @default(autoincrement())
-  userid   Int
-  movieid  Int
-  accounts accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+// Define the WatchlistMovies model
+model WatchlistMovies {
+  watchlistId Int
+  movieId     Int
+  position    Int
+  // Define foreign key relationship with the Watchlist model
+  watchlist   Watchlist @relation(fields: [watchlistId], references: [id])
 
-  @@unique([userid, movieid])
+  @@id([watchlistId, movieId])
+  // Ensure uniqueness of the position within each watchlist
+  @@unique([watchlistId, position])
 }
 
-// Define the UserPlaylist model
-model userplaylist {
-  playlistid     Int              @id @default(autoincrement())
-  userid         Int
-  playlist_name  String           @db.VarChar(255)
-  playlist_desc  String?          @db.VarChar(255)
-  playlistMovies playlistmovies[]
-  // Define foreign key relationship with the Accounts model
-  accounts       accounts         @relation(fields: [userid], references: [userid])
-
-  // Ensure uniqueness of the combination of userid and playlistid
-  @@unique([userid, playlistid])
-}
-
-// Define the PlaylistMovies model
-model playlistmovies {
-  id           Int          @id @default(autoincrement())
-  playlistid   Int
-  movieid      Int
-  position     Int
-  // Define foreign key relationship with the UserPlaylist model
-  userplaylist userplaylist @relation(fields: [playlistid], references: [playlistid])
-
-  // Ensure uniqueness of the combination of playlistid and movieid
-  @@unique([playlistid, movieid])
-  // Ensure uniqueness of the position within each playlist
-  @@unique([playlistid, position])
-}
-
-model userpreferences {
-  userid         Int      @id
-  preferredGenre String?  @db.VarChar(100)
-  preferredCast  String?  @db.VarChar(100)
-  preferredCrew  String?  @db.VarChar(100)
-  accounts       accounts @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model watchhistory {
-  watchid   Int       @id @default(autoincrement())
-  userid    Int?
-  movieid   Int
-  watchedat DateTime? @default(now()) @db.Timestamp(6)
-  accounts  accounts? @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
-
-  @@unique([userid, movieid])
+model Preferences {
+  userId Int     @id
+  genres String? @db.VarChar(255)
+  cast   String? @db.VarChar(255)
+  crew   String? @db.VarChar(255)
+  user   User    @relation(fields: [userId], references: [id])
 }

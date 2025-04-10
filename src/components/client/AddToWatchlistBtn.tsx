@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
 import {useRouter} from "next/navigation";
 
-export default function AddToWatchlistBtn({ movieID, isLoggedIn } : { movieID: number, isLoggedIn: boolean }) {
+export default function AddToWatchlistBtn({ movieId, isLoggedIn } : { movieId: number, isLoggedIn: boolean }) {
     const [isVisible, setIsVisible] = useState(false);
     const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
     const router = useRouter();
@@ -31,7 +31,7 @@ export default function AddToWatchlistBtn({ movieID, isLoggedIn } : { movieID: n
             </motion.button>
             {isVisible && ReactDOM.createPortal(
                 <motion.div animate={{ scale: isVisible ? 1 : 0 }}  onClick={(event) => { event.stopPropagation(); setIsVisible(false); }} className="absolute left-0 top-0 w-screen h-screen bg-transparent z-10">
-                    <WatchlistPopup cursorPosition={cursorPosition} movieid={movieID} />
+                    <WatchlistPopup cursorPosition={cursorPosition} movieId={movieId} />
                 </motion.div>, document.body
             )}
         </>

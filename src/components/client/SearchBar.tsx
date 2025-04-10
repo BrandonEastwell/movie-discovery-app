@@ -19,7 +19,7 @@ const SearchBar: React.FC = () => {
     useEffect(() => {
         triggerFilter(false)
         setLoading(true);
-        setTimeout(() => setLoading(false), 5000)
+        setTimeout(() => setLoading(false), 2500)
     },[pathname]);
 
     const handleSearch = () => {
@@ -56,7 +56,7 @@ const SearchBar: React.FC = () => {
                             animate={{ opacity: 1, rotate: 360 }}
                             exit={{ opacity: 0 }}
                             transition={{
-                                rotate: { repeat: Infinity, ease: "linear", duration: 5 }
+                                rotate: { repeat: Infinity, ease: "linear", duration: 2.5 }
                             }}
                             className="absolute top-[-400px] left-[-400px] w-screen h-screen z-0"
                             style={{

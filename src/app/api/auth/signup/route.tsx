@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
         const createdUser = await AuthService.addUserToDB(username, hashedPassword);
 
         // Generate JWT token
-        const token = await AuthService.signToken(createdUser.userid, createdUser.username);
+        const token = await AuthService.signToken(createdUser.id, createdUser.username);
 
-        let response = NextResponse.json({ success: true, error: '', errorType: '', userid: createdUser.userid }, {status: 201});
+        let response = NextResponse.json({ success: true, error: '', errorType: '', userid: createdUser.id }, {status: 201});
 
         // Set secure to true in production
         AuthService.setAuthCookieToResponse(response, token)

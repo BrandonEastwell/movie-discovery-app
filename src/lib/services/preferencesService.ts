@@ -22,13 +22,6 @@ interface Person {
     name: string;
 }
 
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
-
 export class PreferencesService {
     static async setPreferences({genre, cast, crew} : {genre: Genre[], cast: Cast[], crew: Crew[]}, userid : number) {
         //sort crew and cast by count descending order
@@ -45,18 +38,18 @@ export class PreferencesService {
         const castids: number[] = cast.map(cast => cast.id);
         const genreids: number[] = genre.map(genre => genre.id);
 
-        await prisma.userpreferences.upsert({
-            where: { userid: userid },
+        await prisma.preferences.upsert({
+            where: { userId: userid },
             update: {
-                preferredCast: castids.join(','),
-                preferredGenre: genreids.join(','),
-                preferredCrew: crewids.join(','),
+                cast: castids.join(','),
+                genres: genreids.join(','),
+                crew: crewids.join(','),
             },
             create: {
-                userid: userid,
-                preferredCast: castids.join(','),
-                preferredGenre: genreids.join(','),
-                preferredCrew: crewids.join(','),
+                userId: userid,
+                cast: castids.join(','),
+                genres: genreids.join(','),
+                crew: crewids.join(','),
             },
         });
     }
@@ -72,8 +65,8 @@ export class PreferencesService {
     }
 
     static async getAllUserPreferenceIDs(userid: number) {
-        return prisma.userpreferences.findUnique({
-            where: {userid: userid}
+        return prisma.preferences.findUnique({
+            where: {userId: userid}
         });
     }
 
@@ -137,15 +130,15 @@ export class PreferencesService {
     static async getListOfAllPreferences(userid: number) {
         const preferences = await this.getAllUserPreferenceIDs(userid);
 
-        if (preferences && preferences.preferredCrew && preferences.preferredGenre && preferences.preferredCast) {
-            const preferredCrew = preferences.preferredCrew.replace(/,/g, '|');
-            const preferredCrewList = preferences.preferredCrew.split(",");
+        if (preferences && preferences.crew && preferences.genres && preferences.cast) {
+            const preferredCrew = preferences.crew.replace(/,/g, '|');
+            const preferredCrewList = preferences.crew.split(",");
 
-            const preferredCast = preferences.preferredCast.replace(/,/g, '|');
-            const preferredCastList = preferences.preferredCast.split(",");
+            const preferredCast = preferences.cast.replace(/,/g, '|');
+            const preferredCastList = preferences.cast.split(",");
 
-            const preferredGenre = preferences.preferredGenre.replace(/,/g, '|');
-            const preferredGenreList = preferences.preferredGenre.split(",");
+            const preferredGenre = preferences.genres.replace(/,/g, '|');
+            const preferredGenreList = preferences.genres.split(",");
 
             const preferredMoviesByGenre = await getMoviesByDiscoveryGenre("popularity.desc", preferredGenre);
             const preferredMoviesByCast = await getMoviesByDiscoveryCast("popularity.desc", preferredCast);

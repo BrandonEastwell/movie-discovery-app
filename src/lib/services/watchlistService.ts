@@ -1,58 +1,52 @@
 import {prisma} from "./prisma";
 
 export default class WatchlistService {
-    static async getAllWatchlistsByUserId(userid : number) {
-        return prisma.userplaylist.findMany({
+    static async getAllWatchlistsByUserId(userId : number) {
+        return prisma.watchlist.findMany({
             where: {
-                userid: userid
+                userId: userId
             },
             select: {
-                playlist_name: true,
-                playlist_desc: true,
-                playlistid: true,
-                playlistMovies: {
+                watchlistName: true,
+                watchlistDesc: true,
+                id: true,
+                watchlistMovies: {
                     select: {
-                        movieid: true
+                        movieId: true
                     }
                 }
             }
         });
     }
 
-    static async getWatchlistDetailsByWatchlistId(watchlistid: number) {
-        return prisma.userplaylist.findUnique({
+    static async getWatchlistDetailsByWatchlistId(watchlistId: number) {
+        return prisma.watchlist.findUnique({
             where: {
-                playlistid: watchlistid
+                id: watchlistId
             },
             select: {
-                playlist_name: true,
-                playlist_desc: true,
-                playlistid: true,
-                playlistMovies: {
+                watchlistName: true,
+                watchlistDesc: true,
+                id: true,
+                watchlistMovies: {
                     select: {
-                        movieid: true
+                        movieId: true
                     }
                 }
             }
         });
     }
 
-    static async getWatchlistsMoviesByWatchlistId(watchlistid: number) {
-        return prisma.playlistmovies.findMany({
+    static async getWatchlistMoviesByWatchlistId(watchlistId: number) {
+        return prisma.watchlistMovies.findMany({
             where: {
-                playlistid: watchlistid
+                watchlistId: watchlistId
+            },
+            select: {
+                position: true,
+                movieId: true
             }
         });
     }
 
-    static async getUserWatchlistsByMovieId(movieid: number) {
-        return prisma.playlistmovies.findMany({
-            where: {
-                movieid: movieid
-            },
-            select: {
-                playlistid: true
-            }
-        })
-    }
 }

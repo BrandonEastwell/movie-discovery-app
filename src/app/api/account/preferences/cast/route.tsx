@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
         if (authState.userData && authState.userData.userid) {
             const preferences = await PreferencesService.getAllUserPreferenceIDs(authState.userData.userid);
 
-            if (preferences != null && preferences.preferredCast != null) {
-                const preferredCast = preferences.preferredCast.replace(/,/g, '|');
-                const preferredCastList = preferences.preferredCast.split(","); // Split comma-separated genres
+            if (preferences != null && preferences.cast != null) {
+                const preferredCast = preferences.cast.replace(/,/g, '|');
+                const preferredCastList = preferences.cast.split(","); // Split comma-separated genres
 
                 const listOfCastMembers = PreferencesService.getPeopleData(preferredCastList);
 
