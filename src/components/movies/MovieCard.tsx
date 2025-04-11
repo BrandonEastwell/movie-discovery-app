@@ -5,7 +5,6 @@ import AddToWatchlistBtn from "../buttons/AddToWatchlistBtn";
 import AddToFavouriteBtn from "../buttons/AddToFavouriteBtn";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
-import useFavourite from "../../lib/hooks/useFavourite";
 import {movieCardHover} from "../../lib/utils/framer/varients";
 
 interface Movie {
@@ -17,8 +16,8 @@ interface Movie {
 }
 
 export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedIn: boolean}) {
+    const [isFavourite, setIsFavourite] = useState<boolean>(movie.isFavourite);
     const [hover, setHover] = useState<boolean>(false);
-    const favouriteState = useFavourite(movie.isFavourite, movie.id, isLoggedIn)
     const router = useRouter();
 
     const imageLoader = ({src}: any) => {
@@ -42,8 +41,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                 </div>
                 <motion.div onClick={(event) => navigateToMovie(event)} className="cursor-pointer relative max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
                     <AnimatePresence>
-                        <motion.div
-                            className="absolute bg-midnight/25 w-full h-full flex flex-col place-items-end justify-end"
+                        <motion.div className="absolute bg-midnight/35 w-full h-full flex flex-col place-items-end justify-end"
                             variants={movieCardHover}
                             animate={hover ? "visible" : "hidden"}
                             initial="hidden"
@@ -51,14 +49,14 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                         >
                             <motion.div className="flex flex-row gap-2 max-w-[80px] p-2" animate={{ scale: hover ? 1 : 0 }}>
                                 <AddToWatchlistBtn movieId={movie.id} isLoggedIn={isLoggedIn} />
-                                <AddToFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
+                                <AddToFavouriteBtn isFavourite={isFavourite} setIsFavourite={value => setIsFavourite(value)} isLoggedIn={isLoggedIn} movieId={movie.id} />
                             </motion.div>
                         </motion.div>
                     </AnimatePresence>
-                    {!hover && favouriteState.favourite &&
+                    {!hover && isFavourite &&
                         <div className="absolute flex flex-col w-full h-full place-items-end justify-end">
                             <div className="flex flex-row gap-2 max-w-[80px] p-2">
-                                <AddToFavouriteBtn isFavourite={favouriteState.favourite} toggleFavourite={favouriteState.toggleFavourite} />
+                                <AddToFavouriteBtn isFavourite={isFavourite} setIsFavourite={value => setIsFavourite(value)} isLoggedIn={isLoggedIn} movieId={movie.id} />
                             </div>
                         </div>
                     }

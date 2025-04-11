@@ -20,7 +20,7 @@ export class AuthService {
     static getFirstUserByUsername(username: string) {
         return prisma.user.findFirst({
             where: {
-                username,
+                username: username,
             },
         });
     }
@@ -28,7 +28,7 @@ export class AuthService {
     static addUserToDB(username: string, hashedPassword: string) {
         return prisma.user.create({
             data: {
-                username,
+                username: username,
                 password: hashedPassword,
             },
         });

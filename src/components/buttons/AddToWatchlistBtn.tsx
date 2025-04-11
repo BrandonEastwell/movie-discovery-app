@@ -1,25 +1,25 @@
 "use client"
-import WatchlistPopup from "../WatchlistPopup";
+import WatchlistPopup from "./WatchlistPopup";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
-import {useRouter} from "next/navigation";
+import AuthPopup from "../form/AuthPopup";
 
 export default function AddToWatchlistBtn({ movieId, isLoggedIn } : { movieId: number, isLoggedIn: boolean }) {
-    const [isVisible, setIsVisible] = useState(false);
+    const [showWatchlists, setShowWatchlists] = useState(false);
+    const [showAuthForm, setShowAuthForm] = useState(false);
     const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-    const router = useRouter();
 
     const handleBtnClick = (event: React.MouseEvent) => {
         event.stopPropagation();
         if (isLoggedIn) {
             const { clientX, clientY } = event;
             setCursorPosition({ x: clientX + 25, y: clientY + 25 });
-            setIsVisible(!isVisible);
+            setShowWatchlists(!showWatchlists);
         } else {
-            router.push("/auth/login")
+            setShowAuthForm(true);
         }
     };
 
@@ -29,8 +29,9 @@ export default function AddToWatchlistBtn({ movieId, isLoggedIn } : { movieId: n
                     className="p-0 bg-transparent max-h-[32px] max-w-[32px] cursor-pointer">
                 <FontAwesomeIcon className="text-pearl-white opacity-75" icon={faCirclePlus} size="xl"/>
             </motion.button>
-            {isVisible && ReactDOM.createPortal(
-                <motion.div animate={{ scale: isVisible ? 1 : 0 }}  onClick={(event) => { event.stopPropagation(); setIsVisible(false); }} className="absolute left-0 top-0 w-screen h-screen bg-transparent z-10">
+            {showAuthForm && ReactDOM.createPortal(<AuthPopup action={"login"} setIsVisible={() => setShowAuthForm(false)} />, document.body)}
+            {showWatchlists && ReactDOM.createPortal(
+                <motion.div animate={{ scale: showWatchlists ? 1 : 0 }}  onClick={(event) => { event.stopPropagation(); setShowWatchlists(false); }} className="absolute left-0 top-0 w-screen h-screen bg-transparent z-10">
                     <WatchlistPopup cursorPosition={cursorPosition} movieId={movieId} />
                 </motion.div>, document.body
             )}

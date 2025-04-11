@@ -10,10 +10,12 @@ const useAuthForm = (action: "login" | "signup") => {
     const [form, setForm] = useState(action);
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.stopPropagation()
         setUsername(e.target.value);
     };
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.stopPropagation()
         setPassword(e.target.value);
     };
 

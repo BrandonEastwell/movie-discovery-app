@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from "react-dom";
 import {useRouter} from "next/navigation";
 import { motion } from 'framer-motion';
-import AuthPopup from "./form/AuthPopup";
+import AuthPopup from "../form/AuthPopup";
 
 interface HeaderMenuProps {
     isLoggedIn: boolean;

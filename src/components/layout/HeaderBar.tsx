@@ -1,7 +1,7 @@
-import HeaderMenu from "../HeaderMenu";
+import HeaderMenu from "./HeaderMenu";
 import React from "react";
 import Link from "next/link";
-import SearchBar from "../SearchBar";
+import SearchBar from "./SearchBar";
 
 export default function HeaderBar({isLoggedIn, userData} : {isLoggedIn: boolean, userData: { userid: number; username: string } | null}){
     return (

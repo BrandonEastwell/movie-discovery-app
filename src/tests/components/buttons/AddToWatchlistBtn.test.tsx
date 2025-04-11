@@ -1,16 +1,14 @@
 import {render, screen} from '@testing-library/react';
-import AddToWatchlistBtn from "../../components/buttons/AddToWatchlistBtn";
+import AddToWatchlistBtn from "../../../components/buttons/AddToWatchlistBtn";
 import userEvent from "@testing-library/user-event";
 
-jest.mock("../../components/WatchlistPopup", () => () => (
+jest.mock("../../../components/buttons/WatchlistPopup", () => () => (
     <div data-testid="watchlist-popup">Mocked Popup</div>
 ));
 
-jest.mock('next/navigation', () => ({
-    useRouter: () => ({
-        push: jest.fn(),
-    }),
-}));
+jest.mock("../../../components/form/AuthPopup", () => () => (
+    <form data-testid="form-popup">Mocked Form</form>
+));
 
 describe('Add to watchlist button', () => {
     beforeEach(() => {
@@ -26,7 +24,7 @@ describe('Add to watchlist button', () => {
         expect(container).toMatchSnapshot();
     });
 
-    it('renders button text', async () => {
+    it('renders popup on button click', async () => {
         const user = userEvent.setup();
 
         render(<AddToWatchlistBtn movieId={1} isLoggedIn={true}/>);
@@ -34,5 +32,15 @@ describe('Add to watchlist button', () => {
         await user.click(button);
 
         expect(screen.getByTestId("watchlist-popup")).toBeInTheDocument()
+    });
+
+    it('should render popup login form', async () => {
+        const user = userEvent.setup();
+
+        render(<AddToWatchlistBtn movieId={1} isLoggedIn={false} />);
+        const button = screen.getByRole("button");
+        await user.click(button);
+
+        expect(screen.getByTestId("form-popup")).toBeInTheDocument()
     });
 });
