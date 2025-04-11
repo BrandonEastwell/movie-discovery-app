@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
-import '../../app/styles/globals.css';
-import MovieCard from "./MovieCard";
+import '../app/globals.css';
+import MovieCard from "./cards/MovieCard";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';

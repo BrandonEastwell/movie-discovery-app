@@ -1,4 +1,4 @@
-import "../../styles/globals.css"
+import "../../globals.css"
 import React from "react";
 import { prisma } from "../../../lib/services/prisma";
 

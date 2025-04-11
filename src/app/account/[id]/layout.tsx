@@ -1,7 +1,7 @@
 import HeaderBar from "../../../components/server/HeaderBar";
-import SearchBar from "../../../components/client/SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import React, {Suspense} from "react";
-import AccountNavigation from "../../../components/client/AccountNavigation";
+import AccountNavigation from "../../../components/AccountNavigation";
 import {AuthService} from "../../../lib/services/authService";
 import {redirect} from "next/navigation";
 

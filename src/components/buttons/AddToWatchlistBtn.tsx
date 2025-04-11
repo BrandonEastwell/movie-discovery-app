@@ -1,5 +1,5 @@
 "use client"
-import WatchlistPopup from "./WatchlistPopup";
+import WatchlistPopup from "../WatchlistPopup";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";

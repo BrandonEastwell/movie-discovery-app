@@ -1,6 +1,6 @@
-import '../../../styles/globals.css';
+import '../../../globals.css';
 import React, {Suspense} from "react";
-import UserFavourites from "../../../../components/client/account/UserFavourites";
+import UserFavourites from "../../../../components/account/UserFavourites";
 
 export default function Page() {
 

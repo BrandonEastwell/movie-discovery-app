@@ -1,10 +1,10 @@
 "use client"
 import React, {useEffect, useState} from "react";
-import CreateWatchlistBtn from "./CreateWatchlistBtn";
-import {getWatchlistDetails, addMovieToWatchlist} from "../../lib/api/client_requests/watchlist";
+import CreateWatchlistBtn from "./buttons/CreateWatchlistBtn";
+import {getWatchlistDetails, addMovieToWatchlist} from "../lib/api/client_requests/watchlist";
 import {AnimatePresence, motion} from "framer-motion";
-import {Watchlists} from "../../lib/utils/types/watchlist";
-import CheckMark from "../../assets/playlist_add_check_circle_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
+import {Watchlists} from "../lib/utils/types/watchlist";
+import CheckMark from "../assets/playlist_add_check_circle_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
 
 export default function WatchlistPopup({ cursorPosition, movieId} : {cursorPosition: { x: number; y: number }, movieId: number}) {
     const [watchlists, setWatchlists] = useState<Watchlists[]>([]);

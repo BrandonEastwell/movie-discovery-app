@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import {FormSubmitButton} from "./FormSubmitButton";
-import useAuthForm from "../../../lib/hooks/useAuthForm";
+import useAuthForm from "../../lib/hooks/useAuthForm";
 
 interface formProps {
     action: "login" | "signup";

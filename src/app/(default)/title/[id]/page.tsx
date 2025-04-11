@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {getMovieDetails, getMovieVideos, getMovieWatchProviders} from "../../../../lib/api/TMDB/movieDetails";
-import LocalStorage from "../../../../components/client/LocalStorage";
+import LocalStorage from "../../../../components/LocalStorage";
 import {redirect} from "next/navigation";
 
 interface Movie {

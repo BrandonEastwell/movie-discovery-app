@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AnimatePresence, motion} from "framer-motion";
-import {createWatchlist} from "../../../lib/api/client_requests/watchlist";
-import {Watchlists} from "../../../lib/utils/types/watchlist";
+import {createWatchlist} from "../../lib/api/client_requests/watchlist";
+import {Watchlists} from "../../lib/utils/types/watchlist";
 
 const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFormVisible: boolean, setIsFormVisible: (visible : boolean) => void, setWatchlists?: React.Dispatch<React.SetStateAction<Watchlists[]>>}) => {
     const [message, setMessage] = useState<string | null>(null);

@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, {useState} from "react";
-import AddToWatchlistBtn from "./AddToWatchlistBtn";
-import AddToFavouriteBtn from "./AddToFavouriteBtn";
+import AddToWatchlistBtn from "../buttons/AddToWatchlistBtn";
+import AddToFavouriteBtn from "../buttons/AddToFavouriteBtn";
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import useFavourite from "../../lib/hooks/useFavourite";

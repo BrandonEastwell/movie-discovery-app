@@ -2,7 +2,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import {AnimatePresence, motion} from 'framer-motion';
-import FilterIcon from '../../assets/tune_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+import FilterIcon from '../assets/tune_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
 
 const SearchBar: React.FC = () => {
     const router = useRouter();

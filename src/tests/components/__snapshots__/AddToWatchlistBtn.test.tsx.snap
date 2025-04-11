@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add to watchlist button should render AddToWatchListBtn 1`] = `
+<div>
+  <button
+    class="p-0 bg-transparent max-h-[32px] max-w-[32px] cursor-pointer"
+    tabindex="0"
+  >
+    <svg
+      aria-hidden="true"
+      class="svg-inline--fa fa-circle-plus fa-xl text-pearl-white opacity-75"
+      data-icon="circle-plus"
+      data-prefix="fas"
+      focusable="false"
+      role="img"
+      viewBox="0 0 512 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+</div>
+`;

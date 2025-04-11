@@ -1,6 +1,6 @@
 import React from "react";
 import HeaderBar from "../../components/server/HeaderBar";
-import UserNavigation from "../../components/client/UserNavigation";
+import UserNavigation from "../../components/UserNavigation";
 import {AuthService} from "../../lib/services/authService";
 
 export default async function DefaultLayout({children}: { children: React.ReactNode }) {

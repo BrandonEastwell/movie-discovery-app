@@ -1,7 +1,7 @@
 import React from "react";
-import "../../app/styles/globals.css"
-import NavButton from "./NavButton";
-import LogoutBtn from "./LogoutBtn";
+import "../app/globals.css"
+import NavButton from "./buttons/NavButton";
+import LogoutBtn from "./buttons/LogoutBtn";
 
 async function AccountNavigation({userid} : {userid: number}) {
 

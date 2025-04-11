@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import {handleAuthenticationReq} from "../../../lib/api/client_requests/authentication";
+import {handleAuthenticationReq} from "../../lib/api/client_requests/authentication";
 import {useRouter} from "next/navigation";
 import { motion } from "framer-motion";
 

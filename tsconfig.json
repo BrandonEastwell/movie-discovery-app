@@ -46,6 +46,7 @@
     "app/node_modules",
     "dist"
   ],
+  "types": ["jest", "node"],
   "ts-node": {
     "files": true
   }

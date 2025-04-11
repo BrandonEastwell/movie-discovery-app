@@ -1,10 +1,10 @@
 "use server"
 import React, {ComponentType, SVGProps} from "react";
-import "../../app/styles/globals.css"
-import Netflix from '../../assets/netflix.svg'
-import Disney from '../../assets/disney.svg'
-import PrimeVideo from '../../assets/primevideo.svg'
-import NavButton from "./NavButton";
+import "../app/globals.css"
+import Netflix from '../assets/netflix.svg'
+import Disney from '../assets/disney.svg'
+import PrimeVideo from '../assets/primevideo.svg'
+import NavButton from "./buttons/NavButton";
 import RecentlyViewed from "./RecentlyViewed";
 
 async function UserNavigation() {

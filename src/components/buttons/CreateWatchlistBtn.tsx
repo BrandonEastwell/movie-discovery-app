@@ -1,6 +1,6 @@
 "use client"
 import React, {useState} from "react";
-import WatchlistForm from "./form/WatchlistForm";
+import WatchlistForm from "../form/WatchlistForm";
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
 import {Watchlists} from "../../lib/utils/types/watchlist";

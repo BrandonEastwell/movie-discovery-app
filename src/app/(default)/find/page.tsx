@@ -1,5 +1,5 @@
 import React from "react";
-import MoviesSearchList from "../../../components/client/MoviesSearchList";
+import MoviesSearchList from "../../../components/MoviesSearchList";
 import {getMediaBySearch} from "../../../lib/api/TMDB/movieLists";
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import {useRouter} from "next/navigation";
-import {FormSubmitButton} from "../../../components/client/form/FormSubmitButton";
+import {FormSubmitButton} from "../../../components/form/FormSubmitButton";
 import useAuthForm from "../../../lib/hooks/useAuthForm";
 
 export default function Page(){

@@ -1,16 +1,16 @@
-import "../styles/globals.css"
+import "../globals.css"
 import React, {Suspense} from "react";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
 import {PreferencesService} from "../../lib/services/preferencesService";
 import {AuthService} from "../../lib/services/authService";
-import {MoviesRecommendedByGenre} from "../../components/client/MoviesRecommendedByGenre";
-import {MoviesRecommendedByCast} from "../../components/client/MoviesRecommendedByCast";
-import {MoviesRecommendedByCrew} from "../../components/client/MoviesRecommendedByCrew";
+import {MoviesRecommendedByGenre} from "../../components/MoviesRecommendedByGenre";
+import {MoviesRecommendedByCast} from "../../components/MoviesRecommendedByCast";
+import {MoviesRecommendedByCrew} from "../../components/MoviesRecommendedByCrew";
 import dynamic from "next/dynamic";
 import {Movie} from "../../lib/utils/types/movies";
 
-const MoviesList = dynamic(() => import('../../components/client/MoviesList').then(mod => mod.MoviesList))
+const MoviesList = dynamic(() => import('../../components/MoviesList').then(mod => mod.MoviesList))
 
 export default async function Page() {
     const { trending, topRated, popular, upcoming } = await MoviesService.getListsOfMoviesByCategory();

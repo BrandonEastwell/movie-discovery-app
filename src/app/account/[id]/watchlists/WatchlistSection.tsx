@@ -1,5 +1,5 @@
 "use client"
-import CreateWatchlistBtn from "../../../../components/client/CreateWatchlistBtn";
+import CreateWatchlistBtn from "../../../../components/buttons/CreateWatchlistBtn";
 import UserWatchlists from "./UserWatchlists";
 import React, {useState} from "react";
 import {Watchlists} from "../../../../lib/utils/types/watchlist";
