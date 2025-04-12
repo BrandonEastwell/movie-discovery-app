@@ -21,6 +21,7 @@ const useAuthForm = (action: "login" | "signup") => {
 
     function handleError(res: { success: boolean; error: string; errorType: string; }) {
         if (!res.success) {
+            resetErrors();
             switch (res.errorType) {
                 case "username":
                     setUsernameError(res.error)

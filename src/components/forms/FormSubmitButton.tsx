@@ -21,7 +21,7 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({username, password, 
     }
 
     return (
-        <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} className="w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
+        <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 1}} className="w-full font-iconsolata text-lg bg-Purple text-pearl-white text-center rounded-2xl p-3 cursor-pointer" type="submit" onClick={handleSubmit}>
             {text}
         </motion.button>
     )
