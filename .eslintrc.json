@@ -3,6 +3,10 @@
     "next/core-web-vitals",
     "eslint:recommended"
   ],
+  "env": {
+    "jest": true,
+    "browser": true
+  },
   "rules": {
     "no-unused-vars": "warn",    // Change from error to warning
     "@next/next/no-img-element": "warn",  // For image warnings

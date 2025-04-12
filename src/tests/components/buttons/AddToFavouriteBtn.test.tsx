@@ -1,4 +1,4 @@
-import {screen, render} from "@testing-library/react"
+import {screen, render, waitFor} from "@testing-library/react"
 import AddToFavouriteBtn from "../../../components/buttons/AddToFavouriteBtn";
 import userEvent from "@testing-library/user-event";
 import {toggleFavouriteMovie} from "../../../lib/api/client_requests/favourites";
@@ -11,7 +11,7 @@ jest.mock("../../../components/forms/AuthPopup", () => () => (
 jest.mock("../../../lib/api/client_requests/favourites");
 
 function TestWrapper({favourite, isLoggedIn} : {favourite: boolean, isLoggedIn: boolean}) {
-    const [isFavourite, setIsFavourite] = useState(favourite);
+    const [isFavourite, setIsFavourite] = useState(favourite); // Mocking lifted state
 
     return (
         <AddToFavouriteBtn isLoggedIn={isLoggedIn} setIsFavourite={setIsFavourite} isFavourite={isFavourite} movieId={0} />
@@ -65,5 +65,14 @@ describe("Add to favourites button", () => {
         await user.click(button);
 
         expect(svg?.classList).toContain("text-pearl-white");
+    });
+
+    it('should render back to a white svg if button is clicked and API call fails', async () => {
+        (toggleFavouriteMovie as jest.Mock).mockResolvedValue({success: false});
+
+        const { container } = render(<TestWrapper favourite={false} isLoggedIn={true} />)
+        const svg = container.querySelector("svg");
+        const button = screen.getByRole("button");
+        await user.click(button);
     });
 })
