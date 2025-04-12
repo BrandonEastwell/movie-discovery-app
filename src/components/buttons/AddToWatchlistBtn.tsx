@@ -1,11 +1,12 @@
 "use client"
-import WatchlistPopup from "./WatchlistPopup";
-import React, {useState} from "react";
+import WatchlistPopup from "../forms/WatchlistPopup";
+import React, {lazy, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
-import AuthPopup from "../form/AuthPopup";
+
+const AuthPopup = lazy(() => import("../forms/AuthPopup"))
 
 export default function AddToWatchlistBtn({ movieId, isLoggedIn } : { movieId: number, isLoggedIn: boolean }) {
     const [showWatchlists, setShowWatchlists] = useState(false);

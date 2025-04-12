@@ -2,18 +2,11 @@
 import React from "react"
 import '../../app/globals.css';
 import MovieCard from "./MovieCard";
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import { FreeMode } from 'swiper/modules';
-
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
+import {Movie} from "../../lib/utils/types/movies";
 
 interface props {
     movies: Movie[];
@@ -29,13 +22,12 @@ const MoviesList: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) =>
     return (
         <Swiper
             slidesPerView={"auto"}
-            spaceBetween={50}
             freeMode={true}
             modules={[FreeMode]}
             className="mySwiper"
         >
             {movies.map((movie) => (
-                <SwiperSlide key={movie.id} className="flex flex-col w-full max-h-[325px] max-w-[250px]">
+                <SwiperSlide key={movie.id} className="mr-10 flex flex-col w-full max-h-[325px] max-w-[250px]">
                     <MovieCard movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
                         backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
                                isLoggedIn={isLoggedIn}

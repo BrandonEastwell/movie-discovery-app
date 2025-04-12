@@ -2,11 +2,11 @@ import {render, screen} from '@testing-library/react';
 import AddToWatchlistBtn from "../../../components/buttons/AddToWatchlistBtn";
 import userEvent from "@testing-library/user-event";
 
-jest.mock("../../../components/buttons/WatchlistPopup", () => () => (
+jest.mock("../../../components/forms/WatchlistPopup", () => () => (
     <div data-testid="watchlist-popup">Mocked Popup</div>
 ));
 
-jest.mock("../../../components/form/AuthPopup", () => () => (
+jest.mock("../../../components/forms/AuthPopup", () => () => (
     <form data-testid="form-popup">Mocked Form</form>
 ));
 

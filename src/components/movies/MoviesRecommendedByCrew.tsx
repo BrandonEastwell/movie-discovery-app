@@ -1,16 +1,7 @@
 import {MoviesList} from "./MoviesList";
 import React from "react";
-
-interface Movie {
-    id: number;
-    title: string;
-    poster_path: string;
-    backdrop_path: string;
-}
-
-interface Person {
-    name: string;
-}
+import {Movie} from "../../lib/utils/types/movies";
+import {Person} from "../../lib/utils/types/person";
 
 interface RecommendedProps {
     favouriteMoviesIds: number[];
@@ -34,4 +25,4 @@ const MoviesRecommendedByCrew: React.FC<RecommendedProps> = ({ favouriteMoviesId
     )
 }
 
-export { MoviesRecommendedByCrew }
+export default MoviesRecommendedByCrew

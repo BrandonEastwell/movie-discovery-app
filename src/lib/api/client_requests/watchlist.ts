@@ -1,4 +1,4 @@
-const getWatchlistDetails = async () => {
+const getWatchlists = async () => {
     try {
         const response = await fetch('/api/watchlists', {
             method: 'GET',
@@ -112,4 +112,4 @@ const getWatchlistIdsFromMovie = async (movieID: string) => {
     }
 };
 
-export {addMovieToWatchlist, getWatchlistDetails, createWatchlist, getWatchlistMovies}
+export {addMovieToWatchlist, getWatchlists, createWatchlist, getWatchlistMovies}

@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import { motion } from "framer-motion";
 import {toggleFavouriteMovie} from "../../lib/api/client_requests/favourites";
 import ReactDOM from "react-dom";
-import AuthPopup from "../form/AuthPopup";
+import AuthPopup from "../forms/AuthPopup";
 
 export default function AddToFavouriteBtn({isLoggedIn, setIsFavourite, isFavourite, movieId} : {isLoggedIn: boolean, setIsFavourite: (value: boolean) => void, isFavourite: boolean, movieId: number}) {
     const [showAuthForm, setShowAuthForm] = useState<boolean>(false);

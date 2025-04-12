@@ -3,7 +3,7 @@ import AddToFavouriteBtn from "../../../components/buttons/AddToFavouriteBtn";
 import userEvent from "@testing-library/user-event";
 import {toggleFavouriteMovie} from "../../../lib/api/client_requests/favourites";
 
-jest.mock("../../../components/form/AuthPopup", () => () => (
+jest.mock("../../../components/forms/AuthPopup", () => () => (
     <form data-testid="auth-popup"></form>
 ));
 

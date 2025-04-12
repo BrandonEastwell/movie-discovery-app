@@ -1,6 +1,6 @@
-import HeaderBar from "../../../components/layout/HeaderBar";
+import HeaderBar from "../../../components/layouts/HeaderBar";
 import React, {Suspense} from "react";
-import AccountNavigation from "../../../components/layout/AccountNavigation";
+import AccountNavigation from "../../../components/layouts/AccountNavigation";
 import {AuthService} from "../../../lib/services/authService";
 import {redirect} from "next/navigation";
 
