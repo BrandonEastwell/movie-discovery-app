@@ -7,14 +7,9 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import { FreeMode } from 'swiper/modules';
 import {Movie} from "../../lib/utils/types/movies";
+import {AnimatePresence} from "framer-motion";
 
-interface props {
-    movies: Movie[];
-    favouriteMovieIds: number[];
-    isLoggedIn : boolean;
-}
-
-const MoviesList: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) => {
+const MoviesList = ({movies, favouriteMovieIds, isLoggedIn} : {movies: Movie[], favouriteMovieIds: number[], isLoggedIn: boolean}) => {
     const isFavourite = (idToCheck: number) => {
         return favouriteMovieIds != null && favouriteMovieIds.includes(idToCheck);
     }
@@ -27,12 +22,14 @@ const MoviesList: React.FC<props> = ({movies, favouriteMovieIds, isLoggedIn}) =>
             className="mySwiper"
         >
             {movies.map((movie) => (
-                <SwiperSlide key={movie.id} className="mr-10 flex flex-col w-full max-h-[325px] max-w-[250px]">
-                    <MovieCard movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
-                        backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
-                               isLoggedIn={isLoggedIn}
-                    />
-                </SwiperSlide>
+                <AnimatePresence>
+                    <SwiperSlide key={movie.id} className="mr-10 flex flex-col w-full max-h-[325px] max-w-[270px]">
+                        <MovieCard movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
+                            backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
+                                   isLoggedIn={isLoggedIn}
+                        />
+                    </SwiperSlide>
+                </AnimatePresence>
             ))}
         </Swiper>
     );

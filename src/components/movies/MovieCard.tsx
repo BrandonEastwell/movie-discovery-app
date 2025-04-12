@@ -31,7 +31,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
 
     return (
         <>
-            <div className="flex h-full w-full flex-row max-h-[250px] align-middle">
+            <div key={movie.id} className="flex h-full w-full flex-row max-h-[250px] align-middle z-1">
                 <div className="flex flex-col max-w-[10px] justify-end gap-16 whitespace-nowrap mr-1">
                     <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK
                         PORTRA 400</p>
@@ -39,7 +39,7 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                         42</p>
                     <p className="m-0 -rotate-90 text-[#5F43B2] opacity-50 font-poppins font-semibold max-h-[10px] max-w-[10px] text-[0.6rem]">KODAK</p>
                 </div>
-                <motion.div onClick={(event) => navigateToMovie(event)} className="cursor-pointer relative max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
+                <motion.div onClick={(event) => navigateToMovie(event)} className="relative cursor-pointer max-h-[250px] max-w-[250px]" onHoverStart={() => setHover(true)} onHoverEnd={() => setHover(false)}>
                     <AnimatePresence>
                         <motion.div className="absolute bg-midnight/35 w-full h-full flex flex-col place-items-end justify-end"
                             variants={movieCardHover}
@@ -60,15 +60,16 @@ export default function MovieCard({movie, isLoggedIn} : {movie: Movie, isLoggedI
                             </div>
                         </div>
                     }
-                    {movie.poster_path
+                    {movie.backdrop_path
                         && (
                             <Image
-                                className="w-[250px] h-[250px] object-cover object-center overflow-hidden"
+                                className="aspect-square object-cover object-center overflow-hidden"
                                 loader={imageLoader}
-                                src={`${movie?.backdrop_path}`}
+                                src={`${movie.backdrop_path}`}
                                 alt={`${movie?.title} Poster`}
                                 width={250}
                                 height={250}
+                                style={{width: "100%"}}
                             />
                         )}
                 </motion.div>

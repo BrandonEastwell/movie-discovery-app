@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import React from "react";
 import {useRouter} from "next/navigation";
 import { motion } from "framer-motion";
@@ -14,7 +13,7 @@ export default function NavButton({ params } : { params: { name: string, symbol:
 
     const containerVariants = {
         hover: {
-            backgroundColor: 'rgba(40, 40, 40, 0.8)',
+            backgroundColor: 'rgba(40, 40, 40, 0.4)',
             transition: {
                 duration: 0.1,
                 ease: "easeInOut"
@@ -40,11 +39,12 @@ export default function NavButton({ params } : { params: { name: string, symbol:
     }
 
     return (
-        <motion.div variants={containerVariants} whileHover={'hover'} whileTap={'tap'} className="cursor-pointer flex flex-row gap-[1rem] bg-[#282828]/60 border-[#132C4F]/[0.04] place-items-center p-1 px-3 mt-2 rounded-xl">
-            <Link href={href}>
-                <motion.span variants={textVariants} className="material-symbols-outlined text-sm text-pearl-white">{symbol}</motion.span>
-            </Link>
-            <motion.button variants={textVariants} onClick={onNavClick}
+        <motion.div onClick={onNavClick} variants={containerVariants} whileHover={'hover'} whileTap={'tap'}
+                    className="cursor-pointer flex flex-row gap-3 bg-[#282828]/30 border-[#132C4F]/[0.04] place-items-center p-1 px-3 mt-2 rounded-xl">
+            <div>
+                <motion.span variants={textVariants} className="material-symbols-outlined text-pearl-white">{symbol}</motion.span>
+            </div>
+            <motion.button variants={textVariants}
                            className="cursor-pointer no-underline bg-transparent p-0 font-iconsolata text-base font-bold text-pearl-white">{name}</motion.button>
         </motion.div>
     )

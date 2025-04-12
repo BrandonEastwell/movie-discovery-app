@@ -59,9 +59,7 @@ export default async function Page() {
                 TRENDING FILM
             </h2>
             <div className="flex w-full h-full flex-row gap-[3rem] no-scrollbar">
-                <Suspense fallback={<p>loading..</p>}>
-                    <MoviesList movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
-                </Suspense>
+                <MoviesList movies={trending.results} favouriteMovieIds={favouriteIds} isLoggedIn={isLoggedIn}/>
             </div>
 
             {isLoggedIn && preferences &&
