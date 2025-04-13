@@ -40,7 +40,7 @@ const WatchlistForm = (({isFormVisible, setIsFormVisible, setWatchlists} : {isFo
     return (
         isFormVisible && (
             <AnimatePresence>
-                <PopupBackground setIsVisible={(value) => setIsFormVisible(value)}>
+                <PopupBackground setIsVisible={setIsFormVisible} blur={true}>
                     <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}
                                 className="fixed max-w-[500px] w-full backdrop-blur-[20px] bg-white/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl z-20 overflow-hidden">
                         <div className="bg-midnight/90 p-4">

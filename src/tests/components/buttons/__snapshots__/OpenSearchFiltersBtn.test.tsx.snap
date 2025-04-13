@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Open search filter button snapshot match 1`] = `
+<div>
+  <div
+    class="absolute -right-7 h-full"
+  >
+    <button
+      class="flex justify-center items-center h-full aspect-square rounded-full bg-[#282828]/60 border-solid border border-[#3E3E3E]/20 cursor-pointer"
+      style="transform: scale(0);"
+      tabindex="0"
+    >
+      <img
+        alt=""
+      />
+    </button>
+  </div>
+</div>
+`;

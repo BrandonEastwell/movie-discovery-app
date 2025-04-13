@@ -2,14 +2,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import {AnimatePresence, motion} from 'framer-motion';
-import FilterIcon from '../../assets/tune_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+import OpenSearchFiltersBtn from "../buttons/OpenSearchFiltersBtn";
 
 const SearchBar: React.FC = () => {
     const router = useRouter();
     const pathname = usePathname();
     const [shineActive, setShineActive] = useState(false);
-    const [filterActive, setFilterActive] = useState(false);
+    const [showFilterBtn, setShowFilterBtn] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [focused, setFocused] = useState(false);
     const [searchTerm, setSearchTerm] = useState({
         q: "",
         page: "",
@@ -37,8 +38,8 @@ const SearchBar: React.FC = () => {
     }, []);
 
     const triggerFilter = (show: boolean) => {
-        if (pathname.startsWith("/find")) setFilterActive(true);
-        else setFilterActive(show);
+        if (pathname.startsWith("/find")) setShowFilterBtn(true);
+        else setShowFilterBtn(show);
     }
 
     const triggerShine = () => {
@@ -48,7 +49,7 @@ const SearchBar: React.FC = () => {
 
     return (
         <div className="relative flex flex-row items-start gap-2">
-            <motion.div animate={filterActive ? {left: -30} : {left: 0}} className="relative h-full rounded-xl p-[1px] overflow-hidden">
+            <motion.div animate={showFilterBtn ? {left: -30} : {left: 0}} className="relative h-full rounded-xl p-[1px] overflow-hidden">
                 <AnimatePresence>
                     {loading && (
                         <motion.div
@@ -65,11 +66,18 @@ const SearchBar: React.FC = () => {
                         />
                     )}
                 </AnimatePresence>
-                <motion.div
-                    className="relative h-full flex flex-row items-start justify-between bg-[#282828] px-2.5 rounded-xl overflow-hidden">
-                    <input
+                <div className="relative h-full flex flex-row items-start justify-between bg-[#181818] px-2.5 rounded-xl overflow-hidden">
+                    {shineActive && (
+                        <motion.div
+                            initial={{ left: -20, opacity: 0.3 }}
+                            animate={{ left: "100%", opacity: [0.3, 0.25, 0.1] }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="z-20 absolute top-[-10px] left-0 w-[40px] h-[75px] blur bg-gradient-to-r from-transparent via-white to-transparent -rotate-12"
+                        />
+                    )}
+                    <motion.input
                         id="search"
-                        className="justify-start self-center p-0 font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-400 text-pearl-white"
+                        className="z-10 justify-start self-center p-0 font-iconsolata text-base focus:outline-none w-[20rem] bg-[transparent] placeholder:text-gray-400 text-pearl-white"
                         placeholder="Search by name, genre or category..."
                         type="text"
                         value={searchTerm.q}
@@ -77,37 +85,25 @@ const SearchBar: React.FC = () => {
                         onFocus={() => {
                             triggerShine()
                             triggerFilter(true)
+                            setFocused(true)
                         }}
-                        onBlur={() => triggerFilter(false)}
+                        onBlur={() => {
+                            setFocused(false)
+                        }}
                     />
                     <button
-                        className="font-iconsolata p-0 text-base justify-end place-self-center cursor-pointer bg-[transparent] text-pearl-white hover:underline"
+                        className="z-10 font-iconsolata p-0 text-base justify-end place-self-center cursor-pointer bg-[transparent] text-pearl-white hover:underline"
                         onClick={handleSearch}>
                         explore
                     </button>
-                    {shineActive && (
-                        <motion.div
-                            initial={{ left: -20, opacity: 0.3 }}
-                            animate={{ left: "120%", opacity: [0.3, 0.25, 0.1] }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="absolute top-[-10px] left-0 w-[40px] h-[75px] bg-gradient-to-r from-transparent via-white to-transparent -rotate-12"
-                        />
-                    )}
-                </motion.div>
+                    <motion.div initial={{width: "0%", opacity: 0 }} animate={focused ? {width: "100%", opacity: 1 } : {width: "0%", opacity: 0 }} exit={{width: "0%", opacity: 0 }}
+                                    transition={{ delay: 0.1, duration: 0.75, ease: "linear" }}
+                                    className="absolute left-0 h-full blur bg-[#282828]"/>
+                </div>
             </motion.div>
-            <AnimatePresence>
-                {filterActive && (
-                    <motion.button
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        whileHover={{color: "#9673f5"}}
-                        whileTap={{scale: 0.9}}
-                        transition={{duration: 0.1}}
-                        className="absolute flex justify-center items-center top-0 -right-7 h-full aspect-square rounded-full bg-[#282828]/60 border-solid border border-[#3E3E3E]/20 cursor-pointer"
-                    ><FilterIcon fill="currentColor" /></motion.button>
-                )}
-            </AnimatePresence>
+            {showFilterBtn && (
+                <OpenSearchFiltersBtn />
+            )}
         </div>
 
     );

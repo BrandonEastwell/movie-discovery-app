@@ -19,7 +19,7 @@ const AuthPopup = ((props: formProps) => {
 
     return (
         <AnimatePresence>
-            <PopupBackground setIsVisible={(value) => props.setIsVisible(value)}>
+            <PopupBackground setIsVisible={props.setIsVisible} blur={true}>
                 <div onClick={event => event.stopPropagation()}
                     className="fixed max-w-[500px] w-full backdrop-blur-[20px] bg-white/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl z-20 overflow-hidden">
                     <div className="bg-midnight/90 p-4">
