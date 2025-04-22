@@ -3,6 +3,10 @@
 `Sivter` is a movie explorer web app built on the Next.js framework that aims to enhance the way the next movie to
 watch is found.
 
+<p style="align-self: center">
+  <img src="./img/landing-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
 # Contents
 
 - [Why?](#why)
@@ -25,13 +29,55 @@ As a movie enthusiast and developer, I wanted a tool to streamline the search fo
 
 ## Demonstration
 
+>The following demonstrations show key interactions and features in action.
+
+### Account Creation
+
+<p style="align-self: center">
+  <img src="./img/signup-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
+---
+
+### Create Favourite Movies
+
+<p style="align-self: center">
+  <img src="./img/favourite-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
+---
+
+### Create Watchlists
+
+<p style="align-self: center">
+  <img src="./img/watchlist-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
+---
+
+### Add Movies to Watchlists
+
+<p style="align-self: center">
+  <img src="./img/watchlist-page-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
+---
+
+### Tailored Movie Recommendations
+
+<p style="align-self: center">
+  <img src="./img/suggestions-demo.gif" alt="Sivter Landing Demo" style="width:100%; max-width:800px;" />
+</p>
+
 ## Technical Stack
 
-- **Next.js**: Serves as the foundation of Sivter, providing server-side rendering and efficient page routing. Its flexibility allows for the creation of dynamic and responsive user interfaces, enhancing the overall user experience.
-
-- **React**: Utilized to build interactive and reusable components, enabling the seamless construction of Sivter's user interface. The component-based architecture simplifies development and enhances the maintainability of the codebase.
-
-- **TypeScript**: Employed for static typing, providing improved code quality and better development tooling. Its use contributes to a more robust and scalable codebase.
+- **Frameworks**: Next.js
+- **Frontend**: React, TypeScript, Tailwind CSS, Framer Motion
+- **Backend**: REST API, Prisma ORM, PostgreSQL
+- **Data Fetching**: TMDB API
+- **Testing**: React Testing Library, Jest
+- **Deployment**: Vercel, Supabase
+- **Tools**: Figma, ESLint
 
 ## Known Issues
 - No way to reset password once forgotten
@@ -47,3 +93,4 @@ As a movie enthusiast and developer, I wanted a tool to streamline the search fo
 - **Account Management**: Forgotten password, change password, username
 
 ## License
+This project is licensed under the MIT License.
