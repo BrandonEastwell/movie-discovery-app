@@ -18,7 +18,7 @@ watch is found.
 
 ## Why?
 
-As a movie enthusiast and developer, I wanted a tool to streamline the search for next movie to watch without having to hop between streaming platforms. This project helped me explore server side rendering, restful APIs, JWT authentication and database design to enable CRUD operations.
+As a movie enthusiast and developer, I wanted a tool to streamline the search for the next movie to watch without having to hop between streaming platforms. This project helped me explore server side rendering, restful APIs, JWT authentication and database design to enable CRUD operations.
 
 ## Features
 
@@ -81,7 +81,7 @@ As a movie enthusiast and developer, I wanted a tool to streamline the search fo
 
 ## Known Issues
 - No way to reset password once forgotten
-- No mobile responsivness, mistakenly built with desktop first approach
+- No mobile responsiveness, mistakenly built with desktop first approach (next to fix)
 
 ## Todo
 > Feature list planned to be worked on in the future

@@ -1,4 +1,4 @@
-import {screen, render, waitFor} from "@testing-library/react"
+import {screen, render} from "@testing-library/react"
 import AddToFavouriteBtn from "../../../components/buttons/AddToFavouriteBtn";
 import userEvent from "@testing-library/user-event";
 import {toggleFavouriteMovie} from "../../../lib/api/client_requests/favourites";

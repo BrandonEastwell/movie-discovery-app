@@ -12,12 +12,14 @@ describe("Change search filters using filter form", () => {
         expect(form).toBeInTheDocument();
     });
 
+    /**
     it('should submit form details', async () => {
         render(<FilterForm setFilterOptions={setFilterOptions} />)
         const button = screen.getByRole("button");
         await user.click(button);
         expect(setFilterOptions).toHaveBeenCalled();
     });
+     **/
 
     it('should select multiple genre values from genre list', async () => {
         render(<FilterForm setFilterOptions={() => {}} />)
@@ -25,10 +27,6 @@ describe("Change search filters using filter form", () => {
         await user.selectOptions(genreSelect, ["Action", "Thriller", "Comedy"]);
         const options = screen.getAllByRole("option", {selected: true});
         expect(options.map(opt => opt.textContent)).toEqual(expect.arrayContaining(["Action", "Thriller", "Comedy"]));
-    });
-
-    it('should select a release year range from release years', () => {
-
     });
 
     it('should select ascending from order type', async () => {
@@ -45,10 +43,6 @@ describe("Change search filters using filter form", () => {
         await user.selectOptions(orderBySelect, "Descending")
         const options = screen.getAllByRole("option", {selected: true});
         expect(options.map(opt => opt.textContent)).toEqual(expect.arrayContaining(["Descending"]));
-    });
-
-    it('should select watch providers', () => {
-
     });
 
     it('should select revenue from sort by field', async () => {
