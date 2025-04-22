@@ -33,19 +33,26 @@ export default function WatchlistPopup({cursorPosition, movieId} : {cursorPositi
         const watchlistid = event.currentTarget.value;
 
         setWatchlists(prevState => {
-            const i = prevState.findIndex((watchlist) => watchlist.id === parseInt(watchlistid));
-            if (i === -1) return prevState;
+            const index = prevState.findIndex(w => w.id === Number(watchlistid));
+            if (index === -1) return prevState;
 
-            const copyOfPrevState = JSON.parse(JSON.stringify(prevState));
+            const updatedWatchlists = [...prevState];
+            const currentWatchlist = { ...updatedWatchlists[index] };
+            const movies = [...(currentWatchlist.watchlistMovies || [])];
 
-            if (copyOfPrevState[i].playlistMovies.some((movie: { movieid: number; }) => movie.movieid === movieId)) {
-                copyOfPrevState[i].playlistMovies = copyOfPrevState[i].playlistMovies.filter((movie: { movieid: number; }) => movie.movieid !== movieId)
+            const movieIndex = movies.findIndex(m => m.movieId === movieId);
+
+            if (movieIndex >= 0) {
+                movies.splice(movieIndex, 1); // remove
             } else {
-                copyOfPrevState[i].playlistMovies.push({movieid: movieId})
+                movies.push({ movieId }); // add
             }
 
-            return copyOfPrevState;
-        })
+            currentWatchlist.watchlistMovies = movies;
+            updatedWatchlists[index] = currentWatchlist;
+
+            return updatedWatchlists;
+        });
 
         addMovieToWatchlist(watchlistid, movieId);
     }
@@ -58,13 +65,13 @@ export default function WatchlistPopup({cursorPosition, movieId} : {cursorPositi
                 {!loading && watchlists.map((watchlist) => (
                     <motion.button initial={{backgroundColor: '#212121'}} whileHover={{backgroundColor: '#333333'}}
                                    key={watchlist.id} className="w-full min-h-[45px] flex flex-row justify-between items-center rounded font-iconsolata bg-transparent text-pearl-white p-2 cursor-pointer"
-                                   type="submit" onClick={(event) => {handleAddToWatchlist(event)}} value={`${watchlist.id},${movieId}`}>
+                                   type="submit" onClick={(event) => {handleAddToWatchlist(event)}} value={watchlist.id}>
                         {watchlist.watchlistName}
                         {isMovieInWatchlist(watchlist.watchlistMovies) && <motion.span initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}
                                                                                        className="text-end"><CheckMark fill="currentColor" className="text-Purple" /></motion.span>}
                     </motion.button>
                 ))}
-                {loading && <p>loading...</p>}
+                {loading && <div className="w-full h-full animate-pulse"></div>}
                 {error && <p>{error}</p>}
             </motion.div>
         </AnimatePresence>

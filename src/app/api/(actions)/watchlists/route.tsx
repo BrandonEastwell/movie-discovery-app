@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from "../../../../lib/services/prisma";
 import {AuthService} from "../../../../lib/services/authService";
 import WatchlistService from "../../../../lib/services/watchlistService";
+import {Watchlists} from "../../../../lib/utils/types/watchlist";
 
 export async function GET(req: NextRequest) {
     try {
@@ -45,12 +46,15 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ success: false, error: "watchlist already exists" }, {status: 400});
             } else {
                 if (name != null) {
-                    const watchlist = await prisma.watchlist.create({
+                    const watchlist: Watchlists = await prisma.watchlist.create({
                         data: {
                             userId: userData.userid,
                             watchlistName: name,
-                            watchlistDesc: desc
+                            watchlistDesc: desc,
                         },
+                        include: {
+                            watchlistMovies: true
+                        }
                     });
                     return NextResponse.json({ success: true, result: watchlist }, {status: 200});
                 } else {
