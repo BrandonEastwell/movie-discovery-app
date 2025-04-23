@@ -3,7 +3,7 @@ import React from 'react';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthForm from "./AuthForm";
-import {AnimatePresence, motion} from 'framer-motion';
+import {AnimatePresence} from 'framer-motion';
 import PopupBackground from "./PopupBackground";
 
 interface formProps {
