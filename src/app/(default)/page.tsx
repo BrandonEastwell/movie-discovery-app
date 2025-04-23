@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from "react";
+import React, {lazy} from "react";
 import {FavouritesService} from "../../lib/services/favouritesService";
 import {MoviesService} from "../../lib/services/moviesService";
 import {PreferencesService} from "../../lib/services/preferencesService";
