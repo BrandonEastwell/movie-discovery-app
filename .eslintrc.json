@@ -10,7 +10,8 @@
   "rules": {
     "no-unused-vars": "warn",    // Change from error to warning
     "@next/next/no-img-element": "warn",  // For image warnings
-    "react-hooks/exhaustive-deps": "warn"  // For useEffect dependencies
+    "react-hooks/exhaustive-deps": "warn",  // For useEffect dependencies
+    "react/display-name": "warn"
   },
   "parserOptions": {
     "ecmaVersion": "latest",

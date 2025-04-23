@@ -40,8 +40,4 @@ describe("Open search filter button", () => {
         expect(popup.clientLeft).toEqual(left);
         expect(popup.clientTop).toEqual(top);
     });
-
-    it('should ', () => {
-        
-    });
 })

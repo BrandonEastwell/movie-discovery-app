@@ -22,8 +22,8 @@ const MoviesList = ({movies, favouriteMovieIds, isLoggedIn} : {movies: Movie[], 
             className="mySwiper"
         >
             {movies.map((movie) => (
-                <AnimatePresence>
-                    <SwiperSlide key={movie.id} className="mr-10 flex flex-col w-full max-h-[325px] max-w-[270px]">
+                <AnimatePresence key={movie.id}>
+                    <SwiperSlide className="mr-10 flex flex-col w-full max-h-[325px] max-w-[270px]">
                         <MovieCard movie={{id: movie.id, title: movie.title, poster_path: movie.poster_path,
                             backdrop_path: movie.backdrop_path, isFavourite: isFavourite(movie.id)}}
                                    isLoggedIn={isLoggedIn}
