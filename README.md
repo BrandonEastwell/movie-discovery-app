@@ -82,6 +82,8 @@ As a movie enthusiast and developer, I wanted a tool to streamline the search fo
 ## Known Issues
 - No way to reset password once forgotten
 - No mobile responsiveness, mistakenly built with desktop first approach (next to fix)
+- No custom error handling on page load errors (default next error page)
+- Need to pre-fetch and cache API calls to watchlists when user clicks add movie to watchlist (Calls fetch every watchlist popup)
 
 ## Todo
 > Feature list planned to be worked on in the future
