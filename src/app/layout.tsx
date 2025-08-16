@@ -1,4 +1,5 @@
 import React from "react";
+import ViewportWidth from "../components/layouts/ViewportWarning";
 
 export const metadata = {
   title: 'SIVTER',
@@ -20,6 +21,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
             <title></title>
         </head>
         <body className="flex justify-center bg-custom-gradient min-h-screen w-full overflow-hidden">
+            <ViewportWidth></ViewportWidth>
             <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_auto_1fr] max-h-screen w-screen max-w-[1920px]">
                 {children}
             </div>
