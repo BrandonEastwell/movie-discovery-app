@@ -74,7 +74,7 @@ As a movie enthusiast and developer, I wanted a tool to streamline the search fo
 - **Frameworks**: Next.js
 - **Frontend**: React, TypeScript, Tailwind CSS, Framer Motion
 - **Backend**: REST API, Prisma ORM, PostgreSQL
-- **Data Fetching**: TMDB API
+- **Data Fetching**: TMDB API, Serverless functions
 - **Testing**: React Testing Library, Jest
 - **Deployment**: Vercel, Supabase
 - **Tools**: Figma, ESLint
